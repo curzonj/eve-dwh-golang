@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -eo pipefail
+
+if [ -z "$DATABASE_URL" ]; then
+  echo Please run with a proper environment
+  exit 1
+fi
+
+exec migrate -database "$DATABASE_URL" -path migrations "$@"
