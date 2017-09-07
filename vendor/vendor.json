@@ -45,6 +45,24 @@
 			"revisionTime": "2017-09-02T00:04:52Z"
 		},
 		{
+			"checksumSHA1": "kHrNY4ktruLxWd+qxbMw90KfO1Y=",
+			"path": "github.com/google/btree",
+			"revision": "316fb6d3f031ae8f4d457c6c5186b9e3ded70435",
+			"revisionTime": "2016-12-17T18:35:37Z"
+		},
+		{
+			"checksumSHA1": "oiAXz4eNo8+dtIxI5Rw9hZ0L4h0=",
+			"path": "github.com/gregjones/httpcache",
+			"revision": "787624de3eb7bd915c329cba748687a3b22666a6",
+			"revisionTime": "2017-07-28T04:18:50Z"
+		},
+		{
+			"checksumSHA1": "A+TX1jxqy7iWvcb9ZldoG1b5SsY=",
+			"path": "github.com/gregjones/httpcache/diskcache",
+			"revision": "787624de3eb7bd915c329cba748687a3b22666a6",
+			"revisionTime": "2017-07-28T04:18:50Z"
+		},
+		{
 			"checksumSHA1": "9GW5awhaAMRIed4oTb7KmPEGdGI=",
 			"path": "github.com/guregu/null",
 			"revision": "5d2d1e5a9e25088fb9cc0b0f7cb566250eb42bba",
@@ -79,6 +97,12 @@
 			"path": "github.com/mailru/easyjson/jwriter",
 			"revision": "2a92e673c9a6302dd05c3a691ae1f24aef46457d",
 			"revisionTime": "2017-09-02T15:12:37Z"
+		},
+		{
+			"checksumSHA1": "HCBEZni41uRhZlY2NUY+0mo0Whc=",
+			"path": "github.com/peterbourgon/diskv",
+			"revision": "5f041e8faa004a95c88a202771f4cc3e991971e6",
+			"revisionTime": "2017-08-14T17:35:58Z"
 		},
 		{
 			"checksumSHA1": "dr5+PfIRzXeN+l1VG+s0lea9qz8=",
