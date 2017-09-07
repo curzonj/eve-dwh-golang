@@ -1,3 +1,4 @@
 /eve-dwh-golang
 /dumps
 .env
+/cache

@@ -1,5 +1,8 @@
-.PHONY: build test check golint govendor
+.PHONY: build test check golint govendor run
 .DEFAULT_GOAL: build
+
+run: build
+	forego run ./eve-dwh-golang
 
 build: test
 	go build
