@@ -1,1 +1,1 @@
-web: eve-dwh-golang
+web: ./eve-dwh-golang

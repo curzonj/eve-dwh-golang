@@ -2,7 +2,7 @@
 .DEFAULT_GOAL: build
 
 run: build
-	forego run ./eve-dwh-golang
+	heroku local -f Procfile
 
 build: test
 	go build
