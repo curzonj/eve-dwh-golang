@@ -4,8 +4,11 @@
 run: build
 	heroku local -f Procfile
 
-build: test
+build:
 	go build
+
+watch:
+	reflex -r '\.go$$' make test
 
 test: fmt
 	govendor test +local -test.timeout 60s -test.race
@@ -17,6 +20,7 @@ fmt:
 	goimports -w *.go
 
 init:
+	go get -u github.com/cespare/reflex
 	go get -u golang.org/x/tools/cmd/goimports
 	go get -u github.com/kardianos/govendor
 	go get -u github.com/golang/lint/golint
