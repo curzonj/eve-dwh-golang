@@ -12,8 +12,9 @@ import (
 )
 
 var cfg struct {
-	UserAgent string `env:"USER_AGENT,required"`
-	RegionID  int32  `env:"REGION_ID,default=10000002"`
+	UserAgent  string `env:"USER_AGENT,required"`
+	RegionID   int32  `env:"REGION_ID,default=10000002"`
+	RetryLimit int32  `env:"RETRY_LIMIT,default=10"`
 }
 
 var globals struct {
@@ -21,6 +22,7 @@ var globals struct {
 }
 
 func buildEsiClient() {
+	// Add retries, backoff and logging in the transport
 	transport := httpcache.NewTransport(diskcache.New("./cache"))
 	httpClient := &http.Client{Transport: transport}
 
