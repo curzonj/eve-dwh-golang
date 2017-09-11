@@ -2,6 +2,7 @@ package main
 
 import (
 	"io/ioutil"
+	"strconv"
 	"time"
 
 	log "github.com/Sirupsen/logrus"
@@ -24,6 +25,17 @@ func importAction(c *cli.Context) error {
 func importBulkOrderStats(data orderDataset) error {
 	dataTimestamp := time.Now().Unix()
 
+	var storedTypeIDs []int32
+	for _, id := range cfg.MarketGroups {
+		var thisTypeIDs []int32
+		err := globals.db.Select(&thisTypeIDs, "select \"typeID\" from \"invTypes\" where \"marketGroupID\" in (select market_group_id from market_group_arrays where id_list && '{"+strconv.Itoa(id)+"}')")
+		if err != nil {
+			return err
+		}
+
+		storedTypeIDs = append(storedTypeIDs, thisTypeIDs...)
+	}
+
 	insertSQL, err := ioutil.ReadFile("doc/bulk_order_stats_insert.sql")
 	if err != nil {
 		return errors.Wrap(err, "loading template sql")
@@ -41,10 +53,11 @@ func importBulkOrderStats(data orderDataset) error {
 	}
 	defer stmt.Close()
 
-	for typeID, orders := range data {
+	for _, typeID := range storedTypeIDs {
+		orders := data[typeID]
 		var buyUnits, sellUnits int64
 		globals.logger.WithFields(log.Fields{
-			"fn":     "cliServerAction",
+			"fn":     "importBulkOrderStats",
 			"typeID": typeID,
 			"orders": len(orders),
 		}).Info()
