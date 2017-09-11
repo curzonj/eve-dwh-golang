@@ -1,35 +1,34 @@
 package main
 
 import (
-	"log"
 	"net/http"
 
-	"database/sql"
-
-	"github.com/Sirupsen/logrus"
+	log "github.com/Sirupsen/logrus"
 	"github.com/antihax/goesi"
 	"github.com/antihax/goesi/esi"
 	"github.com/gregjones/httpcache"
 	"github.com/gregjones/httpcache/diskcache"
+	"github.com/jmoiron/sqlx"
 	"github.com/joeshaw/envdecode"
 	_ "github.com/lib/pq"
 )
 
 var cfg struct {
-	DatabaseURL string `env:"DATABASE_URL,required"`
-	UserAgent   string `env:"USER_AGENT,required"`
-	RegionID    int32  `env:"REGION_ID,default=10000002"`
-	RetryLimit  int32  `env:"RETRY_LIMIT,default=10"`
+	DatabaseURL  string `env:"DATABASE_URL,required"`
+	UserAgent    string `env:"USER_AGENT,required"`
+	RegionID     int32  `env:"REGION_ID,default=10000002"`
+	RetryLimit   int32  `env:"RETRY_LIMIT,default=10"`
+	MarketGroups []int  `env:"MARKET_GROUPS,required"`
 }
 
 var globals struct {
 	esiClient *esi.APIClient
-	db        *sql.DB
-	logger    logrus.FieldLogger
+	db        *sqlx.DB
+	logger    log.FieldLogger
 }
 
 func connectToDatabase() {
-	db, err := sql.Open("postgres", cfg.DatabaseURL)
+	db, err := sqlx.Connect("postgres", cfg.DatabaseURL)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -51,5 +50,8 @@ func loadEnvironment() {
 		log.Fatal(err)
 	}
 
-	globals.logger = logrus.New()
+	globals.logger = log.New()
+	globals.logger.WithFields(log.Fields{
+		"at": "app-boot",
+	}).Info()
 }

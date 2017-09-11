@@ -9,7 +9,7 @@ build:
 	echo "Build Complete"
 
 watch:
-	reflex -r '\.go$$' make test build
+	reflex -r '\.go$$' make fmt build
 
 test: fmt
 	govendor test +local -test.timeout 60s -test.race

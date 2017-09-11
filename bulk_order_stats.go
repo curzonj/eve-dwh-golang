@@ -6,18 +6,30 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/pkg/errors"
+	cli "gopkg.in/urfave/cli.v1"
 )
+
+func importAction(c *cli.Context) error {
+	connectToDatabase()
+
+	fetcher := &marketDataFetcher{}
+	data, err := fetcher.GetOrderDataset(cfg.RegionID)
+	if err != nil {
+		return errors.Wrap(err, "fetching order data")
+	}
+
+	return importBulkOrderStats(data)
+}
 
 func importBulkOrderStats(data orderDataset) error {
 	dataTimestamp := time.Now().Unix()
 
-	db := globals.db
 	insertSQL, err := ioutil.ReadFile("doc/bulk_order_stats_insert.sql")
 	if err != nil {
 		return errors.Wrap(err, "loading template sql")
 	}
 
-	tx, err := db.Begin()
+	tx, err := globals.db.Begin()
 	if err != nil {
 		return err
 	}

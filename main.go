@@ -2,21 +2,25 @@ package main
 
 import (
 	"os"
+	"strconv"
 
-	"github.com/pkg/errors"
 	"gopkg.in/urfave/cli.v1"
 )
 
 func cliServerAction(c *cli.Context) error {
 	connectToDatabase()
 
-	fetcher := &marketDataFetcher{}
-	data, err := fetcher.GetOrderDataset(cfg.RegionID)
-	if err != nil {
-		return errors.Wrap(err, "fetching order data")
+	for _, id := range cfg.MarketGroups {
+		var typeIDs []int
+		err := globals.db.Select(&typeIDs, "select \"typeID\" from \"invTypes\" where \"marketGroupID\" in (select market_group_id from market_group_arrays where id_list && '{"+strconv.Itoa(id)+"}')")
+		if err != nil {
+			return err
+		}
+
+		globals.logger.Info(typeIDs)
 	}
 
-	return importBulkOrderStats(data)
+	return nil
 }
 
 func main() {
@@ -29,12 +33,9 @@ func main() {
 	app.Action = cliServerAction
 	app.Commands = []cli.Command{
 		{
-			Name:    "error",
-			Aliases: []string{"e"},
-			Usage:   "fake an error",
-			Action: func(c *cli.Context) error {
-				return errors.New("test")
-			},
+			Name:   "import",
+			Usage:  "import order data",
+			Action: importAction,
 		},
 	}
 
