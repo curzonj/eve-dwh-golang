@@ -1,14 +1,15 @@
 .PHONY: build test check golint govendor run
 .DEFAULT_GOAL: build
 
-run: build
-	heroku local -f Procfile
+run: test build
+	heroku local
 
 build:
 	go build
+	echo "Build Complete"
 
 watch:
-	reflex -r '\.go$$' make test
+	reflex -r '\.go$$' make test build
 
 test: fmt
 	govendor test +local -test.timeout 60s -test.race
