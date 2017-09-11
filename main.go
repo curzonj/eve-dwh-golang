@@ -7,6 +7,8 @@ import (
 )
 
 func cliServerAction(c *cli.Context) error {
+	connectToDatabase()
+
 	fetcher := &marketDataFetcher{}
 	_, err := fetcher.GetOrderDataset(cfg.RegionID)
 

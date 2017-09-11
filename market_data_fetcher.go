@@ -13,7 +13,7 @@ type marketDataFetcher struct{}
 func (f *marketDataFetcher) GetOrderDataset(regionID int32) (orderDataset, error) {
 	dataset := make(orderDataset)
 
-	eachPage, err := f.FetchOrders(regionID)
+	eachPage, err := f.fetchOrders(regionID)
 	if err != nil {
 		return nil, err
 	}
@@ -28,7 +28,7 @@ func (f *marketDataFetcher) GetOrderDataset(regionID int32) (orderDataset, error
 	return dataset, nil
 }
 
-func (f *marketDataFetcher) FetchOrders(regionID int32) ([][]esi.GetMarketsRegionIdOrders200Ok, error) {
+func (f *marketDataFetcher) fetchOrders(regionID int32) ([][]esi.GetMarketsRegionIdOrders200Ok, error) {
 	firstPage, resp, err := globals.esiClient.MarketApi.GetMarketsRegionIdOrders("buy", regionID, nil)
 	if err != nil {
 		return nil, err
