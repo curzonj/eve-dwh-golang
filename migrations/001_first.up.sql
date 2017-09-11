@@ -4,11 +4,11 @@ CREATE TABLE bulk_order_stats (
   type_id integer NOT NULL,
   region_id integer NOT NULL,
 
+  stats_timestamp integer[],
+
   buy_units bigint[],
 
-  sell_units bigint[],
-
-  stats_timestamp integer[]
+  sell_units bigint[]
 );
 
 ALTER TABLE ONLY bulk_order_stats

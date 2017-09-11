@@ -6,6 +6,7 @@ import (
 
 	"database/sql"
 
+	"github.com/Sirupsen/logrus"
 	"github.com/antihax/goesi"
 	"github.com/antihax/goesi/esi"
 	"github.com/gregjones/httpcache"
@@ -24,6 +25,7 @@ var cfg struct {
 var globals struct {
 	esiClient *esi.APIClient
 	db        *sql.DB
+	logger    logrus.FieldLogger
 }
 
 func connectToDatabase() {
@@ -48,4 +50,6 @@ func loadEnvironment() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	globals.logger = logrus.New()
 }
