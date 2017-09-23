@@ -2,27 +2,47 @@ package main
 
 import (
 	"os"
+	"time"
 
 	"gopkg.in/urfave/cli.v1"
 )
 
 func cliServerAction(c *cli.Context) error {
+	atBoot()
+
+	go runWebHandler()
+
 	return nil
 }
 
-func main() {
+func developmentAction(c *cli.Context) error {
+	atBoot()
+
+	marketStatisticsPoller(5 * time.Minute)
+
+	return nil
+}
+
+func atBoot() {
 	loadEnvironment()
 	buildEsiClient()
+	connectToDatabase()
+}
 
+func main() {
 	app := cli.NewApp()
 	app.Usage = "main entry point for all operations"
 
-	app.Action = importAction //cliServerAction
 	app.Commands = []cli.Command{
 		{
-			Name:   "import",
-			Usage:  "import order data",
-			Action: importAction,
+			Name:   "dev",
+			Usage:  "run the development process for whatever I'm working on",
+			Action: developmentAction,
+		},
+		{
+			Name:   "serve",
+			Usage:  "run the server processes",
+			Action: cliServerAction,
 		},
 	}
 

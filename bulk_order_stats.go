@@ -7,19 +7,38 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/pkg/errors"
-	cli "gopkg.in/urfave/cli.v1"
 )
 
-func importAction(c *cli.Context) error {
-	connectToDatabase()
+func marketStatisticsPoller(d time.Duration) {
+	logger := globals.logger.WithField("fn", "marketStatisticsPoller")
+	logger.WithField("at", "start").Info()
 
+	err := pollMarketStats()
+	if err != nil {
+		logger.Error(err)
+	}
+
+	for range time.Tick(d) {
+		err := pollMarketStats()
+		if err != nil {
+			logger.Error(err)
+		}
+	}
+}
+
+func pollMarketStats() error {
 	fetcher := &marketDataFetcher{}
 	data, err := fetcher.GetOrderDataset(cfg.RegionID)
 	if err != nil {
 		return errors.Wrap(err, "fetching order data")
 	}
 
-	return importBulkOrderStats(data)
+	err = importBulkOrderStats(data)
+	if err != nil {
+		return errors.Wrap(err, "saving stats to pg")
+	}
+
+	return nil
 }
 
 func importBulkOrderStats(data orderDataset) error {
