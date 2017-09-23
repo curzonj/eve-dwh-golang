@@ -21,6 +21,12 @@
 			"revision": ""
 		},
 		{
+			"checksumSHA1": "LSJuWYfme7cMaM/QYX/2x2Gaprg=",
+			"path": "github.com/PuerkitoBio/rehttp",
+			"revision": "5989d9566be1c6334786e55385219c2b9ab1c4dc",
+			"revisionTime": "2017-03-24T14:01:14Z"
+		},
+		{
 			"checksumSHA1": "vUF8XCjfm1dcf8O/Xfm7gedU15E=",
 			"path": "github.com/antihax/goesi",
 			"revision": "75e11fb3d07857e924154462aaadc87a3449ad57",
@@ -37,6 +43,12 @@
 			"path": "github.com/antihax/goesi/eveapi",
 			"revision": "75e11fb3d07857e924154462aaadc87a3449ad57",
 			"revisionTime": "2017-09-05T12:21:13Z"
+		},
+		{
+			"checksumSHA1": "fW9JHkoFDG+CKeKn7bQwGEruSME=",
+			"path": "github.com/go-chi/chi",
+			"revision": "624e6e12e9bc3b3073f539dab52abecdec01d769",
+			"revisionTime": "2017-09-07T16:24:55Z"
 		},
 		{
 			"checksumSHA1": "yqF125xVSkmfLpIVGrLlfE05IUk=",
@@ -127,6 +139,12 @@
 			"path": "github.com/sirupsen/logrus",
 			"revision": "89742aefa4b206dcf400792f3bd35b542998eb3b",
 			"revisionTime": "2017-08-22T13:27:46Z"
+		},
+		{
+			"checksumSHA1": "iTtrVtL9AvEIxnxqA3UeuZSicS4=",
+			"path": "github.com/tcnksm/go-httpstat",
+			"revision": "ae0d799e7ee65d3dc46d7272368daa830aef6c5a",
+			"revisionTime": "2017-04-10T14:16:52Z"
 		},
 		{
 			"checksumSHA1": "nqWNlnMmVpt628zzvyo6Yv2CX5Q=",
