@@ -21,6 +21,7 @@ var cfg struct {
 	RegionID     int32  `env:"REGION_ID,default=10000002"`
 	RetryLimit   int32  `env:"RETRY_LIMIT,default=10"`
 	MarketGroups []int  `env:"MARKET_GROUPS,required"`
+	Port         string `env:"PORT,required"`
 }
 
 var globals struct {
@@ -98,6 +99,7 @@ func loadEnvironment() {
 
 	globals.logger = log.New()
 	globals.logger.WithFields(log.Fields{
-		"at": "app-boot",
+		"fn": "loadEnvironment",
+		"at": "finished",
 	}).Info()
 }

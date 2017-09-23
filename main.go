@@ -10,17 +10,17 @@ import (
 func cliServerAction(c *cli.Context) error {
 	atBoot()
 
-	go runWebHandler()
+	go marketStatisticsPoller(5 * time.Minute)
 
-	return nil
+	select {}
 }
 
 func developmentAction(c *cli.Context) error {
 	atBoot()
 
-	marketStatisticsPoller(5 * time.Minute)
+	go runWebHandler()
 
-	return nil
+	select {}
 }
 
 func atBoot() {

@@ -5,7 +5,6 @@ import (
 	"strconv"
 	"time"
 
-	log "github.com/Sirupsen/logrus"
 	"github.com/pkg/errors"
 )
 
@@ -75,11 +74,6 @@ func importBulkOrderStats(data orderDataset) error {
 	for _, typeID := range storedTypeIDs {
 		orders := data[typeID]
 		var buyUnits, sellUnits int64
-		globals.logger.WithFields(log.Fields{
-			"fn":     "importBulkOrderStats",
-			"typeID": typeID,
-			"orders": len(orders),
-		}).Info()
 
 		for _, o := range orders {
 			if o.IsBuyOrder {
