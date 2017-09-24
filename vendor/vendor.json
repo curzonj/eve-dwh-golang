@@ -123,6 +123,12 @@
 			"revisionTime": "2017-09-02T15:12:37Z"
 		},
 		{
+			"checksumSHA1": "Se195FlZ160eaEk/uVx4KdTPSxU=",
+			"path": "github.com/pborman/uuid",
+			"revision": "e790cca94e6cc75c7064b1332e63811d4aae1a53",
+			"revisionTime": "2017-06-12T15:36:48Z"
+		},
+		{
 			"checksumSHA1": "HCBEZni41uRhZlY2NUY+0mo0Whc=",
 			"path": "github.com/peterbourgon/diskv",
 			"revision": "5f041e8faa004a95c88a202771f4cc3e991971e6",
