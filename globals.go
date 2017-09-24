@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/PuerkitoBio/rehttp"
@@ -16,18 +17,26 @@ import (
 )
 
 var cfg struct {
-	DatabaseURL  string `env:"DATABASE_URL,required"`
-	UserAgent    string `env:"USER_AGENT,required"`
-	RegionID     int32  `env:"REGION_ID,default=10000002"`
-	RetryLimit   int32  `env:"RETRY_LIMIT,default=10"`
-	MarketGroups []int  `env:"MARKET_GROUPS,required"`
-	Port         string `env:"PORT,required"`
+	DatabaseURL      string `env:"DATABASE_URL,required"`
+	UserAgent        string `env:"USER_AGENT,required"`
+	RegionID         int32  `env:"REGION_ID,default=10000002"`
+	RetryLimit       int32  `env:"RETRY_LIMIT,default=10"`
+	MarketGroups     []int  `env:"MARKET_GROUPS,required"`
+	Port             string `env:"PORT,required"`
+	OauthClientID    string `env:"OAUTH_CLIENT_ID,required"`
+	OauthSecretKey   string `env:"OAUTH_SECRET_KEY,required"`
+	OauthRedirectURL string `env:"OAUTH_REDIRECT_URL,required"`
+	ESIScopesString  string `env:"ESI_SCOPES,required"`
+
+	ESIScopes []string
 }
 
 var globals struct {
-	esiClient *esi.APIClient
-	db        *sqlx.DB
-	logger    log.FieldLogger
+	esiClient        *esi.APIClient
+	esiAuthenticator *goesi.SSOAuthenticator
+	db               *sqlx.DB
+	logger           log.FieldLogger
+	httpClient       *http.Client
 }
 
 func connectToDatabase() {
@@ -80,7 +89,7 @@ func buildEsiClient() {
 		rehttp.ExpJitterDelay(time.Second, time.Minute),
 	)
 
-	httpClient := &http.Client{
+	globals.httpClient = &http.Client{
 		Transport: &httpcache.Transport{
 			Transport:           rt,
 			Cache:               diskcache.New("./cache"),
@@ -88,7 +97,8 @@ func buildEsiClient() {
 		},
 	}
 
-	globals.esiClient = goesi.NewAPIClient(httpClient, cfg.UserAgent).ESI
+	globals.esiAuthenticator = goesi.NewSSOAuthenticator(globals.httpClient, cfg.OauthClientID, cfg.OauthSecretKey, cfg.OauthRedirectURL, cfg.ESIScopes)
+	globals.esiClient = goesi.NewAPIClient(globals.httpClient, cfg.UserAgent).ESI
 }
 
 func loadEnvironment() {
@@ -96,6 +106,8 @@ func loadEnvironment() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	cfg.ESIScopes = strings.Split(cfg.ESIScopesString, " ")
 
 	globals.logger = log.New()
 	globals.logger.WithFields(log.Fields{
