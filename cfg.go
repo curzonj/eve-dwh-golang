@@ -10,9 +10,10 @@ import (
 	"github.com/antihax/goesi"
 	"github.com/curzonj/eve-dwh-golang/poller"
 	"github.com/curzonj/eve-dwh-golang/types"
+	"github.com/curzonj/eve-dwh-golang/utils/rediscache"
 	"github.com/curzonj/eve-dwh-golang/web"
+	"github.com/garyburd/redigo/redis"
 	"github.com/gregjones/httpcache"
-	"github.com/gregjones/httpcache/diskcache"
 	"github.com/jmoiron/sqlx"
 	"github.com/joeshaw/envdecode"
 	_ "github.com/lib/pq"
@@ -23,6 +24,7 @@ var cfg struct {
 	Web    web.Cfg
 
 	DatabaseURL string `env:"DATABASE_URL,required"`
+	RedisURL    string `env:"REDIS_URL,required"`
 
 	ESI struct {
 		UserAgent        string `env:"USER_AGENT,required"`
@@ -38,6 +40,7 @@ var clients types.Clients
 func connectToDatabase() {
 	db, err := sqlx.Connect("postgres", cfg.DatabaseURL)
 	if err != nil {
+		// TODO could add something like https://github.com/heroku/x/blob/master/hredis/redigo/redigo.go#L15
 		log.Fatal(err)
 	}
 
@@ -85,10 +88,25 @@ func buildESIClient() {
 		rehttp.ExpJitterDelay(time.Second, time.Minute),
 	)
 
+	pool := &redis.Pool{
+		MaxIdle:     3,
+		IdleTimeout: 240 * time.Second,
+		Dial: func() (redis.Conn, error) {
+			return redis.DialURL(cfg.RedisURL)
+		},
+		TestOnBorrow: func(c redis.Conn, t time.Time) error {
+			if time.Since(t) < time.Minute {
+				return nil
+			}
+			_, err := c.Do("PING")
+			return err
+		},
+	}
+
 	httpClient := &http.Client{
 		Transport: &httpcache.Transport{
 			Transport:           rt,
-			Cache:               diskcache.New("./cache"),
+			Cache:               rediscache.NewWithPool(pool, clients.Logger),
 			MarkCachedResponses: true,
 		},
 	}
