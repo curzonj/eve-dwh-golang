@@ -98,13 +98,7 @@ func (h *handler) run(port string) {
 				return
 			}
 
-			refreshToken, err := goesi.TokenFromJSON(character.OauthToken)
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			tokSrc, err := h.clients.ESIAuthenticator.TokenSource(refreshToken)
+			tokSrc, err := character.TokenSource(h.clients.ESIAuthenticator)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
