@@ -5,3 +5,9 @@
 ```bash
 forego run scripts/dbmigrate [up|down]
 ```
+
+### Testing
+
+```bash
+heroku local:start dev
+```
