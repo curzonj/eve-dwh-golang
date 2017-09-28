@@ -8,7 +8,8 @@ import (
 	"github.com/PuerkitoBio/rehttp"
 	log "github.com/Sirupsen/logrus"
 	"github.com/antihax/goesi"
-	"github.com/antihax/goesi/esi"
+	"github.com/curzonj/eve-dwh-golang/data"
+	"github.com/curzonj/eve-dwh-golang/types"
 	"github.com/gregjones/httpcache"
 	"github.com/gregjones/httpcache/diskcache"
 	"github.com/jmoiron/sqlx"
@@ -17,35 +18,29 @@ import (
 )
 
 var cfg struct {
-	DatabaseURL      string `env:"DATABASE_URL,required"`
-	UserAgent        string `env:"USER_AGENT,required"`
-	RegionID         int32  `env:"REGION_ID,default=10000002"`
-	RetryLimit       int32  `env:"RETRY_LIMIT,default=10"`
-	MarketGroups     []int  `env:"MARKET_GROUPS,required"`
-	Port             string `env:"PORT,required"`
-	OauthClientID    string `env:"OAUTH_CLIENT_ID,required"`
-	OauthSecretKey   string `env:"OAUTH_SECRET_KEY,required"`
-	OauthRedirectURL string `env:"OAUTH_REDIRECT_URL,required"`
-	ESIScopesString  string `env:"ESI_SCOPES,required"`
+	Poller data.PollerCfg
 
-	ESIScopes []string
+	DatabaseURL string `env:"DATABASE_URL,required"`
+	Port        string `env:"PORT,required"`
+
+	ESI struct {
+		UserAgent        string `env:"USER_AGENT,required"`
+		OauthClientID    string `env:"OAUTH_CLIENT_ID,required"`
+		OauthSecretKey   string `env:"OAUTH_SECRET_KEY,required"`
+		OauthRedirectURL string `env:"OAUTH_REDIRECT_URL,required"`
+		ScopesString     string `env:"ESI_SCOPES,required"`
+	}
 }
 
-var globals struct {
-	esiClient        *esi.APIClient
-	esiAuthenticator *goesi.SSOAuthenticator
-	db               *sqlx.DB
-	logger           log.FieldLogger
-	httpClient       *http.Client
-}
+var clients types.Clients
 
 func connectToDatabase() {
-	db, err := sqlx.Connect("postgres", cfg.DatabaseURL)
+	db, err := sqlx.Connect("postgres", cfg.Database.URL)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	globals.db = db
+	clients.DB = db
 }
 
 type loggingTransport struct{}
@@ -57,7 +52,7 @@ func (t *loggingTransport) RoundTrip(req *http.Request) (*http.Response, error) 
 
 	finished := time.Now()
 
-	l := globals.logger
+	l := clients.Logger
 	s := res.Header.Get("X-Esi-Error-Limit-Remain")
 	if s != "" && s != "100" {
 		l = l.WithField("errorsRemaining", s)
@@ -74,7 +69,7 @@ func (t *loggingTransport) RoundTrip(req *http.Request) (*http.Response, error) 
 	return res, err
 }
 
-func buildEsiClient() {
+func buildESIClient() {
 	// Add retries, backoff and logging in the transport
 	rt := rehttp.NewTransport(
 		&loggingTransport{},
@@ -89,7 +84,7 @@ func buildEsiClient() {
 		rehttp.ExpJitterDelay(time.Second, time.Minute),
 	)
 
-	globals.httpClient = &http.Client{
+	httpClient := &http.Client{
 		Transport: &httpcache.Transport{
 			Transport:           rt,
 			Cache:               diskcache.New("./cache"),
@@ -97,8 +92,17 @@ func buildEsiClient() {
 		},
 	}
 
-	globals.esiAuthenticator = goesi.NewSSOAuthenticator(globals.httpClient, cfg.OauthClientID, cfg.OauthSecretKey, cfg.OauthRedirectURL, cfg.ESIScopes)
-	globals.esiClient = goesi.NewAPIClient(globals.httpClient, cfg.UserAgent).ESI
+	scopes := strings.Split(cfg.ESI.ScopesString, " ")
+
+	clients.ESIScopes = scopes
+	clients.ESIAuthenticator = goesi.NewSSOAuthenticator(
+		httpClient,
+		cfg.ESI.OauthClientID,
+		cfg.ESI.OauthSecretKey,
+		cfg.ESI.OauthRedirectURL,
+		scopes)
+
+	clients.ESIClient = goesi.NewAPIClient(httpClient, cfg.ESI.UserAgent).ESI
 }
 
 func loadEnvironment() {
@@ -107,10 +111,8 @@ func loadEnvironment() {
 		log.Fatal(err)
 	}
 
-	cfg.ESIScopes = strings.Split(cfg.ESIScopesString, " ")
-
-	globals.logger = log.New()
-	globals.logger.WithFields(log.Fields{
+	clients.Logger = log.New()
+	clients.Logger.WithFields(log.Fields{
 		"fn": "loadEnvironment",
 		"at": "finished",
 	}).Info()

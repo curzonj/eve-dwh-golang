@@ -4,13 +4,15 @@ import (
 	"os"
 	"time"
 
+	"github.com/curzonj/eve-dwh-golang/data"
+	"github.com/curzonj/eve-dwh-golang/web"
 	"gopkg.in/urfave/cli.v1"
 )
 
 func cliServerAction(c *cli.Context) error {
 	atBoot()
 
-	go marketStatisticsPoller(5 * time.Minute)
+	go data.MarketStatisticsPoller(clients, 5*time.Minute)
 
 	select {}
 }
@@ -18,15 +20,15 @@ func cliServerAction(c *cli.Context) error {
 func developmentAction(c *cli.Context) error {
 	atBoot()
 
-	go runWebHandler()
+	go web.RunHandler(clients, cfg.Port)
 
 	select {}
 }
 
 func atBoot() {
-	loadEnvironment()
-	buildEsiClient()
-	connectToDatabase()
+	utils.LoadEnvironment()
+	utils.BuildESIClient()
+	utils.ConnectToDatabase()
 }
 
 func main() {

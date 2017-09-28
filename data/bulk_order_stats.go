@@ -1,38 +1,52 @@
-package main
+package data
 
 import (
 	"io/ioutil"
 	"strconv"
 	"time"
 
+	"github.com/curzonj/eve-dwh-golang/types"
 	"github.com/pkg/errors"
 )
 
-func marketStatisticsPoller(d time.Duration) {
-	logger := globals.logger.WithField("fn", "marketStatisticsPoller")
+func MarketStatisticsPoller(clients types.Clients, cfg PollerCfg, d time.Duration) {
+	logger := clients.Logger.WithField("fn", "marketStatisticsPoller")
 	logger.WithField("at", "start").Info()
 
-	err := pollMarketStats()
+	p := &poller{
+		clients: clients,
+		cfg:     cfg,
+	}
+
+	err := p.pollMarketStats()
 	if err != nil {
 		logger.Error(err)
 	}
 
 	for range time.Tick(d) {
-		err := pollMarketStats()
+		err := p.pollMarketStats()
 		if err != nil {
 			logger.Error(err)
 		}
 	}
 }
 
-func pollMarketStats() error {
-	fetcher := &marketDataFetcher{}
-	data, err := fetcher.GetOrderDataset(cfg.RegionID)
+type poller struct {
+	clients types.Clients
+	cfg     PollerCfg
+}
+
+func (p *poller) pollMarketStats() error {
+	fetcher := &marketDataFetcher{
+		clients: p.clients,
+	}
+
+	data, err := fetcher.GetOrderDataset(p.cfg.RegionID)
 	if err != nil {
 		return errors.Wrap(err, "fetching order data")
 	}
 
-	err = importBulkOrderStats(data)
+	err = p.importBulkOrderStats(data)
 	if err != nil {
 		return errors.Wrap(err, "saving stats to pg")
 	}
@@ -40,13 +54,13 @@ func pollMarketStats() error {
 	return nil
 }
 
-func importBulkOrderStats(data orderDataset) error {
+func (p *poller) importBulkOrderStats(data orderDataset) error {
 	dataTimestamp := time.Now().Unix()
 
 	var storedTypeIDs []int32
-	for _, id := range cfg.MarketGroups {
+	for _, id := range p.cfg.MarketGroups {
 		var thisTypeIDs []int32
-		err := globals.db.Select(&thisTypeIDs, "select \"typeID\" from \"invTypes\" where \"marketGroupID\" in (select market_group_id from market_group_arrays where id_list && '{"+strconv.Itoa(id)+"}')")
+		err := clients.DB.Select(&thisTypeIDs, "select \"typeID\" from \"invTypes\" where \"marketGroupID\" in (select market_group_id from market_group_arrays where id_list && '{"+strconv.Itoa(id)+"}')")
 		if err != nil {
 			return err
 		}
@@ -59,7 +73,7 @@ func importBulkOrderStats(data orderDataset) error {
 		return errors.Wrap(err, "loading template sql")
 	}
 
-	tx, err := globals.db.Begin()
+	tx, err := clients.DB.Begin()
 	if err != nil {
 		return err
 	}
@@ -83,7 +97,7 @@ func importBulkOrderStats(data orderDataset) error {
 			}
 		}
 
-		_, err := stmt.Exec(typeID, cfg.RegionID, dataTimestamp, buyUnits, sellUnits)
+		_, err := stmt.Exec(typeID, p.cfg.RegionID, dataTimestamp, buyUnits, sellUnits)
 		if err != nil {
 			return err
 		}

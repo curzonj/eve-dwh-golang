@@ -1,14 +1,17 @@
-package main
+package data
 
 import (
 	"strconv"
 
 	"github.com/antihax/goesi/esi"
+	"github.com/curzonj/eve-dwh-golang/types"
 )
 
 type orderDataset map[int32][]esi.GetMarketsRegionIdOrders200Ok
 
-type marketDataFetcher struct{}
+type marketDataFetcher struct {
+	clients types.Clients
+}
 
 func (f *marketDataFetcher) GetOrderDataset(regionID int32) (orderDataset, error) {
 	dataset := make(orderDataset)
@@ -29,7 +32,7 @@ func (f *marketDataFetcher) GetOrderDataset(regionID int32) (orderDataset, error
 }
 
 func (f *marketDataFetcher) fetchOrders(regionID int32) ([][]esi.GetMarketsRegionIdOrders200Ok, error) {
-	firstPage, resp, err := globals.esiClient.MarketApi.GetMarketsRegionIdOrders("buy", regionID, nil)
+	firstPage, resp, err := f.clients.EsiClient.MarketApi.GetMarketsRegionIdOrders("buy", regionID, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -59,7 +62,7 @@ func (f *marketDataFetcher) remainingOrderPages(regionID int32, lastPage int) ([
 			params := make(map[string]interface{})
 			params["page"] = page
 
-			list, _, err := globals.esiClient.MarketApi.GetMarketsRegionIdOrders("buy", regionID, params)
+			list, _, err := f.clients.EsiClient.MarketApi.GetMarketsRegionIdOrders("buy", regionID, params)
 
 			if err != nil {
 				errors <- err

@@ -1,4 +1,4 @@
-package main
+package web
 
 import (
 	"crypto/rand"
@@ -10,6 +10,7 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/antihax/goesi"
+	"github.com/curzonj/eve-dwh-golang/types"
 	"github.com/go-chi/chi"
 	"github.com/gorilla/sessions"
 	"github.com/pborman/uuid"
@@ -32,7 +33,7 @@ func RedirectToSSO(session *sessions.Session, w http.ResponseWriter, r *http.Req
 	}
 
 	// Generate the SSO URL with the state string
-	url := globals.esiAuthenticator.AuthorizeURL(state, true, cfg.ESIScopes)
+	url := h.clients.ESIAuthenticator.AuthorizeURL(state, true, h.clients.ESIScopes)
 
 	// Send the user to the URL
 	http.Redirect(w, r, url, 302)
@@ -50,7 +51,7 @@ func AuthenticationRequirement(next http.Handler) http.Handler {
 
 		val := session.Values["user_id"]
 		if passedUserID, ok := val.(string); ok && passedUserID != "" {
-			err = globals.db.Get(&userID, "select id from users where id = $1", passedUserID)
+			err = h.clients.DB.Get(&userID, "select id from users where id = $1", passedUserID)
 			if err != nil {
 				if err == sql.ErrNoRows || strings.HasPrefix(err.Error(), "pq: invalid input syntax for uuid:") {
 					session.Values["user_id"] = ""
@@ -91,7 +92,7 @@ type UserCharacter struct {
 	OauthToken  string `db:"oauth_token"`
 }
 
-func EveOauthCallbackHandler(w http.ResponseWriter, r *http.Request) {
+func (h *handler) EveOauthCallbackHandler(w http.ResponseWriter, r *http.Request) {
 	// Get a session. Get() always returns a session, even if empty.
 	session, err := store.Get(r, "session")
 	if err != nil {
@@ -110,21 +111,21 @@ func EveOauthCallbackHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Exchange the code for an Access and Refresh token.
-	token, err := globals.esiAuthenticator.TokenExchange(code)
+	token, err := h.clients.ESIAuthenticator.TokenExchange(code)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	// Obtain a token source (automaticlly pulls refresh as needed)
-	tokSrc, err := globals.esiAuthenticator.TokenSource(token)
+	tokSrc, err := h.clients.ESIAuthenticator.TokenSource(token)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	// Verify the client (returns clientID)
-	characterInfo, err := globals.esiAuthenticator.Verify(tokSrc)
+	characterInfo, err := h.clients.ESIAuthenticator.Verify(tokSrc)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -140,7 +141,7 @@ func EveOauthCallbackHandler(w http.ResponseWriter, r *http.Request) {
 	var character UserCharacter
 	characterExists := true
 
-	err = globals.db.Get(&character, "select * from user_characters where id = $1", characterInfo.CharacterID)
+	err = h.clients.DB.Get(&character, "select * from user_characters where id = $1", characterInfo.CharacterID)
 	if err != nil {
 		if err != sql.ErrNoRows {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -152,7 +153,7 @@ func EveOauthCallbackHandler(w http.ResponseWriter, r *http.Request) {
 
 	val := session.Values["user_id"]
 	if passedUserID, ok := val.(string); ok && passedUserID != "" {
-		err = globals.db.Get(&userID, "select id from users where id = $1", passedUserID)
+		err = h.clients.DB.Get(&userID, "select id from users where id = $1", passedUserID)
 		if err != nil {
 			if err == sql.ErrNoRows || strings.HasPrefix(err.Error(), "pq: invalid input syntax for uuid:") {
 				session.Values["user_id"] = ""
@@ -173,7 +174,7 @@ func EveOauthCallbackHandler(w http.ResponseWriter, r *http.Request) {
 			userID = character.UserID
 		} else {
 			userID = uuid.NewUUID().String()
-			_, err := globals.db.Exec("insert into users (id) values ($1)", userID)
+			_, err := h.clients.DB.Exec("insert into users (id) values ($1)", userID)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
@@ -190,7 +191,7 @@ func EveOauthCallbackHandler(w http.ResponseWriter, r *http.Request) {
 		if characterExists {
 			// TODO update scopes
 			if character.UserID != userID {
-				globals.logger.Error("user_id mismatch at login")
+				h.clients.Logger.Error("user_id mismatch at login")
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
@@ -207,7 +208,7 @@ func EveOauthCallbackHandler(w http.ResponseWriter, r *http.Request) {
 			OauthToken:  jsonToken,
 		}
 
-		_, err = globals.db.NamedExec("insert into user_characters (user_id, id, name, owner_hash, oauth_scopes, oauth_token) values (:user_id, :id, :name, :owner_hash, :oauth_scopes, :oauth_token)", &character)
+		_, err = h.clients.DB.NamedExec("insert into user_characters (user_id, id, name, owner_hash, oauth_scopes, oauth_token) values (:user_id, :id, :name, :owner_hash, :oauth_scopes, :oauth_token)", &character)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -222,13 +223,13 @@ func EveOauthCallbackHandler(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, redirectTo, 302)
 }
 
-func logRequest(next http.Handler) http.Handler {
+func (h *handler) logRequest(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
 		next.ServeHTTP(w, r)
 		finished := time.Now()
 
-		globals.logger.WithFields(log.Fields{
+		h.clients.Logger.WithFields(log.Fields{
 			"at":      "httpRequest",
 			"method":  r.Method,
 			"elapsed": finished.Sub(start).Seconds(),
@@ -237,21 +238,29 @@ func logRequest(next http.Handler) http.Handler {
 	})
 }
 
-func runWebHandler() {
-	logger := globals.logger.WithField("fn", "runWebHandler")
+func RunHandler(clients types.Clients, port string) {
+	h := &handler{
+		clients: clients,
+	}
+
+	h.run(port)
+}
+
+func (h *handler) run(port string) {
+	logger := h.clients.Logger.WithField("fn", "runWebHandler")
 	logger.WithFields(log.Fields{
 		"at":   "start",
-		"port": cfg.Port,
+		"port": port,
 	}).Info()
 
 	r := chi.NewRouter()
-	r.Use(logRequest)
+	r.Use(h.logRequest)
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("welcome"))
 	})
 
-	r.Get("/auth/eveonline/callback", EveOauthCallbackHandler)
+	r.Get("/auth/eveonline/callback", h.EveOauthCallbackHandler)
 	r.Get("/auth/login", func(w http.ResponseWriter, r *http.Request) {
 		// Get a session. Get() always returns a session, even if empty.
 		session, err := store.Get(r, "session")
@@ -298,5 +307,5 @@ func runWebHandler() {
 		})
 	})
 
-	http.ListenAndServe(":"+cfg.Port, r)
+	http.ListenAndServe(":"+port, r)
 }
