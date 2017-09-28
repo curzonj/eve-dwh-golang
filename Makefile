@@ -1,7 +1,7 @@
 .PHONY: build test check golint govendor run
 .DEFAULT_GOAL: build
 
-PACKAGES := ./data ./types ./web
+PACKAGES := ./poller ./types ./web
 
 run: test build
 	heroku local

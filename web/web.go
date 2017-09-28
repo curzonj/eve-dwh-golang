@@ -12,13 +12,17 @@ import (
 	"github.com/antihax/goesi"
 	"github.com/curzonj/eve-dwh-golang/types"
 	"github.com/go-chi/chi"
+	"github.com/gorilla/context"
 	"github.com/gorilla/sessions"
 	"github.com/pborman/uuid"
 )
 
-var store = sessions.NewCookieStore([]byte("something-very-secret"))
+type Cfg struct {
+	Port   string `env:"PORT,required"`
+	Secret string `env:"SECRET,default=totally-insecure"`
+}
 
-func RedirectToSSO(session *sessions.Session, w http.ResponseWriter, r *http.Request) {
+func (h *handler) RedirectToSSO(session *sessions.Session, w http.ResponseWriter, r *http.Request) {
 	// Generate a random state string
 	b := make([]byte, 16)
 	rand.Read(b)
@@ -39,9 +43,9 @@ func RedirectToSSO(session *sessions.Session, w http.ResponseWriter, r *http.Req
 	http.Redirect(w, r, url, 302)
 }
 
-func AuthenticationRequirement(next http.Handler) http.Handler {
+func (h *handler) AuthenticationRequirement(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		session, err := store.Get(r, "session")
+		session, err := h.store.Get(r, "session")
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -75,7 +79,7 @@ func AuthenticationRequirement(next http.Handler) http.Handler {
 				return
 			}
 
-			RedirectToSSO(session, w, r)
+			h.RedirectToSSO(session, w, r)
 			return
 		}
 
@@ -94,7 +98,7 @@ type UserCharacter struct {
 
 func (h *handler) EveOauthCallbackHandler(w http.ResponseWriter, r *http.Request) {
 	// Get a session. Get() always returns a session, even if empty.
-	session, err := store.Get(r, "session")
+	session, err := h.store.Get(r, "session")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -238,12 +242,18 @@ func (h *handler) logRequest(next http.Handler) http.Handler {
 	})
 }
 
-func RunHandler(clients types.Clients, port string) {
+type handler struct {
+	clients types.Clients
+	store   sessions.Store
+}
+
+func RunHandler(clients types.Clients, cfg Cfg) {
 	h := &handler{
 		clients: clients,
+		store:   sessions.NewCookieStore([]byte(cfg.Secret)),
 	}
 
-	h.run(port)
+	h.run(cfg.Port)
 }
 
 func (h *handler) run(port string) {
@@ -263,18 +273,18 @@ func (h *handler) run(port string) {
 	r.Get("/auth/eveonline/callback", h.EveOauthCallbackHandler)
 	r.Get("/auth/login", func(w http.ResponseWriter, r *http.Request) {
 		// Get a session. Get() always returns a session, even if empty.
-		session, err := store.Get(r, "session")
+		session, err := h.store.Get(r, "session")
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
-		RedirectToSSO(session, w, r)
+		h.RedirectToSSO(session, w, r)
 	})
 
 	r.Get("/auth/logout", func(w http.ResponseWriter, r *http.Request) {
 		// Get a session. Get() always returns a session, even if empty.
-		session, err := store.Get(r, "session")
+		session, err := h.store.Get(r, "session")
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -292,11 +302,11 @@ func (h *handler) run(port string) {
 	})
 
 	r.Route("/u", func(r chi.Router) {
-		r.Use(AuthenticationRequirement)
+		r.Use(h.AuthenticationRequirement)
 
 		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 			// Get a session. Get() always returns a session, even if empty.
-			session, err := store.Get(r, "session")
+			session, err := h.store.Get(r, "session")
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
@@ -307,5 +317,5 @@ func (h *handler) run(port string) {
 		})
 	})
 
-	http.ListenAndServe(":"+port, r)
+	http.ListenAndServe(":"+port, context.ClearHandler(r))
 }

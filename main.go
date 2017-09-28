@@ -2,9 +2,8 @@ package main
 
 import (
 	"os"
-	"time"
 
-	"github.com/curzonj/eve-dwh-golang/data"
+	"github.com/curzonj/eve-dwh-golang/poller"
 	"github.com/curzonj/eve-dwh-golang/web"
 	"gopkg.in/urfave/cli.v1"
 )
@@ -12,7 +11,7 @@ import (
 func cliServerAction(c *cli.Context) error {
 	atBoot()
 
-	go data.MarketStatisticsPoller(clients, 5*time.Minute)
+	go poller.MarketStatisticsPoller(clients, cfg.Poller)
 
 	select {}
 }
@@ -20,15 +19,15 @@ func cliServerAction(c *cli.Context) error {
 func developmentAction(c *cli.Context) error {
 	atBoot()
 
-	go web.RunHandler(clients, cfg.Port)
+	go web.RunHandler(clients, cfg.Web)
 
 	select {}
 }
 
 func atBoot() {
-	utils.LoadEnvironment()
-	utils.BuildESIClient()
-	utils.ConnectToDatabase()
+	loadEnvironment()
+	buildESIClient()
+	connectToDatabase()
 }
 
 func main() {
@@ -50,6 +49,6 @@ func main() {
 
 	err := app.Run(os.Args)
 	if err != nil {
-		globals.logger.Fatal(err)
+		clients.Logger.Fatal(err)
 	}
 }
