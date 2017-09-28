@@ -10,7 +10,6 @@ import (
 type Clients struct {
 	ESIClient        *esi.APIClient
 	ESIAuthenticator *goesi.SSOAuthenticator
-	ESIScopes        []string
 	DB               *sqlx.DB
 	Logger           log.FieldLogger
 }

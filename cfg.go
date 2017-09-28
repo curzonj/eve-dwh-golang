@@ -95,7 +95,6 @@ func buildESIClient() {
 
 	scopes := strings.Split(cfg.ESI.ScopesString, " ")
 
-	clients.ESIScopes = scopes
 	clients.ESIAuthenticator = goesi.NewSSOAuthenticator(
 		httpClient,
 		cfg.ESI.OauthClientID,

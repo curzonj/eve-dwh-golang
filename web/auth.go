@@ -159,7 +159,7 @@ func (h *handler) RedirectToSSO(session *sessions.Session, w http.ResponseWriter
 	}
 
 	// Generate the SSO URL with the state string
-	url := h.clients.ESIAuthenticator.AuthorizeURL(state, true, h.clients.ESIScopes)
+	url := h.clients.ESIAuthenticator.AuthorizeURL(state, false, nil)
 
 	// Send the user to the URL
 	http.Redirect(w, r, url, 302)

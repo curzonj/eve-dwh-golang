@@ -1,12 +1,16 @@
 package web
 
 import (
+	"context"
+	"fmt"
 	"net/http"
 
 	log "github.com/Sirupsen/logrus"
+	"github.com/antihax/goesi"
+	"github.com/curzonj/eve-dwh-golang/model"
 	"github.com/curzonj/eve-dwh-golang/types"
 	"github.com/go-chi/chi"
-	"github.com/gorilla/context"
+	gcontext "github.com/gorilla/context"
 	"github.com/gorilla/sessions"
 )
 
@@ -86,9 +90,36 @@ func (h *handler) run(port string) {
 			}
 
 			val, _ := session.Values["user_id"].(string)
-			w.Write([]byte("welcome " + val))
+
+			var character model.UserCharacter
+			err = h.clients.DB.Get(&character, "select * from user_characters where user_id = $1 limit 1", val)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+
+			refreshToken, err := goesi.TokenFromJSON(character.OauthToken)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+
+			tokSrc, err := h.clients.ESIAuthenticator.TokenSource(refreshToken)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+
+			ctx := context.WithValue(context.TODO(), goesi.ContextOAuth2, tokSrc)
+			data, _, err := h.clients.ESIClient.ClonesApi.GetCharactersCharacterIdImplants(ctx, int32(character.ID), nil)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+
+			w.Write([]byte(fmt.Sprintf("welcome %s: %+v", val, data)))
 		})
 	})
 
-	http.ListenAndServe(":"+port, context.ClearHandler(r))
+	http.ListenAndServe(":"+port, gcontext.ClearHandler(r))
 }
