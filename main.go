@@ -9,28 +9,25 @@ import (
 )
 
 func cliServerAction(c *cli.Context) error {
-	atBoot()
+	buildClients()
 
 	go poller.MarketStatisticsPoller(clients, cfg.Poller)
+	go web.RunHandler(clients, cfg.Web)
 
 	select {}
 }
 
 func developmentAction(c *cli.Context) error {
-	atBoot()
+	buildClients()
 
 	go web.RunHandler(clients, cfg.Web)
 
 	select {}
 }
 
-func atBoot() {
-	loadEnvironment()
-	buildESIClient()
-	connectToDatabase()
-}
-
 func main() {
+	loadEnvironment()
+
 	app := cli.NewApp()
 	app.Usage = "main entry point for all operations"
 

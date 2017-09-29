@@ -10,7 +10,6 @@ import (
 	"github.com/curzonj/eve-dwh-golang/model"
 	"github.com/curzonj/eve-dwh-golang/types"
 	"github.com/go-chi/chi"
-	gcontext "github.com/gorilla/context"
 	"github.com/gorilla/sessions"
 )
 
@@ -42,78 +41,45 @@ func (h *handler) run(port string) {
 
 	r := chi.NewRouter()
 	r.Use(h.logRequest)
+	r.Use(h.buildSession)
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("welcome"))
+		w.Write([]byte("OK"))
 	})
 
-	r.Get("/auth/eveonline/callback", h.EveOauthCallbackHandler)
-	r.Get("/auth/login", func(w http.ResponseWriter, r *http.Request) {
-		// Get a session. Get() always returns a session, even if empty.
-		session, err := h.store.Get(r, "session")
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		h.RedirectToSSO(session, w, r)
-	})
-
-	r.Get("/auth/logout", func(w http.ResponseWriter, r *http.Request) {
-		// Get a session. Get() always returns a session, even if empty.
-		session, err := h.store.Get(r, "session")
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		session.Options.MaxAge = -1
-
-		err = session.Save(r, w)
-		if err != nil {
-			http.Error(w, err.Error(), 400)
-			return
-		}
-
-		http.Redirect(w, r, "/", 302)
-	})
+	r.Get("/auth/eveonline/callback", wrapErrors(h.eveOauthCallback))
+	r.Get("/auth/login", wrapErrors(h.redirectToSSO))
+	r.Get("/auth/logout", wrapErrors(h.logoutSession))
 
 	r.Route("/u", func(r chi.Router) {
-		r.Use(h.AuthenticationRequirement)
+		r.Use(h.authenticationRequirement)
 
-		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		r.Get("/", wrapErrors(func(w http.ResponseWriter, r *http.Request) error {
 			// Get a session. Get() always returns a session, even if empty.
-			session, err := h.store.Get(r, "session")
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			val, _ := session.Values["user_id"].(string)
+			session := session(r)
+			userID := session.Values["user_id"].(string)
 
 			var character model.UserCharacter
-			err = h.clients.DB.Get(&character, "select * from user_characters where user_id = $1 limit 1", val)
+			err := h.clients.DB.Get(&character, "select * from user_characters where user_id = $1 limit 1", userID)
 			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
+				return err
 			}
 
 			tokSrc, err := character.TokenSource(h.clients.ESIAuthenticator)
 			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
+				return err
 			}
 
-			ctx := context.WithValue(context.TODO(), goesi.ContextOAuth2, tokSrc)
+			ctx := context.WithValue(r.Context(), goesi.ContextOAuth2, tokSrc)
 			data, _, err := h.clients.ESIClient.ClonesApi.GetCharactersCharacterIdImplants(ctx, int32(character.ID), nil)
 			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
+				return err
 			}
 
-			w.Write([]byte(fmt.Sprintf("welcome %s: %+v", val, data)))
-		})
+			w.Write([]byte(fmt.Sprintf("welcome %s: %+v", userID, data)))
+			return nil
+		}))
 	})
 
-	http.ListenAndServe(":"+port, gcontext.ClearHandler(r))
+	http.ListenAndServe(":"+port, r)
 }

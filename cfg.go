@@ -56,7 +56,11 @@ func (t *loggingTransport) RoundTrip(req *http.Request) (*http.Response, error) 
 
 	finished := time.Now()
 
-	l := clients.Logger
+	l, ok := req.Context().Value(types.ContextLoggerKey).(log.FieldLogger)
+	if !ok {
+		l = clients.Logger
+	}
+
 	s := res.Header.Get("X-Esi-Error-Limit-Remain")
 	if s != "" && s != "100" {
 		l = l.WithField("errorsRemaining", s)
@@ -73,7 +77,7 @@ func (t *loggingTransport) RoundTrip(req *http.Request) (*http.Response, error) 
 	return res, err
 }
 
-func buildESIClient() {
+func buildESIClient(pool *redis.Pool) {
 	// Add retries, backoff and logging in the transport
 	rt := rehttp.NewTransport(
 		&loggingTransport{},
@@ -87,21 +91,6 @@ func buildESIClient() {
 		),
 		rehttp.ExpJitterDelay(time.Second, time.Minute),
 	)
-
-	pool := &redis.Pool{
-		MaxIdle:     3,
-		IdleTimeout: 240 * time.Second,
-		Dial: func() (redis.Conn, error) {
-			return redis.DialURL(cfg.RedisURL)
-		},
-		TestOnBorrow: func(c redis.Conn, t time.Time) error {
-			if time.Since(t) < time.Minute {
-				return nil
-			}
-			_, err := c.Do("PING")
-			return err
-		},
-	}
 
 	httpClient := &http.Client{
 		Transport: &httpcache.Transport{
@@ -123,6 +112,28 @@ func buildESIClient() {
 	clients.ESIClient = goesi.NewAPIClient(httpClient, cfg.ESI.UserAgent).ESI
 }
 
+func buildClients() {
+	pool := &redis.Pool{
+		MaxIdle:     3,
+		IdleTimeout: 240 * time.Second,
+		Dial: func() (redis.Conn, error) {
+			return redis.DialURL(cfg.RedisURL)
+		},
+		TestOnBorrow: func(c redis.Conn, t time.Time) error {
+			if time.Since(t) < time.Minute {
+				return nil
+			}
+			_, err := c.Do("PING")
+			return err
+		},
+	}
+
+	clients.Redis = pool
+
+	buildESIClient(pool)
+	connectToDatabase()
+}
+
 func loadEnvironment() {
 	err := envdecode.Decode(&cfg)
 	if err != nil {
@@ -130,8 +141,4 @@ func loadEnvironment() {
 	}
 
 	clients.Logger = log.New()
-	clients.Logger.WithFields(log.Fields{
-		"fn": "loadEnvironment",
-		"at": "finished",
-	}).Info()
 }

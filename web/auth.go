@@ -4,22 +4,16 @@ import (
 	"crypto/rand"
 	"database/sql"
 	"encoding/base64"
+	"errors"
 	"net/http"
-	"strings"
 
 	"github.com/antihax/goesi"
 	"github.com/curzonj/eve-dwh-golang/model"
-	"github.com/gorilla/sessions"
 	"github.com/pborman/uuid"
 )
 
-func (h *handler) EveOauthCallbackHandler(w http.ResponseWriter, r *http.Request) {
-	// Get a session. Get() always returns a session, even if empty.
-	session, err := h.store.Get(r, "session")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
+func exchangeToken(a *goesi.SSOAuthenticator, r *http.Request) (*goesi.VerifyResponse, string, error) {
+	session := session(r)
 
 	// get our code and state
 	code := r.FormValue("code")
@@ -27,69 +21,56 @@ func (h *handler) EveOauthCallbackHandler(w http.ResponseWriter, r *http.Request
 
 	// Verify the state matches our randomly generated string from earlier.
 	if session.Values["state"] != state {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		return nil, "", errors.New("Invalid state")
 	}
 
 	// Exchange the code for an Access and Refresh token.
-	token, err := h.clients.ESIAuthenticator.TokenExchange(code)
+	token, err := a.TokenExchange(code)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		return nil, "", err
 	}
 
 	// Obtain a token source (automaticlly pulls refresh as needed)
-	tokSrc, err := h.clients.ESIAuthenticator.TokenSource(token)
+	tokSrc, err := a.TokenSource(token)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		return nil, "", err
 	}
 
 	// Verify the client (returns clientID)
-	characterInfo, err := h.clients.ESIAuthenticator.Verify(tokSrc)
+	characterInfo, err := a.Verify(tokSrc)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		return nil, "", err
 	}
 
 	jsonToken, err := goesi.TokenToJSON(token)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		return nil, "", err
 	}
 
-	var userID string
+	return characterInfo, jsonToken, nil
+}
+
+func (h *handler) eveOauthCallback(w http.ResponseWriter, r *http.Request) error {
+	session := session(r)
+
+	characterInfo, jsonToken, err := exchangeToken(h.clients.ESIAuthenticator, r)
+	if err != nil {
+		return err
+	}
+
 	var character model.UserCharacter
 	characterExists := true
 
-	err = h.clients.DB.Get(&character, "select * from user_characters where id = $1", characterInfo.CharacterID)
+	err = h.clients.DB.Get(&character, "select * from user_characters where id = $1 limit 1", characterInfo.CharacterID)
 	if err != nil {
 		if err != sql.ErrNoRows {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
+			return err
 		}
 
 		characterExists = false
 	}
 
-	val := session.Values["user_id"]
-	if passedUserID, ok := val.(string); ok && passedUserID != "" {
-		err = h.clients.DB.Get(&userID, "select id from users where id = $1", passedUserID)
-		if err != nil {
-			if err == sql.ErrNoRows || strings.HasPrefix(err.Error(), "pq: invalid input syntax for uuid:") {
-				session.Values["user_id"] = ""
-				err = session.Save(r, w)
-				if err != nil {
-					http.Error(w, err.Error(), http.StatusInternalServerError)
-					return
-				}
-			} else {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-		}
-	}
-
+	userID := session.Values["user_id"].(string)
 	if userID == "" {
 		if characterExists {
 			userID = character.UserID
@@ -97,25 +78,23 @@ func (h *handler) EveOauthCallbackHandler(w http.ResponseWriter, r *http.Request
 			userID = uuid.NewUUID().String()
 			_, err := h.clients.DB.Exec("insert into users (id) values ($1)", userID)
 			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
+				return err
 			}
 		}
 
 		session.Values["user_id"] = userID
 		err = session.Save(r, w)
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
+			return err
 		}
 	} else {
 		if characterExists {
-			// TODO update scopes
 			if character.UserID != userID {
-				h.clients.Logger.Error("user_id mismatch at login")
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
+				http.Error(w, "Another users owns that character", http.StatusUnauthorized)
+				return nil
 			}
+
+			// TODO update the available scopes stored in the db for this character
 		}
 	}
 
@@ -131,8 +110,7 @@ func (h *handler) EveOauthCallbackHandler(w http.ResponseWriter, r *http.Request
 
 		_, err = h.clients.DB.NamedExec("insert into user_characters (user_id, id, name, owner_hash, oauth_scopes, oauth_token) values (:user_id, :id, :name, :owner_hash, :oauth_scopes, :oauth_token)", &character)
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
+			return err
 		}
 	}
 
@@ -142,9 +120,11 @@ func (h *handler) EveOauthCallbackHandler(w http.ResponseWriter, r *http.Request
 	}
 
 	http.Redirect(w, r, redirectTo, 302)
+	return nil
 }
 
-func (h *handler) RedirectToSSO(session *sessions.Session, w http.ResponseWriter, r *http.Request) {
+func (h *handler) redirectToSSO(w http.ResponseWriter, r *http.Request) error {
+	session := session(r)
 	// Generate a random state string
 	b := make([]byte, 16)
 	rand.Read(b)
@@ -154,8 +134,7 @@ func (h *handler) RedirectToSSO(session *sessions.Session, w http.ResponseWriter
 	session.Values["state"] = state
 	err := session.Save(r, w)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		return err
 	}
 
 	// Generate the SSO URL with the state string
@@ -163,48 +142,40 @@ func (h *handler) RedirectToSSO(session *sessions.Session, w http.ResponseWriter
 
 	// Send the user to the URL
 	http.Redirect(w, r, url, 302)
+	return nil
 }
 
-func (h *handler) AuthenticationRequirement(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		session, err := h.store.Get(r, "session")
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
+func (h *handler) logoutSession(w http.ResponseWriter, r *http.Request) error {
+	// Get a session. Get() always returns a session, even if empty.
+	session := session(r)
+	session.Options.MaxAge = -1
 
-		var userID string
+	err := session.Save(r, w)
+	if err != nil {
+		return err
+	}
 
-		val := session.Values["user_id"]
-		if passedUserID, ok := val.(string); ok && passedUserID != "" {
-			err = h.clients.DB.Get(&userID, "select id from users where id = $1", passedUserID)
-			if err != nil {
-				if err == sql.ErrNoRows || strings.HasPrefix(err.Error(), "pq: invalid input syntax for uuid:") {
-					session.Values["user_id"] = ""
-					err = session.Save(r, w)
-					if err != nil {
-						http.Error(w, err.Error(), http.StatusInternalServerError)
-						return
-					}
-				} else {
-					http.Error(w, err.Error(), http.StatusInternalServerError)
-					return
-				}
-			}
-		}
+	http.Redirect(w, r, "/", 302)
+	return nil
+}
+
+func (h *handler) authenticationRequirement(next http.Handler) http.Handler {
+	return http.HandlerFunc(wrapErrors(func(w http.ResponseWriter, r *http.Request) error {
+		session := session(r)
+		userID := session.Values["user_id"]
 
 		if userID == "" {
 			session.Values["redirect_to"] = r.URL.RequestURI()
-			err = session.Save(r, w)
+			err := session.Save(r, w)
 			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
+				return err
 			}
 
-			h.RedirectToSSO(session, w, r)
-			return
+			h.redirectToSSO(w, r)
+			return nil
 		}
 
 		next.ServeHTTP(w, r)
-	})
+		return nil
+	}))
 }
