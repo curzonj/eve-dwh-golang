@@ -76,7 +76,7 @@ type dialOptions struct {
 	dial         func(network, addr string) (net.Conn, error)
 	db           int
 	password     string
-	useTLS       bool
+	dialTLS      bool
 	skipVerify   bool
 	tlsConfig    *tls.Config
 }
@@ -135,19 +135,11 @@ func DialTLSConfig(c *tls.Config) DialOption {
 	}}
 }
 
-// DialTLSSkipVerify disables server name verification when connecting over
-// TLS. Has no effect when not dialing a TLS connection.
+// DialTLSSkipVerify to disable server name verification when connecting
+// over TLS. Has no effect when not dialing a TLS connection.
 func DialTLSSkipVerify(skip bool) DialOption {
 	return DialOption{func(do *dialOptions) {
 		do.skipVerify = skip
-	}}
-}
-
-// DialUseTLS specifies whether TLS should be used when connecting to the
-// server. This option is ignore by DialURL.
-func DialUseTLS(useTLS bool) DialOption {
-	return DialOption{func(do *dialOptions) {
-		do.useTLS = useTLS
 	}}
 }
 
@@ -166,7 +158,7 @@ func Dial(network, address string, options ...DialOption) (Conn, error) {
 		return nil, err
 	}
 
-	if do.useTLS {
+	if do.dialTLS {
 		tlsConfig := cloneTLSClientConfig(do.tlsConfig, do.skipVerify)
 		if tlsConfig.ServerName == "" {
 			host, _, err := net.SplitHostPort(address)
@@ -208,6 +200,10 @@ func Dial(network, address string, options ...DialOption) (Conn, error) {
 	}
 
 	return c, nil
+}
+
+func dialTLS(do *dialOptions) {
+	do.dialTLS = true
 }
 
 var pathDBRegexp = regexp.MustCompile(`/(\d*)\z`)
@@ -261,7 +257,9 @@ func DialURL(rawurl string, options ...DialOption) (Conn, error) {
 		return nil, fmt.Errorf("invalid database: %s", u.Path[1:])
 	}
 
-	options = append(options, DialUseTLS(u.Scheme == "rediss"))
+	if u.Scheme == "rediss" {
+		options = append([]DialOption{{dialTLS}}, options...)
+	}
 
 	return Dial("tcp", address, options...)
 }
@@ -372,10 +370,6 @@ func (c *conn) writeCommand(cmd string, args []interface{}) (err error) {
 			}
 		case nil:
 			err = c.writeString("")
-		case Argument:
-			var buf bytes.Buffer
-			fmt.Fprint(&buf, arg.RedisArg())
-			err = c.writeBytes(buf.Bytes())
 		default:
 			var buf bytes.Buffer
 			fmt.Fprint(&buf, arg)
