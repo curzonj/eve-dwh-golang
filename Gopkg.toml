@@ -32,6 +32,7 @@
 [[constraint]]
   branch = "master"
   name = "github.com/antihax/goesi"
+  source = "github.com/curzonj/goesi"
 
 [[constraint]]
   name = "github.com/garyburd/redigo"

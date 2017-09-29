@@ -18,7 +18,7 @@ var (
 	_ easyjson.Marshaler
 )
 
-func easyjson28154a3aDecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetFwLeaderboardsCharactersKillsList) {
+func easyjson28154a3aDecodeGithubComCurzonjGoesiEsi(in *jlexer.Lexer, out *GetFwLeaderboardsCharactersKillsList) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		in.Skip()
@@ -46,7 +46,7 @@ func easyjson28154a3aDecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetFw
 		in.Consumed()
 	}
 }
-func easyjson28154a3aEncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetFwLeaderboardsCharactersKillsList) {
+func easyjson28154a3aEncodeGithubComCurzonjGoesiEsi(out *jwriter.Writer, in GetFwLeaderboardsCharactersKillsList) {
 	if in == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
 		out.RawString("null")
 	} else {
@@ -64,27 +64,27 @@ func easyjson28154a3aEncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetF
 // MarshalJSON supports json.Marshaler interface
 func (v GetFwLeaderboardsCharactersKillsList) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson28154a3aEncodeGithubComAntihaxGoesiEsi(&w, v)
+	easyjson28154a3aEncodeGithubComCurzonjGoesiEsi(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetFwLeaderboardsCharactersKillsList) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson28154a3aEncodeGithubComAntihaxGoesiEsi(w, v)
+	easyjson28154a3aEncodeGithubComCurzonjGoesiEsi(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetFwLeaderboardsCharactersKillsList) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson28154a3aDecodeGithubComAntihaxGoesiEsi(&r, v)
+	easyjson28154a3aDecodeGithubComCurzonjGoesiEsi(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetFwLeaderboardsCharactersKillsList) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson28154a3aDecodeGithubComAntihaxGoesiEsi(l, v)
+	easyjson28154a3aDecodeGithubComCurzonjGoesiEsi(l, v)
 }
-func easyjson28154a3aDecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetFwLeaderboardsCharactersKills) {
+func easyjson28154a3aDecodeGithubComCurzonjGoesiEsi1(in *jlexer.Lexer, out *GetFwLeaderboardsCharactersKills) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -143,7 +143,7 @@ func easyjson28154a3aDecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetF
 				}
 				for !in.IsDelim(']') {
 					var v5 GetFwLeaderboardsCharactersLastWeek
-					(v5).UnmarshalEasyJSON(in)
+					easyjson28154a3aDecodeGithubComCurzonjGoesiEsi2(in, &v5)
 					out.LastWeek = append(out.LastWeek, v5)
 					in.WantComma()
 				}
@@ -166,7 +166,7 @@ func easyjson28154a3aDecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetF
 				}
 				for !in.IsDelim(']') {
 					var v6 GetFwLeaderboardsCharactersYesterday
-					easyjson28154a3aDecodeGithubComAntihaxGoesiEsi2(in, &v6)
+					easyjson28154a3aDecodeGithubComCurzonjGoesiEsi3(in, &v6)
 					out.Yesterday = append(out.Yesterday, v6)
 					in.WantComma()
 				}
@@ -182,7 +182,7 @@ func easyjson28154a3aDecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetF
 		in.Consumed()
 	}
 }
-func easyjson28154a3aEncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in GetFwLeaderboardsCharactersKills) {
+func easyjson28154a3aEncodeGithubComCurzonjGoesiEsi1(out *jwriter.Writer, in GetFwLeaderboardsCharactersKills) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -219,7 +219,7 @@ func easyjson28154a3aEncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in Get
 				if v9 > 0 {
 					out.RawByte(',')
 				}
-				(v10).MarshalEasyJSON(out)
+				easyjson28154a3aEncodeGithubComCurzonjGoesiEsi2(out, v10)
 			}
 			out.RawByte(']')
 		}
@@ -238,7 +238,7 @@ func easyjson28154a3aEncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in Get
 				if v11 > 0 {
 					out.RawByte(',')
 				}
-				easyjson28154a3aEncodeGithubComAntihaxGoesiEsi2(out, v12)
+				easyjson28154a3aEncodeGithubComCurzonjGoesiEsi3(out, v12)
 			}
 			out.RawByte(']')
 		}
@@ -249,27 +249,27 @@ func easyjson28154a3aEncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in Get
 // MarshalJSON supports json.Marshaler interface
 func (v GetFwLeaderboardsCharactersKills) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson28154a3aEncodeGithubComAntihaxGoesiEsi1(&w, v)
+	easyjson28154a3aEncodeGithubComCurzonjGoesiEsi1(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetFwLeaderboardsCharactersKills) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson28154a3aEncodeGithubComAntihaxGoesiEsi1(w, v)
+	easyjson28154a3aEncodeGithubComCurzonjGoesiEsi1(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetFwLeaderboardsCharactersKills) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson28154a3aDecodeGithubComAntihaxGoesiEsi1(&r, v)
+	easyjson28154a3aDecodeGithubComCurzonjGoesiEsi1(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetFwLeaderboardsCharactersKills) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson28154a3aDecodeGithubComAntihaxGoesiEsi1(l, v)
+	easyjson28154a3aDecodeGithubComCurzonjGoesiEsi1(l, v)
 }
-func easyjson28154a3aDecodeGithubComAntihaxGoesiEsi2(in *jlexer.Lexer, out *GetFwLeaderboardsCharactersYesterday) {
+func easyjson28154a3aDecodeGithubComCurzonjGoesiEsi3(in *jlexer.Lexer, out *GetFwLeaderboardsCharactersYesterday) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -302,7 +302,62 @@ func easyjson28154a3aDecodeGithubComAntihaxGoesiEsi2(in *jlexer.Lexer, out *GetF
 		in.Consumed()
 	}
 }
-func easyjson28154a3aEncodeGithubComAntihaxGoesiEsi2(out *jwriter.Writer, in GetFwLeaderboardsCharactersYesterday) {
+func easyjson28154a3aEncodeGithubComCurzonjGoesiEsi3(out *jwriter.Writer, in GetFwLeaderboardsCharactersYesterday) {
+	out.RawByte('{')
+	first := true
+	_ = first
+	if in.Amount != 0 {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"amount\":")
+		out.Int32(int32(in.Amount))
+	}
+	if in.CharacterId != 0 {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"character_id\":")
+		out.Int32(int32(in.CharacterId))
+	}
+	out.RawByte('}')
+}
+func easyjson28154a3aDecodeGithubComCurzonjGoesiEsi2(in *jlexer.Lexer, out *GetFwLeaderboardsCharactersLastWeek) {
+	isTopLevel := in.IsStart()
+	if in.IsNull() {
+		if isTopLevel {
+			in.Consumed()
+		}
+		in.Skip()
+		return
+	}
+	in.Delim('{')
+	for !in.IsDelim('}') {
+		key := in.UnsafeString()
+		in.WantColon()
+		if in.IsNull() {
+			in.Skip()
+			in.WantComma()
+			continue
+		}
+		switch key {
+		case "amount":
+			out.Amount = int32(in.Int32())
+		case "character_id":
+			out.CharacterId = int32(in.Int32())
+		default:
+			in.SkipRecursive()
+		}
+		in.WantComma()
+	}
+	in.Delim('}')
+	if isTopLevel {
+		in.Consumed()
+	}
+}
+func easyjson28154a3aEncodeGithubComCurzonjGoesiEsi2(out *jwriter.Writer, in GetFwLeaderboardsCharactersLastWeek) {
 	out.RawByte('{')
 	first := true
 	_ = first

@@ -143,7 +143,7 @@ Name | Type | Description  | Notes
 > []GetCharactersCharacterIdChatChannels200Ok GetCharactersCharacterIdChatChannels(ctx, characterId, optional)
 Get chat channels
 
-Return chat channels that a character is the owner or an operator of  ---  This route is cached for up to 300 seconds
+Return chat channels that a character is the owner or operator of  ---  This route is cached for up to 300 seconds
 
 ### Required Parameters
 

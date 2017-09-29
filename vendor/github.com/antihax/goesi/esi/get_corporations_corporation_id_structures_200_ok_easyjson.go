@@ -18,7 +18,7 @@ var (
 	_ easyjson.Marshaler
 )
 
-func easyjsonF6d56f96DecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetCorporationsCorporationIdStructures200OkList) {
+func easyjsonF6d56f96DecodeGithubComCurzonjGoesiEsi(in *jlexer.Lexer, out *GetCorporationsCorporationIdStructures200OkList) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		in.Skip()
@@ -46,7 +46,7 @@ func easyjsonF6d56f96DecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetCo
 		in.Consumed()
 	}
 }
-func easyjsonF6d56f96EncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetCorporationsCorporationIdStructures200OkList) {
+func easyjsonF6d56f96EncodeGithubComCurzonjGoesiEsi(out *jwriter.Writer, in GetCorporationsCorporationIdStructures200OkList) {
 	if in == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
 		out.RawString("null")
 	} else {
@@ -64,27 +64,27 @@ func easyjsonF6d56f96EncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetC
 // MarshalJSON supports json.Marshaler interface
 func (v GetCorporationsCorporationIdStructures200OkList) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjsonF6d56f96EncodeGithubComAntihaxGoesiEsi(&w, v)
+	easyjsonF6d56f96EncodeGithubComCurzonjGoesiEsi(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetCorporationsCorporationIdStructures200OkList) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjsonF6d56f96EncodeGithubComAntihaxGoesiEsi(w, v)
+	easyjsonF6d56f96EncodeGithubComCurzonjGoesiEsi(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetCorporationsCorporationIdStructures200OkList) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjsonF6d56f96DecodeGithubComAntihaxGoesiEsi(&r, v)
+	easyjsonF6d56f96DecodeGithubComCurzonjGoesiEsi(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetCorporationsCorporationIdStructures200OkList) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjsonF6d56f96DecodeGithubComAntihaxGoesiEsi(l, v)
+	easyjsonF6d56f96DecodeGithubComCurzonjGoesiEsi(l, v)
 }
-func easyjsonF6d56f96DecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetCorporationsCorporationIdStructures200Ok) {
+func easyjsonF6d56f96DecodeGithubComCurzonjGoesiEsi1(in *jlexer.Lexer, out *GetCorporationsCorporationIdStructures200Ok) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -122,7 +122,7 @@ func easyjsonF6d56f96DecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetC
 				}
 				for !in.IsDelim(']') {
 					var v4 GetCorporationsCorporationIdStructuresCurrentVul
-					(v4).UnmarshalEasyJSON(in)
+					easyjsonF6d56f96DecodeGithubComCurzonjGoesiEsi2(in, &v4)
 					out.CurrentVul = append(out.CurrentVul, v4)
 					in.WantComma()
 				}
@@ -147,7 +147,7 @@ func easyjsonF6d56f96DecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetC
 				}
 				for !in.IsDelim(']') {
 					var v5 GetCorporationsCorporationIdStructuresNextVul
-					easyjsonF6d56f96DecodeGithubComAntihaxGoesiEsi2(in, &v5)
+					easyjsonF6d56f96DecodeGithubComCurzonjGoesiEsi3(in, &v5)
 					out.NextVul = append(out.NextVul, v5)
 					in.WantComma()
 				}
@@ -172,7 +172,7 @@ func easyjsonF6d56f96DecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetC
 				}
 				for !in.IsDelim(']') {
 					var v6 GetCorporationsCorporationIdStructuresService
-					easyjsonF6d56f96DecodeGithubComAntihaxGoesiEsi3(in, &v6)
+					easyjsonF6d56f96DecodeGithubComCurzonjGoesiEsi4(in, &v6)
 					out.Services = append(out.Services, v6)
 					in.WantComma()
 				}
@@ -200,7 +200,7 @@ func easyjsonF6d56f96DecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetC
 		in.Consumed()
 	}
 }
-func easyjsonF6d56f96EncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in GetCorporationsCorporationIdStructures200Ok) {
+func easyjsonF6d56f96EncodeGithubComCurzonjGoesiEsi1(out *jwriter.Writer, in GetCorporationsCorporationIdStructures200Ok) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -226,7 +226,7 @@ func easyjsonF6d56f96EncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in Get
 				if v7 > 0 {
 					out.RawByte(',')
 				}
-				(v8).MarshalEasyJSON(out)
+				easyjsonF6d56f96EncodeGithubComCurzonjGoesiEsi2(out, v8)
 			}
 			out.RawByte(']')
 		}
@@ -253,7 +253,7 @@ func easyjsonF6d56f96EncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in Get
 				if v9 > 0 {
 					out.RawByte(',')
 				}
-				easyjsonF6d56f96EncodeGithubComAntihaxGoesiEsi2(out, v10)
+				easyjsonF6d56f96EncodeGithubComCurzonjGoesiEsi3(out, v10)
 			}
 			out.RawByte(']')
 		}
@@ -280,7 +280,7 @@ func easyjsonF6d56f96EncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in Get
 				if v11 > 0 {
 					out.RawByte(',')
 				}
-				easyjsonF6d56f96EncodeGithubComAntihaxGoesiEsi3(out, v12)
+				easyjsonF6d56f96EncodeGithubComCurzonjGoesiEsi4(out, v12)
 			}
 			out.RawByte(']')
 		}
@@ -339,27 +339,27 @@ func easyjsonF6d56f96EncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in Get
 // MarshalJSON supports json.Marshaler interface
 func (v GetCorporationsCorporationIdStructures200Ok) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjsonF6d56f96EncodeGithubComAntihaxGoesiEsi1(&w, v)
+	easyjsonF6d56f96EncodeGithubComCurzonjGoesiEsi1(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetCorporationsCorporationIdStructures200Ok) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjsonF6d56f96EncodeGithubComAntihaxGoesiEsi1(w, v)
+	easyjsonF6d56f96EncodeGithubComCurzonjGoesiEsi1(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetCorporationsCorporationIdStructures200Ok) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjsonF6d56f96DecodeGithubComAntihaxGoesiEsi1(&r, v)
+	easyjsonF6d56f96DecodeGithubComCurzonjGoesiEsi1(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetCorporationsCorporationIdStructures200Ok) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjsonF6d56f96DecodeGithubComAntihaxGoesiEsi1(l, v)
+	easyjsonF6d56f96DecodeGithubComCurzonjGoesiEsi1(l, v)
 }
-func easyjsonF6d56f96DecodeGithubComAntihaxGoesiEsi3(in *jlexer.Lexer, out *GetCorporationsCorporationIdStructuresService) {
+func easyjsonF6d56f96DecodeGithubComCurzonjGoesiEsi4(in *jlexer.Lexer, out *GetCorporationsCorporationIdStructuresService) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -392,7 +392,7 @@ func easyjsonF6d56f96DecodeGithubComAntihaxGoesiEsi3(in *jlexer.Lexer, out *GetC
 		in.Consumed()
 	}
 }
-func easyjsonF6d56f96EncodeGithubComAntihaxGoesiEsi3(out *jwriter.Writer, in GetCorporationsCorporationIdStructuresService) {
+func easyjsonF6d56f96EncodeGithubComCurzonjGoesiEsi4(out *jwriter.Writer, in GetCorporationsCorporationIdStructuresService) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -414,7 +414,7 @@ func easyjsonF6d56f96EncodeGithubComAntihaxGoesiEsi3(out *jwriter.Writer, in Get
 	}
 	out.RawByte('}')
 }
-func easyjsonF6d56f96DecodeGithubComAntihaxGoesiEsi2(in *jlexer.Lexer, out *GetCorporationsCorporationIdStructuresNextVul) {
+func easyjsonF6d56f96DecodeGithubComCurzonjGoesiEsi3(in *jlexer.Lexer, out *GetCorporationsCorporationIdStructuresNextVul) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -447,7 +447,62 @@ func easyjsonF6d56f96DecodeGithubComAntihaxGoesiEsi2(in *jlexer.Lexer, out *GetC
 		in.Consumed()
 	}
 }
-func easyjsonF6d56f96EncodeGithubComAntihaxGoesiEsi2(out *jwriter.Writer, in GetCorporationsCorporationIdStructuresNextVul) {
+func easyjsonF6d56f96EncodeGithubComCurzonjGoesiEsi3(out *jwriter.Writer, in GetCorporationsCorporationIdStructuresNextVul) {
+	out.RawByte('{')
+	first := true
+	_ = first
+	if in.Day != 0 {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"day\":")
+		out.Int32(int32(in.Day))
+	}
+	if in.Hour != 0 {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"hour\":")
+		out.Int32(int32(in.Hour))
+	}
+	out.RawByte('}')
+}
+func easyjsonF6d56f96DecodeGithubComCurzonjGoesiEsi2(in *jlexer.Lexer, out *GetCorporationsCorporationIdStructuresCurrentVul) {
+	isTopLevel := in.IsStart()
+	if in.IsNull() {
+		if isTopLevel {
+			in.Consumed()
+		}
+		in.Skip()
+		return
+	}
+	in.Delim('{')
+	for !in.IsDelim('}') {
+		key := in.UnsafeString()
+		in.WantColon()
+		if in.IsNull() {
+			in.Skip()
+			in.WantComma()
+			continue
+		}
+		switch key {
+		case "day":
+			out.Day = int32(in.Int32())
+		case "hour":
+			out.Hour = int32(in.Int32())
+		default:
+			in.SkipRecursive()
+		}
+		in.WantComma()
+	}
+	in.Delim('}')
+	if isTopLevel {
+		in.Consumed()
+	}
+}
+func easyjsonF6d56f96EncodeGithubComCurzonjGoesiEsi2(out *jwriter.Writer, in GetCorporationsCorporationIdStructuresCurrentVul) {
 	out.RawByte('{')
 	first := true
 	_ = first

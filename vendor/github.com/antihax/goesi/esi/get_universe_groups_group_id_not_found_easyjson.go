@@ -18,7 +18,7 @@ var (
 	_ easyjson.Marshaler
 )
 
-func easyjsonA6ce6628DecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetUniverseGroupsGroupIdNotFoundList) {
+func easyjsonA6ce6628DecodeGithubComCurzonjGoesiEsi(in *jlexer.Lexer, out *GetUniverseGroupsGroupIdNotFoundList) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		in.Skip()
@@ -46,7 +46,7 @@ func easyjsonA6ce6628DecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetUn
 		in.Consumed()
 	}
 }
-func easyjsonA6ce6628EncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetUniverseGroupsGroupIdNotFoundList) {
+func easyjsonA6ce6628EncodeGithubComCurzonjGoesiEsi(out *jwriter.Writer, in GetUniverseGroupsGroupIdNotFoundList) {
 	if in == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
 		out.RawString("null")
 	} else {
@@ -64,27 +64,27 @@ func easyjsonA6ce6628EncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetU
 // MarshalJSON supports json.Marshaler interface
 func (v GetUniverseGroupsGroupIdNotFoundList) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjsonA6ce6628EncodeGithubComAntihaxGoesiEsi(&w, v)
+	easyjsonA6ce6628EncodeGithubComCurzonjGoesiEsi(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetUniverseGroupsGroupIdNotFoundList) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjsonA6ce6628EncodeGithubComAntihaxGoesiEsi(w, v)
+	easyjsonA6ce6628EncodeGithubComCurzonjGoesiEsi(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetUniverseGroupsGroupIdNotFoundList) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjsonA6ce6628DecodeGithubComAntihaxGoesiEsi(&r, v)
+	easyjsonA6ce6628DecodeGithubComCurzonjGoesiEsi(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetUniverseGroupsGroupIdNotFoundList) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjsonA6ce6628DecodeGithubComAntihaxGoesiEsi(l, v)
+	easyjsonA6ce6628DecodeGithubComCurzonjGoesiEsi(l, v)
 }
-func easyjsonA6ce6628DecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetUniverseGroupsGroupIdNotFound) {
+func easyjsonA6ce6628DecodeGithubComCurzonjGoesiEsi1(in *jlexer.Lexer, out *GetUniverseGroupsGroupIdNotFound) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -115,7 +115,7 @@ func easyjsonA6ce6628DecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetU
 		in.Consumed()
 	}
 }
-func easyjsonA6ce6628EncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in GetUniverseGroupsGroupIdNotFound) {
+func easyjsonA6ce6628EncodeGithubComCurzonjGoesiEsi1(out *jwriter.Writer, in GetUniverseGroupsGroupIdNotFound) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -133,23 +133,23 @@ func easyjsonA6ce6628EncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in Get
 // MarshalJSON supports json.Marshaler interface
 func (v GetUniverseGroupsGroupIdNotFound) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjsonA6ce6628EncodeGithubComAntihaxGoesiEsi1(&w, v)
+	easyjsonA6ce6628EncodeGithubComCurzonjGoesiEsi1(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetUniverseGroupsGroupIdNotFound) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjsonA6ce6628EncodeGithubComAntihaxGoesiEsi1(w, v)
+	easyjsonA6ce6628EncodeGithubComCurzonjGoesiEsi1(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetUniverseGroupsGroupIdNotFound) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjsonA6ce6628DecodeGithubComAntihaxGoesiEsi1(&r, v)
+	easyjsonA6ce6628DecodeGithubComCurzonjGoesiEsi1(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetUniverseGroupsGroupIdNotFound) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjsonA6ce6628DecodeGithubComAntihaxGoesiEsi1(l, v)
+	easyjsonA6ce6628DecodeGithubComCurzonjGoesiEsi1(l, v)
 }

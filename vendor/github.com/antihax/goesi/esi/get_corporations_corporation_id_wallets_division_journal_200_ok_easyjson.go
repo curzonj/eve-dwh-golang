@@ -18,7 +18,7 @@ var (
 	_ easyjson.Marshaler
 )
 
-func easyjson4a0bdca4DecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetCorporationsCorporationIdWalletsDivisionJournal200OkList) {
+func easyjson4a0bdca4DecodeGithubComCurzonjGoesiEsi(in *jlexer.Lexer, out *GetCorporationsCorporationIdWalletsDivisionJournal200OkList) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		in.Skip()
@@ -46,7 +46,7 @@ func easyjson4a0bdca4DecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetCo
 		in.Consumed()
 	}
 }
-func easyjson4a0bdca4EncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetCorporationsCorporationIdWalletsDivisionJournal200OkList) {
+func easyjson4a0bdca4EncodeGithubComCurzonjGoesiEsi(out *jwriter.Writer, in GetCorporationsCorporationIdWalletsDivisionJournal200OkList) {
 	if in == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
 		out.RawString("null")
 	} else {
@@ -64,27 +64,27 @@ func easyjson4a0bdca4EncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetC
 // MarshalJSON supports json.Marshaler interface
 func (v GetCorporationsCorporationIdWalletsDivisionJournal200OkList) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson4a0bdca4EncodeGithubComAntihaxGoesiEsi(&w, v)
+	easyjson4a0bdca4EncodeGithubComCurzonjGoesiEsi(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetCorporationsCorporationIdWalletsDivisionJournal200OkList) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson4a0bdca4EncodeGithubComAntihaxGoesiEsi(w, v)
+	easyjson4a0bdca4EncodeGithubComCurzonjGoesiEsi(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetCorporationsCorporationIdWalletsDivisionJournal200OkList) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson4a0bdca4DecodeGithubComAntihaxGoesiEsi(&r, v)
+	easyjson4a0bdca4DecodeGithubComCurzonjGoesiEsi(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetCorporationsCorporationIdWalletsDivisionJournal200OkList) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson4a0bdca4DecodeGithubComAntihaxGoesiEsi(l, v)
+	easyjson4a0bdca4DecodeGithubComCurzonjGoesiEsi(l, v)
 }
-func easyjson4a0bdca4DecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetCorporationsCorporationIdWalletsDivisionJournal200Ok) {
+func easyjson4a0bdca4DecodeGithubComCurzonjGoesiEsi1(in *jlexer.Lexer, out *GetCorporationsCorporationIdWalletsDivisionJournal200Ok) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -112,7 +112,7 @@ func easyjson4a0bdca4DecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetC
 				in.AddError((out.Date).UnmarshalJSON(data))
 			}
 		case "extra_info":
-			(out.ExtraInfo).UnmarshalEasyJSON(in)
+			easyjson4a0bdca4DecodeGithubComCurzonjGoesiEsi2(in, &out.ExtraInfo)
 		case "first_party_id":
 			out.FirstPartyId = int32(in.Int32())
 		case "first_party_type":
@@ -141,7 +141,7 @@ func easyjson4a0bdca4DecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetC
 		in.Consumed()
 	}
 }
-func easyjson4a0bdca4EncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in GetCorporationsCorporationIdWalletsDivisionJournal200Ok) {
+func easyjson4a0bdca4EncodeGithubComCurzonjGoesiEsi1(out *jwriter.Writer, in GetCorporationsCorporationIdWalletsDivisionJournal200Ok) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -175,7 +175,7 @@ func easyjson4a0bdca4EncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in Get
 		}
 		first = false
 		out.RawString("\"extra_info\":")
-		(in.ExtraInfo).MarshalEasyJSON(out)
+		easyjson4a0bdca4EncodeGithubComCurzonjGoesiEsi2(out, in.ExtraInfo)
 	}
 	if in.FirstPartyId != 0 {
 		if !first {
@@ -255,23 +255,178 @@ func easyjson4a0bdca4EncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in Get
 // MarshalJSON supports json.Marshaler interface
 func (v GetCorporationsCorporationIdWalletsDivisionJournal200Ok) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson4a0bdca4EncodeGithubComAntihaxGoesiEsi1(&w, v)
+	easyjson4a0bdca4EncodeGithubComCurzonjGoesiEsi1(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetCorporationsCorporationIdWalletsDivisionJournal200Ok) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson4a0bdca4EncodeGithubComAntihaxGoesiEsi1(w, v)
+	easyjson4a0bdca4EncodeGithubComCurzonjGoesiEsi1(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetCorporationsCorporationIdWalletsDivisionJournal200Ok) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson4a0bdca4DecodeGithubComAntihaxGoesiEsi1(&r, v)
+	easyjson4a0bdca4DecodeGithubComCurzonjGoesiEsi1(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetCorporationsCorporationIdWalletsDivisionJournal200Ok) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson4a0bdca4DecodeGithubComAntihaxGoesiEsi1(l, v)
+	easyjson4a0bdca4DecodeGithubComCurzonjGoesiEsi1(l, v)
+}
+func easyjson4a0bdca4DecodeGithubComCurzonjGoesiEsi2(in *jlexer.Lexer, out *GetCorporationsCorporationIdWalletsDivisionJournalExtraInfo) {
+	isTopLevel := in.IsStart()
+	if in.IsNull() {
+		if isTopLevel {
+			in.Consumed()
+		}
+		in.Skip()
+		return
+	}
+	in.Delim('{')
+	for !in.IsDelim('}') {
+		key := in.UnsafeString()
+		in.WantColon()
+		if in.IsNull() {
+			in.Skip()
+			in.WantComma()
+			continue
+		}
+		switch key {
+		case "alliance_id":
+			out.AllianceId = int32(in.Int32())
+		case "character_id":
+			out.CharacterId = int32(in.Int32())
+		case "contract_id":
+			out.ContractId = int32(in.Int32())
+		case "corporation_id":
+			out.CorporationId = int32(in.Int32())
+		case "destroyed_ship_type_id":
+			out.DestroyedShipTypeId = int32(in.Int32())
+		case "job_id":
+			out.JobId = int32(in.Int32())
+		case "location_id":
+			out.LocationId = int64(in.Int64())
+		case "npc_id":
+			out.NpcId = int32(in.Int32())
+		case "npc_name":
+			out.NpcName = string(in.String())
+		case "planet_id":
+			out.PlanetId = int32(in.Int32())
+		case "system_id":
+			out.SystemId = int32(in.Int32())
+		case "transaction_id":
+			out.TransactionId = int64(in.Int64())
+		default:
+			in.SkipRecursive()
+		}
+		in.WantComma()
+	}
+	in.Delim('}')
+	if isTopLevel {
+		in.Consumed()
+	}
+}
+func easyjson4a0bdca4EncodeGithubComCurzonjGoesiEsi2(out *jwriter.Writer, in GetCorporationsCorporationIdWalletsDivisionJournalExtraInfo) {
+	out.RawByte('{')
+	first := true
+	_ = first
+	if in.AllianceId != 0 {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"alliance_id\":")
+		out.Int32(int32(in.AllianceId))
+	}
+	if in.CharacterId != 0 {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"character_id\":")
+		out.Int32(int32(in.CharacterId))
+	}
+	if in.ContractId != 0 {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"contract_id\":")
+		out.Int32(int32(in.ContractId))
+	}
+	if in.CorporationId != 0 {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"corporation_id\":")
+		out.Int32(int32(in.CorporationId))
+	}
+	if in.DestroyedShipTypeId != 0 {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"destroyed_ship_type_id\":")
+		out.Int32(int32(in.DestroyedShipTypeId))
+	}
+	if in.JobId != 0 {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"job_id\":")
+		out.Int32(int32(in.JobId))
+	}
+	if in.LocationId != 0 {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"location_id\":")
+		out.Int64(int64(in.LocationId))
+	}
+	if in.NpcId != 0 {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"npc_id\":")
+		out.Int32(int32(in.NpcId))
+	}
+	if in.NpcName != "" {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"npc_name\":")
+		out.String(string(in.NpcName))
+	}
+	if in.PlanetId != 0 {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"planet_id\":")
+		out.Int32(int32(in.PlanetId))
+	}
+	if in.SystemId != 0 {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"system_id\":")
+		out.Int32(int32(in.SystemId))
+	}
+	if in.TransactionId != 0 {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"transaction_id\":")
+		out.Int64(int64(in.TransactionId))
+	}
+	out.RawByte('}')
 }

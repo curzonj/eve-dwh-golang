@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**GetCorporationsCorporationId**](CorporationApi.md#GetCorporationsCorporationId) | **Get** /v3/corporations/{corporation_id}/ | Get corporation information
 [**GetCorporationsCorporationIdAlliancehistory**](CorporationApi.md#GetCorporationsCorporationIdAlliancehistory) | **Get** /v2/corporations/{corporation_id}/alliancehistory/ | Get alliance history
+[**GetCorporationsCorporationIdBlueprints**](CorporationApi.md#GetCorporationsCorporationIdBlueprints) | **Get** /v1/corporations/{corporation_id}/blueprints/ | Get corporation blueprints
 [**GetCorporationsCorporationIdDivisions**](CorporationApi.md#GetCorporationsCorporationIdDivisions) | **Get** /v1/corporations/{corporation_id}/divisions/ | Get corporation divisions
 [**GetCorporationsCorporationIdIcons**](CorporationApi.md#GetCorporationsCorporationIdIcons) | **Get** /v1/corporations/{corporation_id}/icons/ | Get corporation icon
 [**GetCorporationsCorporationIdMembers**](CorporationApi.md#GetCorporationsCorporationIdMembers) | **Get** /v2/corporations/{corporation_id}/members/ | Get corporation members
@@ -13,6 +14,7 @@ Method | HTTP request | Description
 [**GetCorporationsCorporationIdMembertracking**](CorporationApi.md#GetCorporationsCorporationIdMembertracking) | **Get** /v1/corporations/{corporation_id}/membertracking/ | Track corporation members
 [**GetCorporationsCorporationIdRoles**](CorporationApi.md#GetCorporationsCorporationIdRoles) | **Get** /v1/corporations/{corporation_id}/roles/ | Get corporation member roles
 [**GetCorporationsCorporationIdStructures**](CorporationApi.md#GetCorporationsCorporationIdStructures) | **Get** /v1/corporations/{corporation_id}/structures/ | Get corporation structures
+[**GetCorporationsCorporationIdTitles**](CorporationApi.md#GetCorporationsCorporationIdTitles) | **Get** /v1/corporations/{corporation_id}/titles/ | Get corporation titles
 [**GetCorporationsNames**](CorporationApi.md#GetCorporationsNames) | **Get** /v1/corporations/names/ | Get corporation names
 [**GetCorporationsNpccorps**](CorporationApi.md#GetCorporationsNpccorps) | **Get** /v1/corporations/npccorps/ | Get npc corporations
 [**PutCorporationsCorporationIdStructuresStructureId**](CorporationApi.md#PutCorporationsCorporationIdStructuresStructureId) | **Put** /v1/corporations/{corporation_id}/structures/{structure_id}/ | Update structure vulnerability schedule
@@ -86,6 +88,47 @@ Name | Type | Description  | Notes
 ### Authorization
 
 No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **GetCorporationsCorporationIdBlueprints**
+> []GetCorporationsCorporationIdBlueprints200Ok GetCorporationsCorporationIdBlueprints(ctx, corporationId, optional)
+Get corporation blueprints
+
+Returns a list of blueprints the corporation owns  ---  This route is cached for up to 3600 seconds
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context containing the authentication | nil if no authentication
+  **corporationId** | **int32**| An EVE corporation ID | 
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **corporationId** | **int32**| An EVE corporation ID | 
+ **datasource** | **string**| The server name you would like data from | [default to tranquility]
+ **page** | **int32**| Which page of results to return | [default to 1]
+ **token** | **string**| Access token to use if unable to set a header | 
+ **userAgent** | **string**| Client identifier, takes precedence over headers | 
+ **xUserAgent** | **string**| Client identifier, takes precedence over User-Agent | 
+
+### Return type
+
+[**[]GetCorporationsCorporationIdBlueprints200Ok**](get_corporations_corporation_id_blueprints_200_ok.md)
+
+### Authorization
+
+[evesso](../README.md#evesso)
 
 ### HTTP request headers
 
@@ -362,6 +405,46 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**[]GetCorporationsCorporationIdStructures200Ok**](get_corporations_corporation_id_structures_200_ok.md)
+
+### Authorization
+
+[evesso](../README.md#evesso)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **GetCorporationsCorporationIdTitles**
+> []GetCorporationsCorporationIdTitles200Ok GetCorporationsCorporationIdTitles(ctx, corporationId, optional)
+Get corporation titles
+
+Returns a corporation's titles  ---  This route is cached for up to 3600 seconds
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context containing the authentication | nil if no authentication
+  **corporationId** | **int32**| An EVE corporation ID | 
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **corporationId** | **int32**| An EVE corporation ID | 
+ **datasource** | **string**| The server name you would like data from | [default to tranquility]
+ **token** | **string**| Access token to use if unable to set a header | 
+ **userAgent** | **string**| Client identifier, takes precedence over headers | 
+ **xUserAgent** | **string**| Client identifier, takes precedence over User-Agent | 
+
+### Return type
+
+[**[]GetCorporationsCorporationIdTitles200Ok**](get_corporations_corporation_id_titles_200_ok.md)
 
 ### Authorization
 

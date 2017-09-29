@@ -18,7 +18,7 @@ var (
 	_ easyjson.Marshaler
 )
 
-func easyjson45497e3DecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetCharactersCharacterIdPlanetsPlanetIdHeadList) {
+func easyjson45497e3DecodeGithubComCurzonjGoesiEsi(in *jlexer.Lexer, out *GetCharactersCharacterIdPlanetsPlanetIdHeadList) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		in.Skip()
@@ -46,7 +46,7 @@ func easyjson45497e3DecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetCha
 		in.Consumed()
 	}
 }
-func easyjson45497e3EncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetCharactersCharacterIdPlanetsPlanetIdHeadList) {
+func easyjson45497e3EncodeGithubComCurzonjGoesiEsi(out *jwriter.Writer, in GetCharactersCharacterIdPlanetsPlanetIdHeadList) {
 	if in == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
 		out.RawString("null")
 	} else {
@@ -64,27 +64,27 @@ func easyjson45497e3EncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetCh
 // MarshalJSON supports json.Marshaler interface
 func (v GetCharactersCharacterIdPlanetsPlanetIdHeadList) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson45497e3EncodeGithubComAntihaxGoesiEsi(&w, v)
+	easyjson45497e3EncodeGithubComCurzonjGoesiEsi(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetCharactersCharacterIdPlanetsPlanetIdHeadList) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson45497e3EncodeGithubComAntihaxGoesiEsi(w, v)
+	easyjson45497e3EncodeGithubComCurzonjGoesiEsi(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetCharactersCharacterIdPlanetsPlanetIdHeadList) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson45497e3DecodeGithubComAntihaxGoesiEsi(&r, v)
+	easyjson45497e3DecodeGithubComCurzonjGoesiEsi(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetCharactersCharacterIdPlanetsPlanetIdHeadList) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson45497e3DecodeGithubComAntihaxGoesiEsi(l, v)
+	easyjson45497e3DecodeGithubComCurzonjGoesiEsi(l, v)
 }
-func easyjson45497e3DecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetCharactersCharacterIdPlanetsPlanetIdHead) {
+func easyjson45497e3DecodeGithubComCurzonjGoesiEsi1(in *jlexer.Lexer, out *GetCharactersCharacterIdPlanetsPlanetIdHead) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -119,7 +119,7 @@ func easyjson45497e3DecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetCh
 		in.Consumed()
 	}
 }
-func easyjson45497e3EncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in GetCharactersCharacterIdPlanetsPlanetIdHead) {
+func easyjson45497e3EncodeGithubComCurzonjGoesiEsi1(out *jwriter.Writer, in GetCharactersCharacterIdPlanetsPlanetIdHead) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -153,23 +153,23 @@ func easyjson45497e3EncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in GetC
 // MarshalJSON supports json.Marshaler interface
 func (v GetCharactersCharacterIdPlanetsPlanetIdHead) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson45497e3EncodeGithubComAntihaxGoesiEsi1(&w, v)
+	easyjson45497e3EncodeGithubComCurzonjGoesiEsi1(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetCharactersCharacterIdPlanetsPlanetIdHead) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson45497e3EncodeGithubComAntihaxGoesiEsi1(w, v)
+	easyjson45497e3EncodeGithubComCurzonjGoesiEsi1(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetCharactersCharacterIdPlanetsPlanetIdHead) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson45497e3DecodeGithubComAntihaxGoesiEsi1(&r, v)
+	easyjson45497e3DecodeGithubComCurzonjGoesiEsi1(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetCharactersCharacterIdPlanetsPlanetIdHead) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson45497e3DecodeGithubComAntihaxGoesiEsi1(l, v)
+	easyjson45497e3DecodeGithubComCurzonjGoesiEsi1(l, v)
 }

@@ -18,7 +18,7 @@ var (
 	_ easyjson.Marshaler
 )
 
-func easyjsonF26fb59dDecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetCharactersCharacterIdBookmarks200OkList) {
+func easyjsonF26fb59dDecodeGithubComCurzonjGoesiEsi(in *jlexer.Lexer, out *GetCharactersCharacterIdBookmarks200OkList) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		in.Skip()
@@ -46,7 +46,7 @@ func easyjsonF26fb59dDecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetCh
 		in.Consumed()
 	}
 }
-func easyjsonF26fb59dEncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetCharactersCharacterIdBookmarks200OkList) {
+func easyjsonF26fb59dEncodeGithubComCurzonjGoesiEsi(out *jwriter.Writer, in GetCharactersCharacterIdBookmarks200OkList) {
 	if in == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
 		out.RawString("null")
 	} else {
@@ -64,27 +64,27 @@ func easyjsonF26fb59dEncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetC
 // MarshalJSON supports json.Marshaler interface
 func (v GetCharactersCharacterIdBookmarks200OkList) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjsonF26fb59dEncodeGithubComAntihaxGoesiEsi(&w, v)
+	easyjsonF26fb59dEncodeGithubComCurzonjGoesiEsi(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetCharactersCharacterIdBookmarks200OkList) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjsonF26fb59dEncodeGithubComAntihaxGoesiEsi(w, v)
+	easyjsonF26fb59dEncodeGithubComCurzonjGoesiEsi(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetCharactersCharacterIdBookmarks200OkList) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjsonF26fb59dDecodeGithubComAntihaxGoesiEsi(&r, v)
+	easyjsonF26fb59dDecodeGithubComCurzonjGoesiEsi(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetCharactersCharacterIdBookmarks200OkList) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjsonF26fb59dDecodeGithubComAntihaxGoesiEsi(l, v)
+	easyjsonF26fb59dDecodeGithubComCurzonjGoesiEsi(l, v)
 }
-func easyjsonF26fb59dDecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetCharactersCharacterIdBookmarks200Ok) {
+func easyjsonF26fb59dDecodeGithubComCurzonjGoesiEsi1(in *jlexer.Lexer, out *GetCharactersCharacterIdBookmarks200Ok) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -120,7 +120,7 @@ func easyjsonF26fb59dDecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetC
 		case "owner_id":
 			out.OwnerId = int32(in.Int32())
 		case "target":
-			easyjsonF26fb59dDecodeGithubComAntihaxGoesiEsi2(in, &out.Target)
+			easyjsonF26fb59dDecodeGithubComCurzonjGoesiEsi2(in, &out.Target)
 		default:
 			in.SkipRecursive()
 		}
@@ -131,7 +131,7 @@ func easyjsonF26fb59dDecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetC
 		in.Consumed()
 	}
 }
-func easyjsonF26fb59dEncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in GetCharactersCharacterIdBookmarks200Ok) {
+func easyjsonF26fb59dEncodeGithubComCurzonjGoesiEsi1(out *jwriter.Writer, in GetCharactersCharacterIdBookmarks200Ok) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -197,7 +197,7 @@ func easyjsonF26fb59dEncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in Get
 		}
 		first = false
 		out.RawString("\"target\":")
-		easyjsonF26fb59dEncodeGithubComAntihaxGoesiEsi2(out, in.Target)
+		easyjsonF26fb59dEncodeGithubComCurzonjGoesiEsi2(out, in.Target)
 	}
 	out.RawByte('}')
 }
@@ -205,27 +205,27 @@ func easyjsonF26fb59dEncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in Get
 // MarshalJSON supports json.Marshaler interface
 func (v GetCharactersCharacterIdBookmarks200Ok) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjsonF26fb59dEncodeGithubComAntihaxGoesiEsi1(&w, v)
+	easyjsonF26fb59dEncodeGithubComCurzonjGoesiEsi1(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetCharactersCharacterIdBookmarks200Ok) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjsonF26fb59dEncodeGithubComAntihaxGoesiEsi1(w, v)
+	easyjsonF26fb59dEncodeGithubComCurzonjGoesiEsi1(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetCharactersCharacterIdBookmarks200Ok) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjsonF26fb59dDecodeGithubComAntihaxGoesiEsi1(&r, v)
+	easyjsonF26fb59dDecodeGithubComCurzonjGoesiEsi1(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetCharactersCharacterIdBookmarks200Ok) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjsonF26fb59dDecodeGithubComAntihaxGoesiEsi1(l, v)
+	easyjsonF26fb59dDecodeGithubComCurzonjGoesiEsi1(l, v)
 }
-func easyjsonF26fb59dDecodeGithubComAntihaxGoesiEsi2(in *jlexer.Lexer, out *GetCharactersCharacterIdBookmarksTarget) {
+func easyjsonF26fb59dDecodeGithubComCurzonjGoesiEsi2(in *jlexer.Lexer, out *GetCharactersCharacterIdBookmarksTarget) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -245,9 +245,9 @@ func easyjsonF26fb59dDecodeGithubComAntihaxGoesiEsi2(in *jlexer.Lexer, out *GetC
 		}
 		switch key {
 		case "coordinates":
-			easyjsonF26fb59dDecodeGithubComAntihaxGoesiEsi3(in, &out.Coordinates)
+			easyjsonF26fb59dDecodeGithubComCurzonjGoesiEsi3(in, &out.Coordinates)
 		case "item":
-			easyjsonF26fb59dDecodeGithubComAntihaxGoesiEsi4(in, &out.Item)
+			easyjsonF26fb59dDecodeGithubComCurzonjGoesiEsi4(in, &out.Item)
 		case "location_id":
 			out.LocationId = int64(in.Int64())
 		default:
@@ -260,7 +260,7 @@ func easyjsonF26fb59dDecodeGithubComAntihaxGoesiEsi2(in *jlexer.Lexer, out *GetC
 		in.Consumed()
 	}
 }
-func easyjsonF26fb59dEncodeGithubComAntihaxGoesiEsi2(out *jwriter.Writer, in GetCharactersCharacterIdBookmarksTarget) {
+func easyjsonF26fb59dEncodeGithubComCurzonjGoesiEsi2(out *jwriter.Writer, in GetCharactersCharacterIdBookmarksTarget) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -270,7 +270,7 @@ func easyjsonF26fb59dEncodeGithubComAntihaxGoesiEsi2(out *jwriter.Writer, in Get
 		}
 		first = false
 		out.RawString("\"coordinates\":")
-		easyjsonF26fb59dEncodeGithubComAntihaxGoesiEsi3(out, in.Coordinates)
+		easyjsonF26fb59dEncodeGithubComCurzonjGoesiEsi3(out, in.Coordinates)
 	}
 	if true {
 		if !first {
@@ -278,7 +278,7 @@ func easyjsonF26fb59dEncodeGithubComAntihaxGoesiEsi2(out *jwriter.Writer, in Get
 		}
 		first = false
 		out.RawString("\"item\":")
-		easyjsonF26fb59dEncodeGithubComAntihaxGoesiEsi4(out, in.Item)
+		easyjsonF26fb59dEncodeGithubComCurzonjGoesiEsi4(out, in.Item)
 	}
 	if in.LocationId != 0 {
 		if !first {
@@ -290,7 +290,7 @@ func easyjsonF26fb59dEncodeGithubComAntihaxGoesiEsi2(out *jwriter.Writer, in Get
 	}
 	out.RawByte('}')
 }
-func easyjsonF26fb59dDecodeGithubComAntihaxGoesiEsi4(in *jlexer.Lexer, out *GetCharactersCharacterIdBookmarksItem) {
+func easyjsonF26fb59dDecodeGithubComCurzonjGoesiEsi4(in *jlexer.Lexer, out *GetCharactersCharacterIdBookmarksItem) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -323,7 +323,7 @@ func easyjsonF26fb59dDecodeGithubComAntihaxGoesiEsi4(in *jlexer.Lexer, out *GetC
 		in.Consumed()
 	}
 }
-func easyjsonF26fb59dEncodeGithubComAntihaxGoesiEsi4(out *jwriter.Writer, in GetCharactersCharacterIdBookmarksItem) {
+func easyjsonF26fb59dEncodeGithubComCurzonjGoesiEsi4(out *jwriter.Writer, in GetCharactersCharacterIdBookmarksItem) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -345,7 +345,7 @@ func easyjsonF26fb59dEncodeGithubComAntihaxGoesiEsi4(out *jwriter.Writer, in Get
 	}
 	out.RawByte('}')
 }
-func easyjsonF26fb59dDecodeGithubComAntihaxGoesiEsi3(in *jlexer.Lexer, out *GetCharactersCharacterIdBookmarksCoordinates) {
+func easyjsonF26fb59dDecodeGithubComCurzonjGoesiEsi3(in *jlexer.Lexer, out *GetCharactersCharacterIdBookmarksCoordinates) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -380,7 +380,7 @@ func easyjsonF26fb59dDecodeGithubComAntihaxGoesiEsi3(in *jlexer.Lexer, out *GetC
 		in.Consumed()
 	}
 }
-func easyjsonF26fb59dEncodeGithubComAntihaxGoesiEsi3(out *jwriter.Writer, in GetCharactersCharacterIdBookmarksCoordinates) {
+func easyjsonF26fb59dEncodeGithubComCurzonjGoesiEsi3(out *jwriter.Writer, in GetCharactersCharacterIdBookmarksCoordinates) {
 	out.RawByte('{')
 	first := true
 	_ = first

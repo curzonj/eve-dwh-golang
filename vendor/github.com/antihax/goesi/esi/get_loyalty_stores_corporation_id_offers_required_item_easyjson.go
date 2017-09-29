@@ -18,7 +18,7 @@ var (
 	_ easyjson.Marshaler
 )
 
-func easyjson2c2475fbDecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetLoyaltyStoresCorporationIdOffersRequiredItemList) {
+func easyjson2c2475fbDecodeGithubComCurzonjGoesiEsi(in *jlexer.Lexer, out *GetLoyaltyStoresCorporationIdOffersRequiredItemList) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		in.Skip()
@@ -46,7 +46,7 @@ func easyjson2c2475fbDecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetLo
 		in.Consumed()
 	}
 }
-func easyjson2c2475fbEncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetLoyaltyStoresCorporationIdOffersRequiredItemList) {
+func easyjson2c2475fbEncodeGithubComCurzonjGoesiEsi(out *jwriter.Writer, in GetLoyaltyStoresCorporationIdOffersRequiredItemList) {
 	if in == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
 		out.RawString("null")
 	} else {
@@ -64,27 +64,27 @@ func easyjson2c2475fbEncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetL
 // MarshalJSON supports json.Marshaler interface
 func (v GetLoyaltyStoresCorporationIdOffersRequiredItemList) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson2c2475fbEncodeGithubComAntihaxGoesiEsi(&w, v)
+	easyjson2c2475fbEncodeGithubComCurzonjGoesiEsi(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetLoyaltyStoresCorporationIdOffersRequiredItemList) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson2c2475fbEncodeGithubComAntihaxGoesiEsi(w, v)
+	easyjson2c2475fbEncodeGithubComCurzonjGoesiEsi(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetLoyaltyStoresCorporationIdOffersRequiredItemList) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson2c2475fbDecodeGithubComAntihaxGoesiEsi(&r, v)
+	easyjson2c2475fbDecodeGithubComCurzonjGoesiEsi(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetLoyaltyStoresCorporationIdOffersRequiredItemList) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson2c2475fbDecodeGithubComAntihaxGoesiEsi(l, v)
+	easyjson2c2475fbDecodeGithubComCurzonjGoesiEsi(l, v)
 }
-func easyjson2c2475fbDecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetLoyaltyStoresCorporationIdOffersRequiredItem) {
+func easyjson2c2475fbDecodeGithubComCurzonjGoesiEsi1(in *jlexer.Lexer, out *GetLoyaltyStoresCorporationIdOffersRequiredItem) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -117,7 +117,7 @@ func easyjson2c2475fbDecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetL
 		in.Consumed()
 	}
 }
-func easyjson2c2475fbEncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in GetLoyaltyStoresCorporationIdOffersRequiredItem) {
+func easyjson2c2475fbEncodeGithubComCurzonjGoesiEsi1(out *jwriter.Writer, in GetLoyaltyStoresCorporationIdOffersRequiredItem) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -143,23 +143,23 @@ func easyjson2c2475fbEncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in Get
 // MarshalJSON supports json.Marshaler interface
 func (v GetLoyaltyStoresCorporationIdOffersRequiredItem) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson2c2475fbEncodeGithubComAntihaxGoesiEsi1(&w, v)
+	easyjson2c2475fbEncodeGithubComCurzonjGoesiEsi1(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetLoyaltyStoresCorporationIdOffersRequiredItem) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson2c2475fbEncodeGithubComAntihaxGoesiEsi1(w, v)
+	easyjson2c2475fbEncodeGithubComCurzonjGoesiEsi1(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetLoyaltyStoresCorporationIdOffersRequiredItem) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson2c2475fbDecodeGithubComAntihaxGoesiEsi1(&r, v)
+	easyjson2c2475fbDecodeGithubComCurzonjGoesiEsi1(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetLoyaltyStoresCorporationIdOffersRequiredItem) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson2c2475fbDecodeGithubComAntihaxGoesiEsi1(l, v)
+	easyjson2c2475fbDecodeGithubComCurzonjGoesiEsi1(l, v)
 }

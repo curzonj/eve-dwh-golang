@@ -18,7 +18,7 @@ var (
 	_ easyjson.Marshaler
 )
 
-func easyjson6c2c1796DecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetCorporationsCorporationIdDivisionsWalletList) {
+func easyjson6c2c1796DecodeGithubComCurzonjGoesiEsi(in *jlexer.Lexer, out *GetCorporationsCorporationIdDivisionsWalletList) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		in.Skip()
@@ -46,7 +46,7 @@ func easyjson6c2c1796DecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetCo
 		in.Consumed()
 	}
 }
-func easyjson6c2c1796EncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetCorporationsCorporationIdDivisionsWalletList) {
+func easyjson6c2c1796EncodeGithubComCurzonjGoesiEsi(out *jwriter.Writer, in GetCorporationsCorporationIdDivisionsWalletList) {
 	if in == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
 		out.RawString("null")
 	} else {
@@ -64,27 +64,27 @@ func easyjson6c2c1796EncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetC
 // MarshalJSON supports json.Marshaler interface
 func (v GetCorporationsCorporationIdDivisionsWalletList) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson6c2c1796EncodeGithubComAntihaxGoesiEsi(&w, v)
+	easyjson6c2c1796EncodeGithubComCurzonjGoesiEsi(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetCorporationsCorporationIdDivisionsWalletList) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson6c2c1796EncodeGithubComAntihaxGoesiEsi(w, v)
+	easyjson6c2c1796EncodeGithubComCurzonjGoesiEsi(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetCorporationsCorporationIdDivisionsWalletList) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson6c2c1796DecodeGithubComAntihaxGoesiEsi(&r, v)
+	easyjson6c2c1796DecodeGithubComCurzonjGoesiEsi(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetCorporationsCorporationIdDivisionsWalletList) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson6c2c1796DecodeGithubComAntihaxGoesiEsi(l, v)
+	easyjson6c2c1796DecodeGithubComCurzonjGoesiEsi(l, v)
 }
-func easyjson6c2c1796DecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetCorporationsCorporationIdDivisionsWallet) {
+func easyjson6c2c1796DecodeGithubComCurzonjGoesiEsi1(in *jlexer.Lexer, out *GetCorporationsCorporationIdDivisionsWallet) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -117,7 +117,7 @@ func easyjson6c2c1796DecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetC
 		in.Consumed()
 	}
 }
-func easyjson6c2c1796EncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in GetCorporationsCorporationIdDivisionsWallet) {
+func easyjson6c2c1796EncodeGithubComCurzonjGoesiEsi1(out *jwriter.Writer, in GetCorporationsCorporationIdDivisionsWallet) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -143,23 +143,23 @@ func easyjson6c2c1796EncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in Get
 // MarshalJSON supports json.Marshaler interface
 func (v GetCorporationsCorporationIdDivisionsWallet) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson6c2c1796EncodeGithubComAntihaxGoesiEsi1(&w, v)
+	easyjson6c2c1796EncodeGithubComCurzonjGoesiEsi1(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetCorporationsCorporationIdDivisionsWallet) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson6c2c1796EncodeGithubComAntihaxGoesiEsi1(w, v)
+	easyjson6c2c1796EncodeGithubComCurzonjGoesiEsi1(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetCorporationsCorporationIdDivisionsWallet) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson6c2c1796DecodeGithubComAntihaxGoesiEsi1(&r, v)
+	easyjson6c2c1796DecodeGithubComCurzonjGoesiEsi1(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetCorporationsCorporationIdDivisionsWallet) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson6c2c1796DecodeGithubComAntihaxGoesiEsi1(l, v)
+	easyjson6c2c1796DecodeGithubComCurzonjGoesiEsi1(l, v)
 }

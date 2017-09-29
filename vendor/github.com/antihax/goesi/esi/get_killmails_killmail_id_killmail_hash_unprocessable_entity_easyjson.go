@@ -18,7 +18,7 @@ var (
 	_ easyjson.Marshaler
 )
 
-func easyjson2ffb696bDecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetKillmailsKillmailIdKillmailHashUnprocessableEntityList) {
+func easyjson2ffb696bDecodeGithubComCurzonjGoesiEsi(in *jlexer.Lexer, out *GetKillmailsKillmailIdKillmailHashUnprocessableEntityList) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		in.Skip()
@@ -46,7 +46,7 @@ func easyjson2ffb696bDecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetKi
 		in.Consumed()
 	}
 }
-func easyjson2ffb696bEncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetKillmailsKillmailIdKillmailHashUnprocessableEntityList) {
+func easyjson2ffb696bEncodeGithubComCurzonjGoesiEsi(out *jwriter.Writer, in GetKillmailsKillmailIdKillmailHashUnprocessableEntityList) {
 	if in == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
 		out.RawString("null")
 	} else {
@@ -64,27 +64,27 @@ func easyjson2ffb696bEncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetK
 // MarshalJSON supports json.Marshaler interface
 func (v GetKillmailsKillmailIdKillmailHashUnprocessableEntityList) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson2ffb696bEncodeGithubComAntihaxGoesiEsi(&w, v)
+	easyjson2ffb696bEncodeGithubComCurzonjGoesiEsi(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetKillmailsKillmailIdKillmailHashUnprocessableEntityList) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson2ffb696bEncodeGithubComAntihaxGoesiEsi(w, v)
+	easyjson2ffb696bEncodeGithubComCurzonjGoesiEsi(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetKillmailsKillmailIdKillmailHashUnprocessableEntityList) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson2ffb696bDecodeGithubComAntihaxGoesiEsi(&r, v)
+	easyjson2ffb696bDecodeGithubComCurzonjGoesiEsi(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetKillmailsKillmailIdKillmailHashUnprocessableEntityList) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson2ffb696bDecodeGithubComAntihaxGoesiEsi(l, v)
+	easyjson2ffb696bDecodeGithubComCurzonjGoesiEsi(l, v)
 }
-func easyjson2ffb696bDecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetKillmailsKillmailIdKillmailHashUnprocessableEntity) {
+func easyjson2ffb696bDecodeGithubComCurzonjGoesiEsi1(in *jlexer.Lexer, out *GetKillmailsKillmailIdKillmailHashUnprocessableEntity) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -115,7 +115,7 @@ func easyjson2ffb696bDecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetK
 		in.Consumed()
 	}
 }
-func easyjson2ffb696bEncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in GetKillmailsKillmailIdKillmailHashUnprocessableEntity) {
+func easyjson2ffb696bEncodeGithubComCurzonjGoesiEsi1(out *jwriter.Writer, in GetKillmailsKillmailIdKillmailHashUnprocessableEntity) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -133,23 +133,23 @@ func easyjson2ffb696bEncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in Get
 // MarshalJSON supports json.Marshaler interface
 func (v GetKillmailsKillmailIdKillmailHashUnprocessableEntity) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson2ffb696bEncodeGithubComAntihaxGoesiEsi1(&w, v)
+	easyjson2ffb696bEncodeGithubComCurzonjGoesiEsi1(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetKillmailsKillmailIdKillmailHashUnprocessableEntity) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson2ffb696bEncodeGithubComAntihaxGoesiEsi1(w, v)
+	easyjson2ffb696bEncodeGithubComCurzonjGoesiEsi1(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetKillmailsKillmailIdKillmailHashUnprocessableEntity) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson2ffb696bDecodeGithubComAntihaxGoesiEsi1(&r, v)
+	easyjson2ffb696bDecodeGithubComCurzonjGoesiEsi1(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetKillmailsKillmailIdKillmailHashUnprocessableEntity) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson2ffb696bDecodeGithubComAntihaxGoesiEsi1(l, v)
+	easyjson2ffb696bDecodeGithubComCurzonjGoesiEsi1(l, v)
 }

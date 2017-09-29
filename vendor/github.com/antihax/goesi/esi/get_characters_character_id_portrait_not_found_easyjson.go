@@ -18,7 +18,7 @@ var (
 	_ easyjson.Marshaler
 )
 
-func easyjson931070beDecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetCharactersCharacterIdPortraitNotFoundList) {
+func easyjson931070beDecodeGithubComCurzonjGoesiEsi(in *jlexer.Lexer, out *GetCharactersCharacterIdPortraitNotFoundList) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		in.Skip()
@@ -46,7 +46,7 @@ func easyjson931070beDecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetCh
 		in.Consumed()
 	}
 }
-func easyjson931070beEncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetCharactersCharacterIdPortraitNotFoundList) {
+func easyjson931070beEncodeGithubComCurzonjGoesiEsi(out *jwriter.Writer, in GetCharactersCharacterIdPortraitNotFoundList) {
 	if in == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
 		out.RawString("null")
 	} else {
@@ -64,27 +64,27 @@ func easyjson931070beEncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetC
 // MarshalJSON supports json.Marshaler interface
 func (v GetCharactersCharacterIdPortraitNotFoundList) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson931070beEncodeGithubComAntihaxGoesiEsi(&w, v)
+	easyjson931070beEncodeGithubComCurzonjGoesiEsi(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetCharactersCharacterIdPortraitNotFoundList) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson931070beEncodeGithubComAntihaxGoesiEsi(w, v)
+	easyjson931070beEncodeGithubComCurzonjGoesiEsi(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetCharactersCharacterIdPortraitNotFoundList) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson931070beDecodeGithubComAntihaxGoesiEsi(&r, v)
+	easyjson931070beDecodeGithubComCurzonjGoesiEsi(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetCharactersCharacterIdPortraitNotFoundList) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson931070beDecodeGithubComAntihaxGoesiEsi(l, v)
+	easyjson931070beDecodeGithubComCurzonjGoesiEsi(l, v)
 }
-func easyjson931070beDecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetCharactersCharacterIdPortraitNotFound) {
+func easyjson931070beDecodeGithubComCurzonjGoesiEsi1(in *jlexer.Lexer, out *GetCharactersCharacterIdPortraitNotFound) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -115,7 +115,7 @@ func easyjson931070beDecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetC
 		in.Consumed()
 	}
 }
-func easyjson931070beEncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in GetCharactersCharacterIdPortraitNotFound) {
+func easyjson931070beEncodeGithubComCurzonjGoesiEsi1(out *jwriter.Writer, in GetCharactersCharacterIdPortraitNotFound) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -133,23 +133,23 @@ func easyjson931070beEncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in Get
 // MarshalJSON supports json.Marshaler interface
 func (v GetCharactersCharacterIdPortraitNotFound) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson931070beEncodeGithubComAntihaxGoesiEsi1(&w, v)
+	easyjson931070beEncodeGithubComCurzonjGoesiEsi1(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetCharactersCharacterIdPortraitNotFound) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson931070beEncodeGithubComAntihaxGoesiEsi1(w, v)
+	easyjson931070beEncodeGithubComCurzonjGoesiEsi1(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetCharactersCharacterIdPortraitNotFound) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson931070beDecodeGithubComAntihaxGoesiEsi1(&r, v)
+	easyjson931070beDecodeGithubComCurzonjGoesiEsi1(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetCharactersCharacterIdPortraitNotFound) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson931070beDecodeGithubComAntihaxGoesiEsi1(l, v)
+	easyjson931070beDecodeGithubComCurzonjGoesiEsi1(l, v)
 }

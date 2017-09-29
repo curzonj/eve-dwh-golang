@@ -18,7 +18,7 @@ var (
 	_ easyjson.Marshaler
 )
 
-func easyjson2ee63b03DecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetUniverseMoonsMoonIdPositionList) {
+func easyjson2ee63b03DecodeGithubComCurzonjGoesiEsi(in *jlexer.Lexer, out *GetUniverseMoonsMoonIdPositionList) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		in.Skip()
@@ -46,7 +46,7 @@ func easyjson2ee63b03DecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetUn
 		in.Consumed()
 	}
 }
-func easyjson2ee63b03EncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetUniverseMoonsMoonIdPositionList) {
+func easyjson2ee63b03EncodeGithubComCurzonjGoesiEsi(out *jwriter.Writer, in GetUniverseMoonsMoonIdPositionList) {
 	if in == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
 		out.RawString("null")
 	} else {
@@ -64,27 +64,27 @@ func easyjson2ee63b03EncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetU
 // MarshalJSON supports json.Marshaler interface
 func (v GetUniverseMoonsMoonIdPositionList) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson2ee63b03EncodeGithubComAntihaxGoesiEsi(&w, v)
+	easyjson2ee63b03EncodeGithubComCurzonjGoesiEsi(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetUniverseMoonsMoonIdPositionList) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson2ee63b03EncodeGithubComAntihaxGoesiEsi(w, v)
+	easyjson2ee63b03EncodeGithubComCurzonjGoesiEsi(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetUniverseMoonsMoonIdPositionList) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson2ee63b03DecodeGithubComAntihaxGoesiEsi(&r, v)
+	easyjson2ee63b03DecodeGithubComCurzonjGoesiEsi(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetUniverseMoonsMoonIdPositionList) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson2ee63b03DecodeGithubComAntihaxGoesiEsi(l, v)
+	easyjson2ee63b03DecodeGithubComCurzonjGoesiEsi(l, v)
 }
-func easyjson2ee63b03DecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetUniverseMoonsMoonIdPosition) {
+func easyjson2ee63b03DecodeGithubComCurzonjGoesiEsi1(in *jlexer.Lexer, out *GetUniverseMoonsMoonIdPosition) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -119,7 +119,7 @@ func easyjson2ee63b03DecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetU
 		in.Consumed()
 	}
 }
-func easyjson2ee63b03EncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in GetUniverseMoonsMoonIdPosition) {
+func easyjson2ee63b03EncodeGithubComCurzonjGoesiEsi1(out *jwriter.Writer, in GetUniverseMoonsMoonIdPosition) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -153,23 +153,23 @@ func easyjson2ee63b03EncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in Get
 // MarshalJSON supports json.Marshaler interface
 func (v GetUniverseMoonsMoonIdPosition) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson2ee63b03EncodeGithubComAntihaxGoesiEsi1(&w, v)
+	easyjson2ee63b03EncodeGithubComCurzonjGoesiEsi1(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetUniverseMoonsMoonIdPosition) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson2ee63b03EncodeGithubComAntihaxGoesiEsi1(w, v)
+	easyjson2ee63b03EncodeGithubComCurzonjGoesiEsi1(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetUniverseMoonsMoonIdPosition) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson2ee63b03DecodeGithubComAntihaxGoesiEsi1(&r, v)
+	easyjson2ee63b03DecodeGithubComCurzonjGoesiEsi1(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetUniverseMoonsMoonIdPosition) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson2ee63b03DecodeGithubComAntihaxGoesiEsi1(l, v)
+	easyjson2ee63b03DecodeGithubComCurzonjGoesiEsi1(l, v)
 }

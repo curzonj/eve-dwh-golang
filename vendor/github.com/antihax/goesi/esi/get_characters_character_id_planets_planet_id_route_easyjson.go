@@ -18,7 +18,7 @@ var (
 	_ easyjson.Marshaler
 )
 
-func easyjson5a671d6eDecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetCharactersCharacterIdPlanetsPlanetIdRouteList) {
+func easyjson5a671d6eDecodeGithubComCurzonjGoesiEsi(in *jlexer.Lexer, out *GetCharactersCharacterIdPlanetsPlanetIdRouteList) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		in.Skip()
@@ -46,7 +46,7 @@ func easyjson5a671d6eDecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetCh
 		in.Consumed()
 	}
 }
-func easyjson5a671d6eEncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetCharactersCharacterIdPlanetsPlanetIdRouteList) {
+func easyjson5a671d6eEncodeGithubComCurzonjGoesiEsi(out *jwriter.Writer, in GetCharactersCharacterIdPlanetsPlanetIdRouteList) {
 	if in == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
 		out.RawString("null")
 	} else {
@@ -64,27 +64,27 @@ func easyjson5a671d6eEncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetC
 // MarshalJSON supports json.Marshaler interface
 func (v GetCharactersCharacterIdPlanetsPlanetIdRouteList) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson5a671d6eEncodeGithubComAntihaxGoesiEsi(&w, v)
+	easyjson5a671d6eEncodeGithubComCurzonjGoesiEsi(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetCharactersCharacterIdPlanetsPlanetIdRouteList) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson5a671d6eEncodeGithubComAntihaxGoesiEsi(w, v)
+	easyjson5a671d6eEncodeGithubComCurzonjGoesiEsi(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetCharactersCharacterIdPlanetsPlanetIdRouteList) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson5a671d6eDecodeGithubComAntihaxGoesiEsi(&r, v)
+	easyjson5a671d6eDecodeGithubComCurzonjGoesiEsi(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetCharactersCharacterIdPlanetsPlanetIdRouteList) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson5a671d6eDecodeGithubComAntihaxGoesiEsi(l, v)
+	easyjson5a671d6eDecodeGithubComCurzonjGoesiEsi(l, v)
 }
-func easyjson5a671d6eDecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetCharactersCharacterIdPlanetsPlanetIdRoute) {
+func easyjson5a671d6eDecodeGithubComCurzonjGoesiEsi1(in *jlexer.Lexer, out *GetCharactersCharacterIdPlanetsPlanetIdRoute) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -146,7 +146,7 @@ func easyjson5a671d6eDecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetC
 		in.Consumed()
 	}
 }
-func easyjson5a671d6eEncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in GetCharactersCharacterIdPlanetsPlanetIdRoute) {
+func easyjson5a671d6eEncodeGithubComCurzonjGoesiEsi1(out *jwriter.Writer, in GetCharactersCharacterIdPlanetsPlanetIdRoute) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -215,23 +215,23 @@ func easyjson5a671d6eEncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in Get
 // MarshalJSON supports json.Marshaler interface
 func (v GetCharactersCharacterIdPlanetsPlanetIdRoute) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson5a671d6eEncodeGithubComAntihaxGoesiEsi1(&w, v)
+	easyjson5a671d6eEncodeGithubComCurzonjGoesiEsi1(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetCharactersCharacterIdPlanetsPlanetIdRoute) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson5a671d6eEncodeGithubComAntihaxGoesiEsi1(w, v)
+	easyjson5a671d6eEncodeGithubComCurzonjGoesiEsi1(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetCharactersCharacterIdPlanetsPlanetIdRoute) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson5a671d6eDecodeGithubComAntihaxGoesiEsi1(&r, v)
+	easyjson5a671d6eDecodeGithubComCurzonjGoesiEsi1(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetCharactersCharacterIdPlanetsPlanetIdRoute) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson5a671d6eDecodeGithubComAntihaxGoesiEsi1(l, v)
+	easyjson5a671d6eDecodeGithubComCurzonjGoesiEsi1(l, v)
 }

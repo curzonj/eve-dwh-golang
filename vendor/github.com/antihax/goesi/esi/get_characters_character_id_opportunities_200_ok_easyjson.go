@@ -18,7 +18,7 @@ var (
 	_ easyjson.Marshaler
 )
 
-func easyjsonF1141689DecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetCharactersCharacterIdOpportunities200OkList) {
+func easyjsonF1141689DecodeGithubComCurzonjGoesiEsi(in *jlexer.Lexer, out *GetCharactersCharacterIdOpportunities200OkList) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		in.Skip()
@@ -46,7 +46,7 @@ func easyjsonF1141689DecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetCh
 		in.Consumed()
 	}
 }
-func easyjsonF1141689EncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetCharactersCharacterIdOpportunities200OkList) {
+func easyjsonF1141689EncodeGithubComCurzonjGoesiEsi(out *jwriter.Writer, in GetCharactersCharacterIdOpportunities200OkList) {
 	if in == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
 		out.RawString("null")
 	} else {
@@ -64,27 +64,27 @@ func easyjsonF1141689EncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetC
 // MarshalJSON supports json.Marshaler interface
 func (v GetCharactersCharacterIdOpportunities200OkList) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjsonF1141689EncodeGithubComAntihaxGoesiEsi(&w, v)
+	easyjsonF1141689EncodeGithubComCurzonjGoesiEsi(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetCharactersCharacterIdOpportunities200OkList) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjsonF1141689EncodeGithubComAntihaxGoesiEsi(w, v)
+	easyjsonF1141689EncodeGithubComCurzonjGoesiEsi(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetCharactersCharacterIdOpportunities200OkList) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjsonF1141689DecodeGithubComAntihaxGoesiEsi(&r, v)
+	easyjsonF1141689DecodeGithubComCurzonjGoesiEsi(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetCharactersCharacterIdOpportunities200OkList) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjsonF1141689DecodeGithubComAntihaxGoesiEsi(l, v)
+	easyjsonF1141689DecodeGithubComCurzonjGoesiEsi(l, v)
 }
-func easyjsonF1141689DecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetCharactersCharacterIdOpportunities200Ok) {
+func easyjsonF1141689DecodeGithubComCurzonjGoesiEsi1(in *jlexer.Lexer, out *GetCharactersCharacterIdOpportunities200Ok) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -119,7 +119,7 @@ func easyjsonF1141689DecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetC
 		in.Consumed()
 	}
 }
-func easyjsonF1141689EncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in GetCharactersCharacterIdOpportunities200Ok) {
+func easyjsonF1141689EncodeGithubComCurzonjGoesiEsi1(out *jwriter.Writer, in GetCharactersCharacterIdOpportunities200Ok) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -145,23 +145,23 @@ func easyjsonF1141689EncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in Get
 // MarshalJSON supports json.Marshaler interface
 func (v GetCharactersCharacterIdOpportunities200Ok) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjsonF1141689EncodeGithubComAntihaxGoesiEsi1(&w, v)
+	easyjsonF1141689EncodeGithubComCurzonjGoesiEsi1(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetCharactersCharacterIdOpportunities200Ok) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjsonF1141689EncodeGithubComAntihaxGoesiEsi1(w, v)
+	easyjsonF1141689EncodeGithubComCurzonjGoesiEsi1(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetCharactersCharacterIdOpportunities200Ok) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjsonF1141689DecodeGithubComAntihaxGoesiEsi1(&r, v)
+	easyjsonF1141689DecodeGithubComCurzonjGoesiEsi1(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetCharactersCharacterIdOpportunities200Ok) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjsonF1141689DecodeGithubComAntihaxGoesiEsi1(l, v)
+	easyjsonF1141689DecodeGithubComCurzonjGoesiEsi1(l, v)
 }

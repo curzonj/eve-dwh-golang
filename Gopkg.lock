@@ -17,7 +17,8 @@
   branch = "master"
   name = "github.com/antihax/goesi"
   packages = [".","esi","eveapi"]
-  revision = "d253a60b21300c596ce934356fe3287612a4994d"
+  revision = "ca6b2d286ba2dbbad083023f4fdf409b6312d0b3"
+  source = "github.com/curzonj/goesi"
 
 [[projects]]
   name = "github.com/garyburd/redigo"
@@ -142,6 +143,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "097d3a3514ade85873c9c4831677bd08294b6ae6d096dcd6f3fb0b7496df588a"
+  inputs-digest = "d2b062a9a78fd2bc9f2d4a4a2c3295b328a7b26dd68e0d5cc23c734b024676d3"
   solver-name = "gps-cdcl"
   solver-version = 1

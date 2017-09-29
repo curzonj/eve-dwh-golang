@@ -18,7 +18,7 @@ var (
 	_ easyjson.Marshaler
 )
 
-func easyjsonB5ebbfcbDecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetKillmailsKillmailIdKillmailHashOkList) {
+func easyjsonB5ebbfcbDecodeGithubComCurzonjGoesiEsi(in *jlexer.Lexer, out *GetKillmailsKillmailIdKillmailHashOkList) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		in.Skip()
@@ -46,7 +46,7 @@ func easyjsonB5ebbfcbDecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetKi
 		in.Consumed()
 	}
 }
-func easyjsonB5ebbfcbEncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetKillmailsKillmailIdKillmailHashOkList) {
+func easyjsonB5ebbfcbEncodeGithubComCurzonjGoesiEsi(out *jwriter.Writer, in GetKillmailsKillmailIdKillmailHashOkList) {
 	if in == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
 		out.RawString("null")
 	} else {
@@ -64,27 +64,27 @@ func easyjsonB5ebbfcbEncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetK
 // MarshalJSON supports json.Marshaler interface
 func (v GetKillmailsKillmailIdKillmailHashOkList) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjsonB5ebbfcbEncodeGithubComAntihaxGoesiEsi(&w, v)
+	easyjsonB5ebbfcbEncodeGithubComCurzonjGoesiEsi(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetKillmailsKillmailIdKillmailHashOkList) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjsonB5ebbfcbEncodeGithubComAntihaxGoesiEsi(w, v)
+	easyjsonB5ebbfcbEncodeGithubComCurzonjGoesiEsi(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetKillmailsKillmailIdKillmailHashOkList) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjsonB5ebbfcbDecodeGithubComAntihaxGoesiEsi(&r, v)
+	easyjsonB5ebbfcbDecodeGithubComCurzonjGoesiEsi(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetKillmailsKillmailIdKillmailHashOkList) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjsonB5ebbfcbDecodeGithubComAntihaxGoesiEsi(l, v)
+	easyjsonB5ebbfcbDecodeGithubComCurzonjGoesiEsi(l, v)
 }
-func easyjsonB5ebbfcbDecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetKillmailsKillmailIdKillmailHashOk) {
+func easyjsonB5ebbfcbDecodeGithubComCurzonjGoesiEsi1(in *jlexer.Lexer, out *GetKillmailsKillmailIdKillmailHashOk) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -137,7 +137,7 @@ func easyjsonB5ebbfcbDecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetK
 		case "solar_system_id":
 			out.SolarSystemId = int32(in.Int32())
 		case "victim":
-			easyjsonB5ebbfcbDecodeGithubComAntihaxGoesiEsi2(in, &out.Victim)
+			easyjsonB5ebbfcbDecodeGithubComCurzonjGoesiEsi2(in, &out.Victim)
 		case "war_id":
 			out.WarId = int32(in.Int32())
 		default:
@@ -150,7 +150,7 @@ func easyjsonB5ebbfcbDecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetK
 		in.Consumed()
 	}
 }
-func easyjsonB5ebbfcbEncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in GetKillmailsKillmailIdKillmailHashOk) {
+func easyjsonB5ebbfcbEncodeGithubComCurzonjGoesiEsi1(out *jwriter.Writer, in GetKillmailsKillmailIdKillmailHashOk) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -211,7 +211,7 @@ func easyjsonB5ebbfcbEncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in Get
 		}
 		first = false
 		out.RawString("\"victim\":")
-		easyjsonB5ebbfcbEncodeGithubComAntihaxGoesiEsi2(out, in.Victim)
+		easyjsonB5ebbfcbEncodeGithubComCurzonjGoesiEsi2(out, in.Victim)
 	}
 	if in.WarId != 0 {
 		if !first {
@@ -227,27 +227,27 @@ func easyjsonB5ebbfcbEncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in Get
 // MarshalJSON supports json.Marshaler interface
 func (v GetKillmailsKillmailIdKillmailHashOk) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjsonB5ebbfcbEncodeGithubComAntihaxGoesiEsi1(&w, v)
+	easyjsonB5ebbfcbEncodeGithubComCurzonjGoesiEsi1(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetKillmailsKillmailIdKillmailHashOk) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjsonB5ebbfcbEncodeGithubComAntihaxGoesiEsi1(w, v)
+	easyjsonB5ebbfcbEncodeGithubComCurzonjGoesiEsi1(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetKillmailsKillmailIdKillmailHashOk) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjsonB5ebbfcbDecodeGithubComAntihaxGoesiEsi1(&r, v)
+	easyjsonB5ebbfcbDecodeGithubComCurzonjGoesiEsi1(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetKillmailsKillmailIdKillmailHashOk) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjsonB5ebbfcbDecodeGithubComAntihaxGoesiEsi1(l, v)
+	easyjsonB5ebbfcbDecodeGithubComCurzonjGoesiEsi1(l, v)
 }
-func easyjsonB5ebbfcbDecodeGithubComAntihaxGoesiEsi2(in *jlexer.Lexer, out *GetKillmailsKillmailIdKillmailHashVictim) {
+func easyjsonB5ebbfcbDecodeGithubComCurzonjGoesiEsi2(in *jlexer.Lexer, out *GetKillmailsKillmailIdKillmailHashVictim) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -293,14 +293,14 @@ func easyjsonB5ebbfcbDecodeGithubComAntihaxGoesiEsi2(in *jlexer.Lexer, out *GetK
 				}
 				for !in.IsDelim(']') {
 					var v7 GetKillmailsKillmailIdKillmailHashItem1
-					easyjsonB5ebbfcbDecodeGithubComAntihaxGoesiEsi3(in, &v7)
+					(v7).UnmarshalEasyJSON(in)
 					out.Items = append(out.Items, v7)
 					in.WantComma()
 				}
 				in.Delim(']')
 			}
 		case "position":
-			easyjsonB5ebbfcbDecodeGithubComAntihaxGoesiEsi4(in, &out.Position)
+			easyjsonB5ebbfcbDecodeGithubComCurzonjGoesiEsi3(in, &out.Position)
 		case "ship_type_id":
 			out.ShipTypeId = int32(in.Int32())
 		default:
@@ -313,7 +313,7 @@ func easyjsonB5ebbfcbDecodeGithubComAntihaxGoesiEsi2(in *jlexer.Lexer, out *GetK
 		in.Consumed()
 	}
 }
-func easyjsonB5ebbfcbEncodeGithubComAntihaxGoesiEsi2(out *jwriter.Writer, in GetKillmailsKillmailIdKillmailHashVictim) {
+func easyjsonB5ebbfcbEncodeGithubComCurzonjGoesiEsi2(out *jwriter.Writer, in GetKillmailsKillmailIdKillmailHashVictim) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -371,7 +371,7 @@ func easyjsonB5ebbfcbEncodeGithubComAntihaxGoesiEsi2(out *jwriter.Writer, in Get
 				if v8 > 0 {
 					out.RawByte(',')
 				}
-				easyjsonB5ebbfcbEncodeGithubComAntihaxGoesiEsi3(out, v9)
+				(v9).MarshalEasyJSON(out)
 			}
 			out.RawByte(']')
 		}
@@ -382,7 +382,7 @@ func easyjsonB5ebbfcbEncodeGithubComAntihaxGoesiEsi2(out *jwriter.Writer, in Get
 		}
 		first = false
 		out.RawString("\"position\":")
-		easyjsonB5ebbfcbEncodeGithubComAntihaxGoesiEsi4(out, in.Position)
+		easyjsonB5ebbfcbEncodeGithubComCurzonjGoesiEsi3(out, in.Position)
 	}
 	if in.ShipTypeId != 0 {
 		if !first {
@@ -394,7 +394,7 @@ func easyjsonB5ebbfcbEncodeGithubComAntihaxGoesiEsi2(out *jwriter.Writer, in Get
 	}
 	out.RawByte('}')
 }
-func easyjsonB5ebbfcbDecodeGithubComAntihaxGoesiEsi4(in *jlexer.Lexer, out *GetKillmailsKillmailIdKillmailHashPosition) {
+func easyjsonB5ebbfcbDecodeGithubComCurzonjGoesiEsi3(in *jlexer.Lexer, out *GetKillmailsKillmailIdKillmailHashPosition) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -429,7 +429,7 @@ func easyjsonB5ebbfcbDecodeGithubComAntihaxGoesiEsi4(in *jlexer.Lexer, out *GetK
 		in.Consumed()
 	}
 }
-func easyjsonB5ebbfcbEncodeGithubComAntihaxGoesiEsi4(out *jwriter.Writer, in GetKillmailsKillmailIdKillmailHashPosition) {
+func easyjsonB5ebbfcbEncodeGithubComCurzonjGoesiEsi3(out *jwriter.Writer, in GetKillmailsKillmailIdKillmailHashPosition) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -456,218 +456,6 @@ func easyjsonB5ebbfcbEncodeGithubComAntihaxGoesiEsi4(out *jwriter.Writer, in Get
 		first = false
 		out.RawString("\"z\":")
 		out.Float32(float32(in.Z))
-	}
-	out.RawByte('}')
-}
-func easyjsonB5ebbfcbDecodeGithubComAntihaxGoesiEsi3(in *jlexer.Lexer, out *GetKillmailsKillmailIdKillmailHashItem1) {
-	isTopLevel := in.IsStart()
-	if in.IsNull() {
-		if isTopLevel {
-			in.Consumed()
-		}
-		in.Skip()
-		return
-	}
-	in.Delim('{')
-	for !in.IsDelim('}') {
-		key := in.UnsafeString()
-		in.WantColon()
-		if in.IsNull() {
-			in.Skip()
-			in.WantComma()
-			continue
-		}
-		switch key {
-		case "flag":
-			out.Flag = int32(in.Int32())
-		case "item_type_id":
-			out.ItemTypeId = int32(in.Int32())
-		case "items":
-			if in.IsNull() {
-				in.Skip()
-				out.Items = nil
-			} else {
-				in.Delim('[')
-				if out.Items == nil {
-					if !in.IsDelim(']') {
-						out.Items = make([]GetKillmailsKillmailIdKillmailHashItem, 0, 2)
-					} else {
-						out.Items = []GetKillmailsKillmailIdKillmailHashItem{}
-					}
-				} else {
-					out.Items = (out.Items)[:0]
-				}
-				for !in.IsDelim(']') {
-					var v10 GetKillmailsKillmailIdKillmailHashItem
-					easyjsonB5ebbfcbDecodeGithubComAntihaxGoesiEsi5(in, &v10)
-					out.Items = append(out.Items, v10)
-					in.WantComma()
-				}
-				in.Delim(']')
-			}
-		case "quantity_destroyed":
-			out.QuantityDestroyed = int64(in.Int64())
-		case "quantity_dropped":
-			out.QuantityDropped = int64(in.Int64())
-		case "singleton":
-			out.Singleton = int32(in.Int32())
-		default:
-			in.SkipRecursive()
-		}
-		in.WantComma()
-	}
-	in.Delim('}')
-	if isTopLevel {
-		in.Consumed()
-	}
-}
-func easyjsonB5ebbfcbEncodeGithubComAntihaxGoesiEsi3(out *jwriter.Writer, in GetKillmailsKillmailIdKillmailHashItem1) {
-	out.RawByte('{')
-	first := true
-	_ = first
-	if in.Flag != 0 {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"flag\":")
-		out.Int32(int32(in.Flag))
-	}
-	if in.ItemTypeId != 0 {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"item_type_id\":")
-		out.Int32(int32(in.ItemTypeId))
-	}
-	if len(in.Items) != 0 {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"items\":")
-		if in.Items == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
-			out.RawString("null")
-		} else {
-			out.RawByte('[')
-			for v11, v12 := range in.Items {
-				if v11 > 0 {
-					out.RawByte(',')
-				}
-				easyjsonB5ebbfcbEncodeGithubComAntihaxGoesiEsi5(out, v12)
-			}
-			out.RawByte(']')
-		}
-	}
-	if in.QuantityDestroyed != 0 {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"quantity_destroyed\":")
-		out.Int64(int64(in.QuantityDestroyed))
-	}
-	if in.QuantityDropped != 0 {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"quantity_dropped\":")
-		out.Int64(int64(in.QuantityDropped))
-	}
-	if in.Singleton != 0 {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"singleton\":")
-		out.Int32(int32(in.Singleton))
-	}
-	out.RawByte('}')
-}
-func easyjsonB5ebbfcbDecodeGithubComAntihaxGoesiEsi5(in *jlexer.Lexer, out *GetKillmailsKillmailIdKillmailHashItem) {
-	isTopLevel := in.IsStart()
-	if in.IsNull() {
-		if isTopLevel {
-			in.Consumed()
-		}
-		in.Skip()
-		return
-	}
-	in.Delim('{')
-	for !in.IsDelim('}') {
-		key := in.UnsafeString()
-		in.WantColon()
-		if in.IsNull() {
-			in.Skip()
-			in.WantComma()
-			continue
-		}
-		switch key {
-		case "flag":
-			out.Flag = int32(in.Int32())
-		case "item_type_id":
-			out.ItemTypeId = int32(in.Int32())
-		case "quantity_destroyed":
-			out.QuantityDestroyed = int64(in.Int64())
-		case "quantity_dropped":
-			out.QuantityDropped = int64(in.Int64())
-		case "singleton":
-			out.Singleton = int32(in.Int32())
-		default:
-			in.SkipRecursive()
-		}
-		in.WantComma()
-	}
-	in.Delim('}')
-	if isTopLevel {
-		in.Consumed()
-	}
-}
-func easyjsonB5ebbfcbEncodeGithubComAntihaxGoesiEsi5(out *jwriter.Writer, in GetKillmailsKillmailIdKillmailHashItem) {
-	out.RawByte('{')
-	first := true
-	_ = first
-	if in.Flag != 0 {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"flag\":")
-		out.Int32(int32(in.Flag))
-	}
-	if in.ItemTypeId != 0 {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"item_type_id\":")
-		out.Int32(int32(in.ItemTypeId))
-	}
-	if in.QuantityDestroyed != 0 {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"quantity_destroyed\":")
-		out.Int64(int64(in.QuantityDestroyed))
-	}
-	if in.QuantityDropped != 0 {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"quantity_dropped\":")
-		out.Int64(int64(in.QuantityDropped))
-	}
-	if in.Singleton != 0 {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"singleton\":")
-		out.Int32(int32(in.Singleton))
 	}
 	out.RawByte('}')
 }

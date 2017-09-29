@@ -18,7 +18,7 @@ var (
 	_ easyjson.Marshaler
 )
 
-func easyjson7d2da406DecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetCharactersCharacterIdPlanetsPlanetIdExtractorDetailsList) {
+func easyjson7d2da406DecodeGithubComCurzonjGoesiEsi(in *jlexer.Lexer, out *GetCharactersCharacterIdPlanetsPlanetIdExtractorDetailsList) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		in.Skip()
@@ -46,7 +46,7 @@ func easyjson7d2da406DecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetCh
 		in.Consumed()
 	}
 }
-func easyjson7d2da406EncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetCharactersCharacterIdPlanetsPlanetIdExtractorDetailsList) {
+func easyjson7d2da406EncodeGithubComCurzonjGoesiEsi(out *jwriter.Writer, in GetCharactersCharacterIdPlanetsPlanetIdExtractorDetailsList) {
 	if in == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
 		out.RawString("null")
 	} else {
@@ -64,27 +64,27 @@ func easyjson7d2da406EncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetC
 // MarshalJSON supports json.Marshaler interface
 func (v GetCharactersCharacterIdPlanetsPlanetIdExtractorDetailsList) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson7d2da406EncodeGithubComAntihaxGoesiEsi(&w, v)
+	easyjson7d2da406EncodeGithubComCurzonjGoesiEsi(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetCharactersCharacterIdPlanetsPlanetIdExtractorDetailsList) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson7d2da406EncodeGithubComAntihaxGoesiEsi(w, v)
+	easyjson7d2da406EncodeGithubComCurzonjGoesiEsi(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetCharactersCharacterIdPlanetsPlanetIdExtractorDetailsList) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson7d2da406DecodeGithubComAntihaxGoesiEsi(&r, v)
+	easyjson7d2da406DecodeGithubComCurzonjGoesiEsi(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetCharactersCharacterIdPlanetsPlanetIdExtractorDetailsList) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson7d2da406DecodeGithubComAntihaxGoesiEsi(l, v)
+	easyjson7d2da406DecodeGithubComCurzonjGoesiEsi(l, v)
 }
-func easyjson7d2da406DecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetCharactersCharacterIdPlanetsPlanetIdExtractorDetails) {
+func easyjson7d2da406DecodeGithubComCurzonjGoesiEsi1(in *jlexer.Lexer, out *GetCharactersCharacterIdPlanetsPlanetIdExtractorDetails) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -124,7 +124,7 @@ func easyjson7d2da406DecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetC
 				}
 				for !in.IsDelim(']') {
 					var v4 GetCharactersCharacterIdPlanetsPlanetIdHead
-					(v4).UnmarshalEasyJSON(in)
+					easyjson7d2da406DecodeGithubComCurzonjGoesiEsi2(in, &v4)
 					out.Heads = append(out.Heads, v4)
 					in.WantComma()
 				}
@@ -144,7 +144,7 @@ func easyjson7d2da406DecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetC
 		in.Consumed()
 	}
 }
-func easyjson7d2da406EncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in GetCharactersCharacterIdPlanetsPlanetIdExtractorDetails) {
+func easyjson7d2da406EncodeGithubComCurzonjGoesiEsi1(out *jwriter.Writer, in GetCharactersCharacterIdPlanetsPlanetIdExtractorDetails) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -178,7 +178,7 @@ func easyjson7d2da406EncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in Get
 				if v5 > 0 {
 					out.RawByte(',')
 				}
-				(v6).MarshalEasyJSON(out)
+				easyjson7d2da406EncodeGithubComCurzonjGoesiEsi2(out, v6)
 			}
 			out.RawByte(']')
 		}
@@ -205,23 +205,88 @@ func easyjson7d2da406EncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in Get
 // MarshalJSON supports json.Marshaler interface
 func (v GetCharactersCharacterIdPlanetsPlanetIdExtractorDetails) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson7d2da406EncodeGithubComAntihaxGoesiEsi1(&w, v)
+	easyjson7d2da406EncodeGithubComCurzonjGoesiEsi1(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetCharactersCharacterIdPlanetsPlanetIdExtractorDetails) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson7d2da406EncodeGithubComAntihaxGoesiEsi1(w, v)
+	easyjson7d2da406EncodeGithubComCurzonjGoesiEsi1(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetCharactersCharacterIdPlanetsPlanetIdExtractorDetails) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson7d2da406DecodeGithubComAntihaxGoesiEsi1(&r, v)
+	easyjson7d2da406DecodeGithubComCurzonjGoesiEsi1(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetCharactersCharacterIdPlanetsPlanetIdExtractorDetails) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson7d2da406DecodeGithubComAntihaxGoesiEsi1(l, v)
+	easyjson7d2da406DecodeGithubComCurzonjGoesiEsi1(l, v)
+}
+func easyjson7d2da406DecodeGithubComCurzonjGoesiEsi2(in *jlexer.Lexer, out *GetCharactersCharacterIdPlanetsPlanetIdHead) {
+	isTopLevel := in.IsStart()
+	if in.IsNull() {
+		if isTopLevel {
+			in.Consumed()
+		}
+		in.Skip()
+		return
+	}
+	in.Delim('{')
+	for !in.IsDelim('}') {
+		key := in.UnsafeString()
+		in.WantColon()
+		if in.IsNull() {
+			in.Skip()
+			in.WantComma()
+			continue
+		}
+		switch key {
+		case "head_id":
+			out.HeadId = int32(in.Int32())
+		case "latitude":
+			out.Latitude = float32(in.Float32())
+		case "longitude":
+			out.Longitude = float32(in.Float32())
+		default:
+			in.SkipRecursive()
+		}
+		in.WantComma()
+	}
+	in.Delim('}')
+	if isTopLevel {
+		in.Consumed()
+	}
+}
+func easyjson7d2da406EncodeGithubComCurzonjGoesiEsi2(out *jwriter.Writer, in GetCharactersCharacterIdPlanetsPlanetIdHead) {
+	out.RawByte('{')
+	first := true
+	_ = first
+	if in.HeadId != 0 {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"head_id\":")
+		out.Int32(int32(in.HeadId))
+	}
+	if in.Latitude != 0 {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"latitude\":")
+		out.Float32(float32(in.Latitude))
+	}
+	if in.Longitude != 0 {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"longitude\":")
+		out.Float32(float32(in.Longitude))
+	}
+	out.RawByte('}')
 }

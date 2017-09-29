@@ -18,7 +18,7 @@ var (
 	_ easyjson.Marshaler
 )
 
-func easyjson81fd3f84DecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetCharactersCharacterIdKillmailsRecent200OkList) {
+func easyjson81fd3f84DecodeGithubComCurzonjGoesiEsi(in *jlexer.Lexer, out *GetCharactersCharacterIdKillmailsRecent200OkList) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		in.Skip()
@@ -46,7 +46,7 @@ func easyjson81fd3f84DecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetCh
 		in.Consumed()
 	}
 }
-func easyjson81fd3f84EncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetCharactersCharacterIdKillmailsRecent200OkList) {
+func easyjson81fd3f84EncodeGithubComCurzonjGoesiEsi(out *jwriter.Writer, in GetCharactersCharacterIdKillmailsRecent200OkList) {
 	if in == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
 		out.RawString("null")
 	} else {
@@ -64,27 +64,27 @@ func easyjson81fd3f84EncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetC
 // MarshalJSON supports json.Marshaler interface
 func (v GetCharactersCharacterIdKillmailsRecent200OkList) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson81fd3f84EncodeGithubComAntihaxGoesiEsi(&w, v)
+	easyjson81fd3f84EncodeGithubComCurzonjGoesiEsi(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetCharactersCharacterIdKillmailsRecent200OkList) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson81fd3f84EncodeGithubComAntihaxGoesiEsi(w, v)
+	easyjson81fd3f84EncodeGithubComCurzonjGoesiEsi(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetCharactersCharacterIdKillmailsRecent200OkList) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson81fd3f84DecodeGithubComAntihaxGoesiEsi(&r, v)
+	easyjson81fd3f84DecodeGithubComCurzonjGoesiEsi(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetCharactersCharacterIdKillmailsRecent200OkList) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson81fd3f84DecodeGithubComAntihaxGoesiEsi(l, v)
+	easyjson81fd3f84DecodeGithubComCurzonjGoesiEsi(l, v)
 }
-func easyjson81fd3f84DecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetCharactersCharacterIdKillmailsRecent200Ok) {
+func easyjson81fd3f84DecodeGithubComCurzonjGoesiEsi1(in *jlexer.Lexer, out *GetCharactersCharacterIdKillmailsRecent200Ok) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -117,7 +117,7 @@ func easyjson81fd3f84DecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetC
 		in.Consumed()
 	}
 }
-func easyjson81fd3f84EncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in GetCharactersCharacterIdKillmailsRecent200Ok) {
+func easyjson81fd3f84EncodeGithubComCurzonjGoesiEsi1(out *jwriter.Writer, in GetCharactersCharacterIdKillmailsRecent200Ok) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -143,23 +143,23 @@ func easyjson81fd3f84EncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in Get
 // MarshalJSON supports json.Marshaler interface
 func (v GetCharactersCharacterIdKillmailsRecent200Ok) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson81fd3f84EncodeGithubComAntihaxGoesiEsi1(&w, v)
+	easyjson81fd3f84EncodeGithubComCurzonjGoesiEsi1(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetCharactersCharacterIdKillmailsRecent200Ok) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson81fd3f84EncodeGithubComAntihaxGoesiEsi1(w, v)
+	easyjson81fd3f84EncodeGithubComCurzonjGoesiEsi1(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetCharactersCharacterIdKillmailsRecent200Ok) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson81fd3f84DecodeGithubComAntihaxGoesiEsi1(&r, v)
+	easyjson81fd3f84DecodeGithubComCurzonjGoesiEsi1(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetCharactersCharacterIdKillmailsRecent200Ok) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson81fd3f84DecodeGithubComAntihaxGoesiEsi1(l, v)
+	easyjson81fd3f84DecodeGithubComCurzonjGoesiEsi1(l, v)
 }

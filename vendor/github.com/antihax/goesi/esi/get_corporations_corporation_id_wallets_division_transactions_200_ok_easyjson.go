@@ -18,7 +18,7 @@ var (
 	_ easyjson.Marshaler
 )
 
-func easyjson5cb1906DecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetCorporationsCorporationIdWalletsDivisionTransactions200OkList) {
+func easyjson5cb1906DecodeGithubComCurzonjGoesiEsi(in *jlexer.Lexer, out *GetCorporationsCorporationIdWalletsDivisionTransactions200OkList) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		in.Skip()
@@ -46,7 +46,7 @@ func easyjson5cb1906DecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetCor
 		in.Consumed()
 	}
 }
-func easyjson5cb1906EncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetCorporationsCorporationIdWalletsDivisionTransactions200OkList) {
+func easyjson5cb1906EncodeGithubComCurzonjGoesiEsi(out *jwriter.Writer, in GetCorporationsCorporationIdWalletsDivisionTransactions200OkList) {
 	if in == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
 		out.RawString("null")
 	} else {
@@ -64,27 +64,27 @@ func easyjson5cb1906EncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetCo
 // MarshalJSON supports json.Marshaler interface
 func (v GetCorporationsCorporationIdWalletsDivisionTransactions200OkList) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson5cb1906EncodeGithubComAntihaxGoesiEsi(&w, v)
+	easyjson5cb1906EncodeGithubComCurzonjGoesiEsi(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetCorporationsCorporationIdWalletsDivisionTransactions200OkList) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson5cb1906EncodeGithubComAntihaxGoesiEsi(w, v)
+	easyjson5cb1906EncodeGithubComCurzonjGoesiEsi(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetCorporationsCorporationIdWalletsDivisionTransactions200OkList) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson5cb1906DecodeGithubComAntihaxGoesiEsi(&r, v)
+	easyjson5cb1906DecodeGithubComCurzonjGoesiEsi(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetCorporationsCorporationIdWalletsDivisionTransactions200OkList) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson5cb1906DecodeGithubComAntihaxGoesiEsi(l, v)
+	easyjson5cb1906DecodeGithubComCurzonjGoesiEsi(l, v)
 }
-func easyjson5cb1906DecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetCorporationsCorporationIdWalletsDivisionTransactions200Ok) {
+func easyjson5cb1906DecodeGithubComCurzonjGoesiEsi1(in *jlexer.Lexer, out *GetCorporationsCorporationIdWalletsDivisionTransactions200Ok) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -133,7 +133,7 @@ func easyjson5cb1906DecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetCo
 		in.Consumed()
 	}
 }
-func easyjson5cb1906EncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in GetCorporationsCorporationIdWalletsDivisionTransactions200Ok) {
+func easyjson5cb1906EncodeGithubComCurzonjGoesiEsi1(out *jwriter.Writer, in GetCorporationsCorporationIdWalletsDivisionTransactions200Ok) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -215,23 +215,23 @@ func easyjson5cb1906EncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in GetC
 // MarshalJSON supports json.Marshaler interface
 func (v GetCorporationsCorporationIdWalletsDivisionTransactions200Ok) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson5cb1906EncodeGithubComAntihaxGoesiEsi1(&w, v)
+	easyjson5cb1906EncodeGithubComCurzonjGoesiEsi1(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetCorporationsCorporationIdWalletsDivisionTransactions200Ok) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson5cb1906EncodeGithubComAntihaxGoesiEsi1(w, v)
+	easyjson5cb1906EncodeGithubComCurzonjGoesiEsi1(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetCorporationsCorporationIdWalletsDivisionTransactions200Ok) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson5cb1906DecodeGithubComAntihaxGoesiEsi1(&r, v)
+	easyjson5cb1906DecodeGithubComCurzonjGoesiEsi1(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetCorporationsCorporationIdWalletsDivisionTransactions200Ok) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson5cb1906DecodeGithubComAntihaxGoesiEsi1(l, v)
+	easyjson5cb1906DecodeGithubComCurzonjGoesiEsi1(l, v)
 }

@@ -18,7 +18,7 @@ var (
 	_ easyjson.Marshaler
 )
 
-func easyjson15e3e24fDecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetCharactersCharacterIdChatChannels200OkList) {
+func easyjson15e3e24fDecodeGithubComCurzonjGoesiEsi(in *jlexer.Lexer, out *GetCharactersCharacterIdChatChannels200OkList) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		in.Skip()
@@ -46,7 +46,7 @@ func easyjson15e3e24fDecodeGithubComAntihaxGoesiEsi(in *jlexer.Lexer, out *GetCh
 		in.Consumed()
 	}
 }
-func easyjson15e3e24fEncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetCharactersCharacterIdChatChannels200OkList) {
+func easyjson15e3e24fEncodeGithubComCurzonjGoesiEsi(out *jwriter.Writer, in GetCharactersCharacterIdChatChannels200OkList) {
 	if in == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
 		out.RawString("null")
 	} else {
@@ -64,27 +64,27 @@ func easyjson15e3e24fEncodeGithubComAntihaxGoesiEsi(out *jwriter.Writer, in GetC
 // MarshalJSON supports json.Marshaler interface
 func (v GetCharactersCharacterIdChatChannels200OkList) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson15e3e24fEncodeGithubComAntihaxGoesiEsi(&w, v)
+	easyjson15e3e24fEncodeGithubComCurzonjGoesiEsi(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetCharactersCharacterIdChatChannels200OkList) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson15e3e24fEncodeGithubComAntihaxGoesiEsi(w, v)
+	easyjson15e3e24fEncodeGithubComCurzonjGoesiEsi(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetCharactersCharacterIdChatChannels200OkList) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson15e3e24fDecodeGithubComAntihaxGoesiEsi(&r, v)
+	easyjson15e3e24fDecodeGithubComCurzonjGoesiEsi(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetCharactersCharacterIdChatChannels200OkList) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson15e3e24fDecodeGithubComAntihaxGoesiEsi(l, v)
+	easyjson15e3e24fDecodeGithubComCurzonjGoesiEsi(l, v)
 }
-func easyjson15e3e24fDecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetCharactersCharacterIdChatChannels200Ok) {
+func easyjson15e3e24fDecodeGithubComCurzonjGoesiEsi1(in *jlexer.Lexer, out *GetCharactersCharacterIdChatChannels200Ok) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -120,7 +120,7 @@ func easyjson15e3e24fDecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetC
 				}
 				for !in.IsDelim(']') {
 					var v4 GetCharactersCharacterIdChatChannelsAllowed
-					easyjson15e3e24fDecodeGithubComAntihaxGoesiEsi2(in, &v4)
+					easyjson15e3e24fDecodeGithubComCurzonjGoesiEsi2(in, &v4)
 					out.Allowed = append(out.Allowed, v4)
 					in.WantComma()
 				}
@@ -143,7 +143,7 @@ func easyjson15e3e24fDecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetC
 				}
 				for !in.IsDelim(']') {
 					var v5 GetCharactersCharacterIdChatChannelsBlocked
-					easyjson15e3e24fDecodeGithubComAntihaxGoesiEsi3(in, &v5)
+					easyjson15e3e24fDecodeGithubComCurzonjGoesiEsi3(in, &v5)
 					out.Blocked = append(out.Blocked, v5)
 					in.WantComma()
 				}
@@ -174,7 +174,7 @@ func easyjson15e3e24fDecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetC
 				}
 				for !in.IsDelim(']') {
 					var v6 GetCharactersCharacterIdChatChannelsMuted
-					(v6).UnmarshalEasyJSON(in)
+					easyjson15e3e24fDecodeGithubComCurzonjGoesiEsi4(in, &v6)
 					out.Muted = append(out.Muted, v6)
 					in.WantComma()
 				}
@@ -199,7 +199,7 @@ func easyjson15e3e24fDecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetC
 				}
 				for !in.IsDelim(']') {
 					var v7 GetCharactersCharacterIdChatChannelsOperator
-					easyjson15e3e24fDecodeGithubComAntihaxGoesiEsi4(in, &v7)
+					easyjson15e3e24fDecodeGithubComCurzonjGoesiEsi5(in, &v7)
 					out.Operators = append(out.Operators, v7)
 					in.WantComma()
 				}
@@ -217,7 +217,7 @@ func easyjson15e3e24fDecodeGithubComAntihaxGoesiEsi1(in *jlexer.Lexer, out *GetC
 		in.Consumed()
 	}
 }
-func easyjson15e3e24fEncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in GetCharactersCharacterIdChatChannels200Ok) {
+func easyjson15e3e24fEncodeGithubComCurzonjGoesiEsi1(out *jwriter.Writer, in GetCharactersCharacterIdChatChannels200Ok) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -235,7 +235,7 @@ func easyjson15e3e24fEncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in Get
 				if v8 > 0 {
 					out.RawByte(',')
 				}
-				easyjson15e3e24fEncodeGithubComAntihaxGoesiEsi2(out, v9)
+				easyjson15e3e24fEncodeGithubComCurzonjGoesiEsi2(out, v9)
 			}
 			out.RawByte(']')
 		}
@@ -254,7 +254,7 @@ func easyjson15e3e24fEncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in Get
 				if v10 > 0 {
 					out.RawByte(',')
 				}
-				easyjson15e3e24fEncodeGithubComAntihaxGoesiEsi3(out, v11)
+				easyjson15e3e24fEncodeGithubComCurzonjGoesiEsi3(out, v11)
 			}
 			out.RawByte(']')
 		}
@@ -305,7 +305,7 @@ func easyjson15e3e24fEncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in Get
 				if v12 > 0 {
 					out.RawByte(',')
 				}
-				(v13).MarshalEasyJSON(out)
+				easyjson15e3e24fEncodeGithubComCurzonjGoesiEsi4(out, v13)
 			}
 			out.RawByte(']')
 		}
@@ -332,7 +332,7 @@ func easyjson15e3e24fEncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in Get
 				if v14 > 0 {
 					out.RawByte(',')
 				}
-				easyjson15e3e24fEncodeGithubComAntihaxGoesiEsi4(out, v15)
+				easyjson15e3e24fEncodeGithubComCurzonjGoesiEsi5(out, v15)
 			}
 			out.RawByte(']')
 		}
@@ -351,27 +351,27 @@ func easyjson15e3e24fEncodeGithubComAntihaxGoesiEsi1(out *jwriter.Writer, in Get
 // MarshalJSON supports json.Marshaler interface
 func (v GetCharactersCharacterIdChatChannels200Ok) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson15e3e24fEncodeGithubComAntihaxGoesiEsi1(&w, v)
+	easyjson15e3e24fEncodeGithubComCurzonjGoesiEsi1(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v GetCharactersCharacterIdChatChannels200Ok) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson15e3e24fEncodeGithubComAntihaxGoesiEsi1(w, v)
+	easyjson15e3e24fEncodeGithubComCurzonjGoesiEsi1(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *GetCharactersCharacterIdChatChannels200Ok) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson15e3e24fDecodeGithubComAntihaxGoesiEsi1(&r, v)
+	easyjson15e3e24fDecodeGithubComCurzonjGoesiEsi1(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *GetCharactersCharacterIdChatChannels200Ok) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson15e3e24fDecodeGithubComAntihaxGoesiEsi1(l, v)
+	easyjson15e3e24fDecodeGithubComCurzonjGoesiEsi1(l, v)
 }
-func easyjson15e3e24fDecodeGithubComAntihaxGoesiEsi4(in *jlexer.Lexer, out *GetCharactersCharacterIdChatChannelsOperator) {
+func easyjson15e3e24fDecodeGithubComCurzonjGoesiEsi5(in *jlexer.Lexer, out *GetCharactersCharacterIdChatChannelsOperator) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -404,7 +404,7 @@ func easyjson15e3e24fDecodeGithubComAntihaxGoesiEsi4(in *jlexer.Lexer, out *GetC
 		in.Consumed()
 	}
 }
-func easyjson15e3e24fEncodeGithubComAntihaxGoesiEsi4(out *jwriter.Writer, in GetCharactersCharacterIdChatChannelsOperator) {
+func easyjson15e3e24fEncodeGithubComCurzonjGoesiEsi5(out *jwriter.Writer, in GetCharactersCharacterIdChatChannelsOperator) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -426,7 +426,7 @@ func easyjson15e3e24fEncodeGithubComAntihaxGoesiEsi4(out *jwriter.Writer, in Get
 	}
 	out.RawByte('}')
 }
-func easyjson15e3e24fDecodeGithubComAntihaxGoesiEsi3(in *jlexer.Lexer, out *GetCharactersCharacterIdChatChannelsBlocked) {
+func easyjson15e3e24fDecodeGithubComCurzonjGoesiEsi4(in *jlexer.Lexer, out *GetCharactersCharacterIdChatChannelsMuted) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -465,7 +465,7 @@ func easyjson15e3e24fDecodeGithubComAntihaxGoesiEsi3(in *jlexer.Lexer, out *GetC
 		in.Consumed()
 	}
 }
-func easyjson15e3e24fEncodeGithubComAntihaxGoesiEsi3(out *jwriter.Writer, in GetCharactersCharacterIdChatChannelsBlocked) {
+func easyjson15e3e24fEncodeGithubComCurzonjGoesiEsi4(out *jwriter.Writer, in GetCharactersCharacterIdChatChannelsMuted) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -503,7 +503,84 @@ func easyjson15e3e24fEncodeGithubComAntihaxGoesiEsi3(out *jwriter.Writer, in Get
 	}
 	out.RawByte('}')
 }
-func easyjson15e3e24fDecodeGithubComAntihaxGoesiEsi2(in *jlexer.Lexer, out *GetCharactersCharacterIdChatChannelsAllowed) {
+func easyjson15e3e24fDecodeGithubComCurzonjGoesiEsi3(in *jlexer.Lexer, out *GetCharactersCharacterIdChatChannelsBlocked) {
+	isTopLevel := in.IsStart()
+	if in.IsNull() {
+		if isTopLevel {
+			in.Consumed()
+		}
+		in.Skip()
+		return
+	}
+	in.Delim('{')
+	for !in.IsDelim('}') {
+		key := in.UnsafeString()
+		in.WantColon()
+		if in.IsNull() {
+			in.Skip()
+			in.WantComma()
+			continue
+		}
+		switch key {
+		case "accessor_id":
+			out.AccessorId = int32(in.Int32())
+		case "accessor_type":
+			out.AccessorType = string(in.String())
+		case "end_at":
+			if data := in.Raw(); in.Ok() {
+				in.AddError((out.EndAt).UnmarshalJSON(data))
+			}
+		case "reason":
+			out.Reason = string(in.String())
+		default:
+			in.SkipRecursive()
+		}
+		in.WantComma()
+	}
+	in.Delim('}')
+	if isTopLevel {
+		in.Consumed()
+	}
+}
+func easyjson15e3e24fEncodeGithubComCurzonjGoesiEsi3(out *jwriter.Writer, in GetCharactersCharacterIdChatChannelsBlocked) {
+	out.RawByte('{')
+	first := true
+	_ = first
+	if in.AccessorId != 0 {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"accessor_id\":")
+		out.Int32(int32(in.AccessorId))
+	}
+	if in.AccessorType != "" {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"accessor_type\":")
+		out.String(string(in.AccessorType))
+	}
+	if true {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"end_at\":")
+		out.Raw((in.EndAt).MarshalJSON())
+	}
+	if in.Reason != "" {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"reason\":")
+		out.String(string(in.Reason))
+	}
+	out.RawByte('}')
+}
+func easyjson15e3e24fDecodeGithubComCurzonjGoesiEsi2(in *jlexer.Lexer, out *GetCharactersCharacterIdChatChannelsAllowed) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -536,7 +613,7 @@ func easyjson15e3e24fDecodeGithubComAntihaxGoesiEsi2(in *jlexer.Lexer, out *GetC
 		in.Consumed()
 	}
 }
-func easyjson15e3e24fEncodeGithubComAntihaxGoesiEsi2(out *jwriter.Writer, in GetCharactersCharacterIdChatChannelsAllowed) {
+func easyjson15e3e24fEncodeGithubComCurzonjGoesiEsi2(out *jwriter.Writer, in GetCharactersCharacterIdChatChannelsAllowed) {
 	out.RawByte('{')
 	first := true
 	_ = first

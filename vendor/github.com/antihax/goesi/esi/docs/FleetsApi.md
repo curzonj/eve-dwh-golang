@@ -271,7 +271,7 @@ Name | Type | Description  | Notes
 > PostFleetsFleetIdMembers(ctx, fleetId, invitation, optional)
 Create fleet invitation
 
-Invite a character into the fleet, if a character has a CSPA charge set, it is not possible to invite them to the fleet using ESI  --- 
+Invite a character into the fleet. If a character has a CSPA charge set it is not possible to invite them to the fleet using ESI  --- 
 
 ### Required Parameters
 
