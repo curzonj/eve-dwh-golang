@@ -42,10 +42,7 @@ func (u *UserCharacter) TokenSource(c types.Clients) (goesi.CRESTTokenSource, er
 				return nil, err
 			}
 
-			jsonToken := string(bytes)
-			c.Logger.Print(jsonToken)
-
-			_, err = c.DB.Exec("update user_characters set oauth_token = $2 where id = $1", u.ID, jsonToken)
+			_, err = c.DB.Exec("update user_characters set oauth_token = $2 where id = $1", u.ID, string(bytes))
 			if err != nil {
 				return nil, err
 			}
