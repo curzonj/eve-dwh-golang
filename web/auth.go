@@ -18,9 +18,12 @@ func exchangeToken(a *goesi.SSOAuthenticator, r *http.Request) (*goesi.VerifyRes
 	// get our code and state
 	code := r.FormValue("code")
 	state := r.FormValue("state")
+	sessionState := session.Values["state"]
+
+	delete(session.Values, "state")
 
 	// Verify the state matches our randomly generated string from earlier.
-	if session.Values["state"] != state {
+	if sessionState != state {
 		return nil, "", errors.New("Invalid state")
 	}
 
@@ -70,8 +73,8 @@ func (h *handler) eveOauthCallback(w http.ResponseWriter, r *http.Request) error
 		characterExists = false
 	}
 
-	userID := session.Values["user_id"].(string)
-	if userID == "" {
+	userID, ok := session.Values["user_id"].(string)
+	if !ok {
 		if characterExists {
 			userID = character.UserID
 		} else {
@@ -83,10 +86,6 @@ func (h *handler) eveOauthCallback(w http.ResponseWriter, r *http.Request) error
 		}
 
 		session.Values["user_id"] = userID
-		err = session.Save(r, w)
-		if err != nil {
-			return err
-		}
 	} else {
 		if characterExists {
 			if character.UserID != userID {
@@ -117,6 +116,11 @@ func (h *handler) eveOauthCallback(w http.ResponseWriter, r *http.Request) error
 	redirectTo := session.Values["redirect_to"].(string)
 	if redirectTo == "" {
 		redirectTo = "/"
+	}
+
+	err = session.Save(r, w)
+	if err != nil {
+		return err
 	}
 
 	http.Redirect(w, r, redirectTo, 302)
@@ -162,9 +166,9 @@ func (h *handler) logoutSession(w http.ResponseWriter, r *http.Request) error {
 func (h *handler) authenticationRequirement(next http.Handler) http.Handler {
 	return http.HandlerFunc(wrapErrors(func(w http.ResponseWriter, r *http.Request) error {
 		session := session(r)
-		userID := session.Values["user_id"]
+		_, ok := session.Values["user_id"].(string)
 
-		if userID == "" {
+		if !ok {
 			session.Values["redirect_to"] = r.URL.RequestURI()
 			err := session.Save(r, w)
 			if err != nil {
