@@ -27,6 +27,18 @@
   source = "github.com/curzonj/goesi"
 
 [[projects]]
+  name = "github.com/cenk/backoff"
+  packages = ["."]
+  revision = "61153c768f31ee5f130071d08fc82b85208528de"
+  version = "v1.1.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/facebookgo/clock"
+  packages = ["."]
+  revision = "600d898af40aa09a7a93ecb9265d87b0504b6f03"
+
+[[projects]]
   name = "github.com/garyburd/redigo"
   packages = ["internal","redis"]
   revision = "433969511232c397de61b1442f9fd49ec06ae9ba"
@@ -111,6 +123,12 @@
   version = "v0.8.0"
 
 [[projects]]
+  name = "github.com/rubyist/circuitbreaker"
+  packages = ["."]
+  revision = "7e3e7fbe9c62b943d487af023566a79d9eb22d3b"
+  version = "v2.2.0"
+
+[[projects]]
   branch = "master"
   name = "golang.org/x/crypto"
   packages = ["ssh/terminal"]
@@ -149,6 +167,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "e3fa27d359235db6b884ebfdf9f8de3811a5e882a0777ae92c08180eb3edeecd"
+  inputs-digest = "4c6a863c67a19c863f0fef8c3c891ba2493b1515bbdc56d7e27eb730d2193a80"
   solver-name = "gps-cdcl"
   solver-version = 1
