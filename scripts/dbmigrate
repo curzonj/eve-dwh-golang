@@ -7,4 +7,4 @@ if [ -z "$DATABASE_URL" ]; then
   exit 1
 fi
 
-exec migrate -database "$DATABASE_URL" -path migrations "$@"
+exec ./bin/migrate -database "$DATABASE_URL" -path migrations "$@"

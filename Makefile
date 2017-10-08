@@ -29,3 +29,5 @@ init:
 	go get -u github.com/kardianos/govendor
 	go get -u github.com/golang/lint/golint
 	go get -u github.com/kardianos/govendor
+	go get -u -d github.com/mattes/migrate/cli github.com/lib/pq
+	go build -tags 'postgres' -o bin/migrate github.com/mattes/migrate/cli

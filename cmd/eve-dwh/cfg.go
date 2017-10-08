@@ -10,9 +10,8 @@ import (
 	"github.com/antihax/goesi"
 	"github.com/curzonj/eve-dwh-golang/poller"
 	"github.com/curzonj/eve-dwh-golang/types"
-	"github.com/curzonj/eve-dwh-golang/utils/rediscache"
+	"github.com/curzonj/eve-dwh-golang/utils/dbcache"
 	"github.com/curzonj/eve-dwh-golang/web"
-	"github.com/garyburd/redigo/redis"
 	"github.com/gregjones/httpcache"
 	"github.com/jmoiron/sqlx"
 	"github.com/joeshaw/envdecode"
@@ -24,7 +23,6 @@ var cfg struct {
 	Web    web.Cfg
 
 	DatabaseURL string `env:"DATABASE_URL,required"`
-	RedisURL    string `env:"REDIS_URL,required"`
 
 	ESI struct {
 		UserAgent        string `env:"USER_AGENT,required"`
@@ -77,7 +75,7 @@ func (t *loggingTransport) RoundTrip(req *http.Request) (*http.Response, error) 
 	return res, err
 }
 
-func buildESIClient(pool *redis.Pool) {
+func buildESIClient() {
 	// Add retries, backoff and logging in the transport
 	rt := rehttp.NewTransport(
 		&loggingTransport{},
@@ -95,7 +93,7 @@ func buildESIClient(pool *redis.Pool) {
 	httpClient := &http.Client{
 		Transport: &httpcache.Transport{
 			Transport:           rt,
-			Cache:               rediscache.NewWithPool(pool, clients.Logger),
+			Cache:               dbcache.New(clients.DB, clients.Logger),
 			MarkCachedResponses: true,
 		},
 	}
@@ -113,25 +111,8 @@ func buildESIClient(pool *redis.Pool) {
 }
 
 func buildClients() {
-	pool := &redis.Pool{
-		MaxIdle:     3,
-		IdleTimeout: 240 * time.Second,
-		Dial: func() (redis.Conn, error) {
-			return redis.DialURL(cfg.RedisURL)
-		},
-		TestOnBorrow: func(c redis.Conn, t time.Time) error {
-			if time.Since(t) < time.Minute {
-				return nil
-			}
-			_, err := c.Do("PING")
-			return err
-		},
-	}
-
-	clients.Redis = pool
-
-	buildESIClient(pool)
 	connectToDatabase()
+	buildESIClient()
 }
 
 func loadEnvironment() {
