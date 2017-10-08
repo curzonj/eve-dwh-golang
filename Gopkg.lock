@@ -15,6 +15,12 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/a-h/hsts"
+  packages = ["."]
+  revision = "509101faf0deb6858af97c66d7797e663bce1094"
+
+[[projects]]
+  branch = "master"
   name = "github.com/antihax/goesi"
   packages = [".","esi","eveapi"]
   revision = "ca6b2d286ba2dbbad083023f4fdf409b6312d0b3"
@@ -93,12 +99,6 @@
   revision = "2a92e673c9a6302dd05c3a691ae1f24aef46457d"
 
 [[projects]]
-  name = "github.com/mattes/migrate"
-  packages = [".","database","source"]
-  revision = "035c07716cd373d88456ec4d701402df52584cb4"
-  version = "v3.0.1"
-
-[[projects]]
   name = "github.com/pborman/uuid"
   packages = ["."]
   revision = "e790cca94e6cc75c7064b1332e63811d4aae1a53"
@@ -149,6 +149,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "ab976d94ff8bfb2bb9cb6dea1f716a394a9c9f6f920785200f719c32dc92d6f5"
+  inputs-digest = "e3fa27d359235db6b884ebfdf9f8de3811a5e882a0777ae92c08180eb3edeecd"
   solver-name = "gps-cdcl"
   solver-version = 1
