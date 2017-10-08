@@ -7,7 +7,7 @@ run: test build
 	heroku local
 
 build:
-	go build
+	go build -o bin/eve-dwh-golang
 	echo "Build Complete"
 
 watch:

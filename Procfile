@@ -1,2 +1,2 @@
-web: ./eve-dwh-golang serve
-dev: ./eve-dwh-golang dev
+web: ./bin/eve-dwh-golang serve
+dev: ./bin/eve-dwh-golang dev
