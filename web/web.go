@@ -4,14 +4,16 @@ import (
 	"net/http"
 
 	log "github.com/Sirupsen/logrus"
+	"github.com/a-h/hsts"
 	"github.com/curzonj/eve-dwh-golang/types"
 	"github.com/go-chi/chi"
 	"github.com/gorilla/sessions"
 )
 
 type Cfg struct {
-	Port   string `env:"PORT,required"`
-	Secret string `env:"SECRET,required"`
+	Port        string `env:"PORT,required"`
+	Secret      string `env:"SECRET,required"`
+	SSLRequired bool   `env:"SSL_REQUIRED,default=true"`
 }
 
 type handler struct {
@@ -25,14 +27,14 @@ func RunHandler(clients types.Clients, cfg Cfg) {
 		store:   sessions.NewCookieStore([]byte(cfg.Secret)),
 	}
 
-	h.run(cfg.Port)
+	h.run(cfg)
 }
 
-func (h *handler) run(port string) {
+func (h *handler) run(cfg Cfg) {
 	logger := h.clients.Logger.WithField("fn", "runWebHandler")
 	logger.WithFields(log.Fields{
 		"at":   "start",
-		"port": port,
+		"port": cfg.Port,
 	}).Info()
 
 	r := chi.NewRouter()
@@ -55,5 +57,12 @@ func (h *handler) run(port string) {
 		r.Mount("/", http.FileServer(http.Dir("public")))
 	})
 
-	http.ListenAndServe(":"+port, r)
+	handler := http.Handler(r)
+
+	if cfg.SSLRequired {
+		logger.Info("SSL enforcement enabled")
+		handler = hsts.NewHandler(handler)
+	}
+
+	http.ListenAndServe(":"+cfg.Port, handler)
 }
