@@ -19,9 +19,9 @@ test: fmt
 
 fmt:
 # golint ${PACKAGES}
-	go vet ${PACKAGES} ./utils/... .
-	go fmt ${PACKAGES} ./utils/... .
-	goimports -w ${PACKAGES} ./utils *.go
+	go vet ${PACKAGES} ./utils/... ./cmd/...
+	go fmt ${PACKAGES} ./utils/... ./cmd/...
+	goimports -w ${PACKAGES} ./utils ./cmd
 
 init:
 	go get -u github.com/cespare/reflex
