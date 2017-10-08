@@ -1,0 +1,17 @@
+<html>
+  <body>
+    <table>
+      <tr>
+        <th>Installer</th>
+        <th>Type</th>
+        <th>EndDate</th>
+      </tr>
+      {{range .}}
+      <tr>
+        <td>{{.Installer}}</td>
+        <td>{{.Type}}</td>
+        <td>{{.EndDate}}</td>
+      </tr>
+      {{end}}
+  </body>
+</html>

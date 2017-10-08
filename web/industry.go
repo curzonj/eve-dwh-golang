@@ -2,8 +2,9 @@ package web
 
 import (
 	"context"
-	"fmt"
 	"net/http"
+	"sort"
+	"sync"
 	"time"
 
 	"github.com/antihax/goesi"
@@ -28,42 +29,60 @@ func (h *handler) industryJobs(w http.ResponseWriter, r *http.Request) error {
 		return err
 	}
 
-	list := make([]BlueprintJob, 0)
+	bc := make(chan BlueprintJob)
+	var wg sync.WaitGroup
 
 	for _, c := range characters {
-		tokSrc, err := c.TokenSource(h.clients)
-		if err != nil {
-			logger.Error(err)
-			continue
-		}
+		wg.Add(1)
+		go func(c model.UserCharacter) {
+			defer wg.Done()
 
-		ctx := context.WithValue(r.Context(), goesi.ContextOAuth2, tokSrc)
-		data, _, err := h.clients.ESIClient.IndustryApi.GetCharactersCharacterIdIndustryJobs(ctx, int32(c.ID), map[string]interface{}{
-			"includeCompleted": false,
-		})
-
-		if err != nil {
-			logger.Error(err)
-			continue
-		}
-
-		for _, j := range data {
-			var name string
-			err := h.clients.DB.Get(&name, "select \"typeName\" from \"invTypes\" where \"typeID\" = $1 limit 1", j.BlueprintTypeId)
+			tokSrc, err := c.TokenSource(h.clients)
 			if err != nil {
 				logger.Error(err)
-				continue
+				return
 			}
 
-			list = append(list, BlueprintJob{
-				Installer: c.Name,
-				Type:      name,
-				EndDate:   j.EndDate,
+			ctx := context.WithValue(r.Context(), goesi.ContextOAuth2, tokSrc)
+			data, _, err := h.clients.ESIClient.IndustryApi.GetCharactersCharacterIdIndustryJobs(ctx, int32(c.ID), map[string]interface{}{
+				"includeCompleted": false,
 			})
-		}
 
+			if err != nil {
+				logger.Error(err)
+				return
+			}
+
+			for _, j := range data {
+				var name string
+				err := h.clients.DB.Get(&name, "select \"typeName\" from \"invTypes\" where \"typeID\" = $1 limit 1", j.BlueprintTypeId)
+				if err != nil {
+					logger.Error(err)
+					return
+				}
+
+				bc <- BlueprintJob{
+					Installer: c.Name,
+					Type:      name,
+					EndDate:   j.EndDate,
+				}
+			}
+		}(c)
 	}
 
-	w.Write([]byte(fmt.Sprintf("welcome %s: %+v", userID, list)))
-	return nil
+	go func() {
+		wg.Wait()
+		close(bc)
+	}()
+
+	list := make([]BlueprintJob, 0)
+	for b := range bc {
+		list = append(list, b)
+	}
+
+	sort.Slice(list, func(i, j int) bool {
+		return list[j].EndDate.After(list[i].EndDate)
+	})
+
+	return render("industry", w, list)
 }
