@@ -3,7 +3,6 @@ package main
 import (
 	"os"
 
-	"github.com/curzonj/eve-dwh-golang/poller"
 	"github.com/curzonj/eve-dwh-golang/web"
 	"gopkg.in/urfave/cli.v1"
 )
@@ -11,7 +10,7 @@ import (
 func cliServerAction(c *cli.Context) error {
 	buildClients()
 
-	go poller.MarketStatisticsPoller(clients, cfg.Poller)
+	//go poller.MarketStatisticsPoller(clients, cfg.Poller)
 	go web.RunHandler(clients, cfg.Web)
 
 	select {}
