@@ -14,7 +14,14 @@ func (h *handler) logRequest(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
 
-		l := h.clients.Logger.WithField("req", uuid.NewUUID().String())
+		requestID := uuid.NewUUID().String()
+
+		l := h.clients.Logger.WithFields(log.Fields{
+			"at":     "httpRequest",
+			"method": r.Method,
+			"path":   r.URL.RequestURI(),
+			"req":    requestID,
+		})
 
 		c := r.Context()
 		c = context.WithValue(c, types.ContextLoggerKey, l)
@@ -23,14 +30,9 @@ func (h *handler) logRequest(next http.Handler) http.Handler {
 		lrw := newLoggingResponseWriter(w)
 		next.ServeHTTP(lrw, r)
 
-		finished := time.Now()
-
 		l.WithFields(log.Fields{
-			"at":      "httpRequest",
-			"method":  r.Method,
 			"status":  lrw.statusCode,
-			"elapsed": finished.Sub(start).Seconds(),
-			"path":    r.URL.RequestURI(),
+			"elapsed": time.Now().Sub(start).Seconds(),
 		}).Info()
 	})
 }

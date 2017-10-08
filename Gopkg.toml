@@ -86,3 +86,7 @@
 [[constraint]]
   branch = "master"
   name = "github.com/a-h/hsts"
+
+[[constraint]]
+  name = "github.com/rubyist/circuitbreaker"
+  version = "2.2.0"

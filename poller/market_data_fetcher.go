@@ -32,7 +32,7 @@ func (f *marketDataFetcher) GetOrderDataset(regionID int32) (orderDataset, error
 }
 
 func (f *marketDataFetcher) fetchOrders(regionID int32) ([][]esi.GetMarketsRegionIdOrders200Ok, error) {
-	firstPage, resp, err := f.clients.ESIClient.MarketApi.GetMarketsRegionIdOrders(nil, "buy", regionID, nil)
+	firstPage, resp, err := f.clients.ESIClientRetries.MarketApi.GetMarketsRegionIdOrders(nil, "buy", regionID, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -62,7 +62,7 @@ func (f *marketDataFetcher) remainingOrderPages(regionID int32, lastPage int) ([
 			params := make(map[string]interface{})
 			params["page"] = page
 
-			list, _, err := f.clients.ESIClient.MarketApi.GetMarketsRegionIdOrders(nil, "buy", regionID, params)
+			list, _, err := f.clients.ESIClientRetries.MarketApi.GetMarketsRegionIdOrders(nil, "buy", regionID, params)
 
 			if err != nil {
 				errors <- err

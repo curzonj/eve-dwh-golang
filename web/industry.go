@@ -44,7 +44,7 @@ func (h *handler) industryJobs(w http.ResponseWriter, r *http.Request) error {
 			}
 
 			ctx := context.WithValue(r.Context(), goesi.ContextOAuth2, tokSrc)
-			data, _, err := h.clients.ESIClient.IndustryApi.GetCharactersCharacterIdIndustryJobs(ctx, int32(c.ID), map[string]interface{}{
+			data, _, err := h.clients.ESIClientBreaker.IndustryApi.GetCharactersCharacterIdIndustryJobs(ctx, int32(c.ID), map[string]interface{}{
 				"includeCompleted": false,
 			})
 

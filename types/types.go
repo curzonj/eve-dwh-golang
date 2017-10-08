@@ -16,7 +16,8 @@ const (
 )
 
 type Clients struct {
-	ESIClient        *esi.APIClient
+	ESIClientBreaker *esi.APIClient
+	ESIClientRetries *esi.APIClient
 	ESIAuthenticator *goesi.SSOAuthenticator
 	DB               *sqlx.DB
 	Redis            *redis.Pool
