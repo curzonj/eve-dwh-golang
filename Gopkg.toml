@@ -22,7 +22,6 @@
 
 [metadata.heroku]
   root-package = "github.com/curzonj/eve-dwh-golang"
-  go-version = "1.9"
   install = [ "./..." ]
 
 [[constraint]]
