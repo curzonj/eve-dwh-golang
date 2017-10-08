@@ -2,12 +2,13 @@
 .DEFAULT_GOAL: build
 
 PACKAGES := ./poller ./types ./web ./model
+BUILD_DIR := $(CURDIR)/bin/
 
 run: test build
 	heroku local
 
 build:
-	go build -o bin/eve-dwh-golang
+	GOBIN=$(BUILD_DIR) go install ./cmd/...
 	echo "Build Complete"
 
 watch:
