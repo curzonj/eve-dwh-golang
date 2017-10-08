@@ -25,7 +25,8 @@ required = ["github.com/mattes/migrate"]
 [metadata.heroku]
   root-package = "github.com/curzonj/eve-dwh-golang"
   go-version = "go1.9.1"
-  install = [ "./cmd/...", "github.com/mattes/migrate" ]
+  install = [ "./cmd/..." ]
+  additional-tools = ["github.com/mattes/migrate"]
 
 [[constraint]]
   branch = "master"
