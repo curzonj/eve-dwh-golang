@@ -2,6 +2,7 @@ package web
 
 import (
 	"net/http"
+	"sort"
 	"sync"
 
 	"github.com/antihax/goesi/esi"
@@ -10,9 +11,11 @@ import (
 
 type PlanetData struct {
 	//	Activity  string
-	Character string
-	PlanetID  int32
-	BIFCount  int
+	CharacterID int64
+	Character   string
+	PlanetID    int32
+	PlanetType  string
+	BIFCount    int
 }
 
 var (
@@ -83,9 +86,11 @@ func (h *handler) planets(w http.ResponseWriter, r *http.Request) error {
 
 					bc <- PlanetData{
 						//	Activity  string
-						Character: c.Name,
-						PlanetID:  j.PlanetId,
-						BIFCount:  count,
+						CharacterID: c.ID,
+						Character:   c.Name,
+						PlanetID:    j.PlanetId,
+						PlanetType:  j.PlanetType,
+						BIFCount:    count,
 					}
 				}(j)
 			}
@@ -101,6 +106,16 @@ func (h *handler) planets(w http.ResponseWriter, r *http.Request) error {
 	for b := range bc {
 		list = append(list, b)
 	}
+
+	sort.Slice(list, func(i, j int) bool {
+		if list[i].CharacterID < list[j].CharacterID {
+			return true
+		}
+		if list[i].CharacterID > list[j].CharacterID {
+			return false
+		}
+		return list[i].PlanetID < list[j].PlanetID
+	})
 
 	return render("planets", w, list)
 }

@@ -110,23 +110,20 @@ func (p *poller) walletsPollerTick() error {
 				l.Error(err)
 			}
 		}
-		/*
-		    * The client for this is currently broken
-		    *
-		   		transactions, err := p.getCharacterESIWalletTransactions(ctx, c)
-		   		if err != nil {
-		   			l.Error(err)
-		   			continue
-		   		}
 
-		   		for _, values := range transactions {
-		   			columns := sqlh.BuildColumnsValues(values)
-		   			_, err = p.clients.DB.NamedExec(fmt.Sprintf("INSERT INTO wallet_transactions %s ON CONFLICT DO NOTHING", columns), values)
-		   			if err != nil {
-		   				l.Error(err)
-		   			}
-		   		}
-		*/
+		transactions, err := p.getCharacterESIWalletTransactions(ctx, c)
+		if err != nil {
+			l.Error(err)
+			continue
+		}
+
+		for _, values := range transactions {
+			columns := sqlh.BuildColumnsValues(values)
+			_, err = p.clients.DB.NamedExec(fmt.Sprintf("INSERT INTO wallet_transactions %s ON CONFLICT DO NOTHING", columns), values)
+			if err != nil {
+				l.Error(err)
+			}
+		}
 	}
 
 	return nil

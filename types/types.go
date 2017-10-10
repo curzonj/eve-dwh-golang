@@ -3,7 +3,6 @@ package types
 import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/antihax/goesi"
-	"github.com/garyburd/redigo/redis"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -19,6 +18,5 @@ type Clients struct {
 	EVERetryClient   *goesi.APIClient
 	ESIAuthenticator *goesi.SSOAuthenticator
 	DB               *sqlx.DB
-	Redis            *redis.Pool
 	Logger           log.FieldLogger
 }

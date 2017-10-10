@@ -53,6 +53,7 @@ func (h *handler) run(cfg Cfg) {
 		r.Use(h.authenticationRequirement)
 
 		r.Get("/industry", wrapErrors(h.industryJobs))
+		r.Get("/planets", wrapErrors(h.planets))
 
 		r.Mount("/", http.FileServer(http.Dir("public")))
 	})
