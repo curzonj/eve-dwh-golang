@@ -1,0 +1,17 @@
+<html>
+  <body>
+    <table>
+      <tr>
+        <th>Character</th>
+        <th>PlanetID</th>
+        <th>BIF Count</th>
+      </tr>
+      {{range .}}
+      <tr>
+        <td>{{.Character}}</td>
+        <td>{{.PlanetID}}</td>
+        <td>{{.BIFCount}}</td>
+      </tr>
+      {{end}}
+  </body>
+</html>

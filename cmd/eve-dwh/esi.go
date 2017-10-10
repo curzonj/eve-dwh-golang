@@ -1,7 +1,9 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 	"strings"
@@ -20,6 +22,25 @@ type loggingTransport struct {
 	Transport http.RoundTripper
 }
 
+type ESIError struct {
+	Error    string      `json:"error"`
+	Response interface{} `json:"response"`
+}
+
+func extractErrorMessage(res *http.Response) (string, error) {
+	bodyBytes, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return "", err
+	}
+
+	var bodyStruct ESIError
+	if err = json.Unmarshal(bodyBytes, &bodyStruct); err != nil {
+		return "", err
+	}
+
+	return bodyStruct.Error, nil
+}
+
 func (t *loggingTransport) RoundTrip(req *http.Request) (*http.Response, error) {
 	start := time.Now()
 	res, err := t.Transport.RoundTrip(req)
@@ -31,6 +52,12 @@ func (t *loggingTransport) RoundTrip(req *http.Request) (*http.Response, error) 
 		l = clients.Logger
 	}
 
+	l = l.WithFields(log.Fields{
+		"at":   "httpClient",
+		"host": req.URL.Hostname(),
+		"path": req.URL.RequestURI(),
+	})
+
 	var status int
 
 	if res != nil {
@@ -40,14 +67,19 @@ func (t *loggingTransport) RoundTrip(req *http.Request) (*http.Response, error) 
 		}
 
 		status = res.StatusCode
+		if status > 399 {
+			msg, err := extractErrorMessage(res)
+			if err != nil {
+				l.Error(err)
+			} else {
+				l = l.WithField("error_message", msg)
+			}
+		}
 	}
 
 	l = l.WithFields(log.Fields{
-		"at":      "httpClient",
 		"elapsed": finished.Sub(start).Seconds(),
 		"status":  status,
-		"host":    req.URL.Hostname(),
-		"path":    req.URL.RequestURI(),
 	})
 
 	if err != nil {
@@ -72,7 +104,7 @@ type staleTransport struct {
 }
 
 func (t *staleTransport) RoundTrip(req *http.Request) (*http.Response, error) {
-	req.Header.Add("Cache-Control", "stale-if-error=3600") // 1hr
+	req.Header.Add("Cache-Control", "stale-if-error=86400") // 24 hrs
 	return t.Transport.RoundTrip(req)
 }
 
@@ -145,7 +177,7 @@ func buildESIClient() {
 		cfg.ESI.OauthRedirectURL,
 		scopes)
 
-	clients.ESIClientRetries = goesi.NewAPIClient(retriesClient, cfg.ESI.UserAgent).ESI
+	clients.EVERetryClient = goesi.NewAPIClient(retriesClient, cfg.ESI.UserAgent)
 
 	breakerClient := &http.Client{
 		Transport: &staleTransport{
@@ -166,5 +198,5 @@ func buildESIClient() {
 		},
 	}
 
-	clients.ESIClientBreaker = goesi.NewAPIClient(breakerClient, cfg.ESI.UserAgent).ESI
+	clients.EVEBreakerClient = goesi.NewAPIClient(breakerClient, cfg.ESI.UserAgent)
 }

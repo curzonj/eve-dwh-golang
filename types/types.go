@@ -3,7 +3,6 @@ package types
 import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/antihax/goesi"
-	"github.com/antihax/goesi/esi"
 	"github.com/garyburd/redigo/redis"
 	"github.com/jmoiron/sqlx"
 )
@@ -16,8 +15,8 @@ const (
 )
 
 type Clients struct {
-	ESIClientBreaker *esi.APIClient
-	ESIClientRetries *esi.APIClient
+	EVEBreakerClient *goesi.APIClient
+	EVERetryClient   *goesi.APIClient
 	ESIAuthenticator *goesi.SSOAuthenticator
 	DB               *sqlx.DB
 	Redis            *redis.Pool

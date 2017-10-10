@@ -1,13 +1,11 @@
 package web
 
 import (
-	"context"
 	"net/http"
 	"sort"
 	"sync"
 	"time"
 
-	"github.com/antihax/goesi"
 	"github.com/curzonj/eve-dwh-golang/model"
 )
 
@@ -37,14 +35,13 @@ func (h *handler) industryJobs(w http.ResponseWriter, r *http.Request) error {
 		go func(c model.UserCharacter) {
 			defer wg.Done()
 
-			tokSrc, err := c.TokenSource(h.clients)
+			ctx, err := c.TokenSourceContext(r.Context(), h.clients)
 			if err != nil {
 				logger.Error(err)
 				return
 			}
 
-			ctx := context.WithValue(r.Context(), goesi.ContextOAuth2, tokSrc)
-			data, _, err := h.clients.ESIClientBreaker.IndustryApi.GetCharactersCharacterIdIndustryJobs(ctx, int32(c.ID), map[string]interface{}{
+			data, _, err := h.clients.EVEBreakerClient.ESI.IndustryApi.GetCharactersCharacterIdIndustryJobs(ctx, int32(c.ID), map[string]interface{}{
 				"includeCompleted": false,
 			})
 

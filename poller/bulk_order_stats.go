@@ -10,30 +10,13 @@ import (
 )
 
 func MarketStatisticsPoller(clients types.Clients, cfg Cfg) {
-	logger := clients.Logger.WithField("fn", "marketStatisticsPoller")
-	logger.WithField("at", "start").Info()
-
 	p := &poller{
 		clients: clients,
+		logger:  clients.Logger.WithField("fn", "marketStatisticsPoller"),
 		cfg:     cfg,
 	}
 
-	err := p.pollMarketStats()
-	if err != nil {
-		logger.Error(err)
-	}
-
-	for range time.Tick(cfg.Interval) {
-		err := p.pollMarketStats()
-		if err != nil {
-			logger.Error(err)
-		}
-	}
-}
-
-type poller struct {
-	clients types.Clients
-	cfg     Cfg
+	p.leadingEdgeTick(cfg.Interval, p.pollMarketStats)
 }
 
 func (p *poller) pollMarketStats() error {

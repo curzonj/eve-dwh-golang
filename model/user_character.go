@@ -1,7 +1,9 @@
 package model
 
 import (
+	"context"
 	"encoding/json"
+	"errors"
 
 	"github.com/antihax/goesi"
 	"github.com/curzonj/eve-dwh-golang/types"
@@ -15,9 +17,14 @@ type UserCharacter struct {
 	OwnerHash   string `db:"owner_hash"`
 	OauthScopes string `db:"oauth_scopes"`
 	OauthToken  string `db:"oauth_token"`
+	Blacklisted bool   `db:"esi_blacklist"`
 }
 
-func (u *UserCharacter) TokenSource(c types.Clients) (goesi.CRESTTokenSource, error) {
+func (u *UserCharacter) TokenSource(c types.Clients) (oauth2.TokenSource, error) {
+	if u.Blacklisted {
+		return nil, errors.New("character is blacklisted from the api")
+	}
+
 	a := c.ESIAuthenticator
 
 	var storedToken oauth2.Token
@@ -50,4 +57,14 @@ func (u *UserCharacter) TokenSource(c types.Clients) (goesi.CRESTTokenSource, er
 	}
 
 	return tokSrc, nil
+}
+
+func (u *UserCharacter) TokenSourceContext(ctx context.Context, c types.Clients) (context.Context, error) {
+	tokSrc, err := u.TokenSource(c)
+	if err != nil {
+		return nil, err
+	}
+
+	ctx = context.WithValue(ctx, goesi.ContextOAuth2, tokSrc)
+	return ctx, nil
 }
