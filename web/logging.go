@@ -17,10 +17,7 @@ func (h *handler) logRequest(next http.Handler) http.Handler {
 		requestID := uuid.NewUUID().String()
 
 		l := h.clients.Logger.WithFields(log.Fields{
-			"at":     "httpRequest",
-			"method": r.Method,
-			"path":   r.URL.RequestURI(),
-			"req":    requestID,
+			"req": requestID,
 		})
 
 		c := r.Context()
@@ -31,6 +28,9 @@ func (h *handler) logRequest(next http.Handler) http.Handler {
 		next.ServeHTTP(lrw, r)
 
 		l.WithFields(log.Fields{
+			"at":      "httpRequest",
+			"method":  r.Method,
+			"path":    r.URL.RequestURI(),
 			"status":  lrw.statusCode,
 			"elapsed": time.Now().Sub(start).Seconds(),
 		}).Info()

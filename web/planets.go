@@ -4,18 +4,21 @@ import (
 	"net/http"
 	"sort"
 	"sync"
+	"time"
 
 	"github.com/antihax/goesi/esi"
 	"github.com/curzonj/eve-dwh-golang/model"
 )
 
 type PlanetData struct {
-	//	Activity  string
-	CharacterID int64
-	Character   string
-	PlanetID    int32
-	PlanetType  string
-	BIFCount    int
+	Account       string
+	CharacterID   int64
+	Character     string
+	PlanetID      int32
+	PlanetType    string
+	BIFCount      int
+	Extracted     int
+	NextAttention time.Time
 }
 
 var (
@@ -23,6 +26,7 @@ var (
 	launchpadTypes = []int32{2256, 2542, 2543, 2544, 2552, 2555, 2556, 2557}
 	storageTypes   = []int32{2257, 2535, 2536, 2541, 2558, 2560, 2561, 2562}
 	bifTypes       = []int32{2469, 2471, 2473, 2481, 2483, 2490, 2492, 2493}
+	extractorTypes = []int32{2848, 3060, 3061, 3062, 3063, 3064, 3067, 3068}
 )
 
 func intArrayContains(list []int32, a int32) bool {
@@ -77,20 +81,32 @@ func (h *handler) planets(w http.ResponseWriter, r *http.Request) error {
 					}
 
 					count := 0
+					extracted := 0
+					var NextAttention time.Time
+					pinMap := make(map[int64]esi.GetCharactersCharacterIdPlanetsPlanetIdPin, len(data.Pins))
 
 					for _, pin := range data.Pins {
+						pinMap[pin.PinId] = pin
 						if intArrayContains(bifTypes, pin.TypeId) {
 							count = count + 1
+						}
+
+						if intArrayContains(extractorTypes, pin.TypeId) {
+							extracted = extracted + int(pin.ExtractorDetails.QtyPerCycle)
+							NextAttention = pin.ExpiryTime
 						}
 					}
 
 					bc <- PlanetData{
 						//	Activity  string
-						CharacterID: c.ID,
-						Character:   c.Name,
-						PlanetID:    j.PlanetId,
-						PlanetType:  j.PlanetType,
-						BIFCount:    count,
+						Account:       c.EVEAccountName.String,
+						CharacterID:   c.ID,
+						Character:     c.Name,
+						PlanetID:      j.PlanetId,
+						PlanetType:    j.PlanetType,
+						BIFCount:      count,
+						Extracted:     extracted,
+						NextAttention: NextAttention,
 					}
 				}(j)
 			}
@@ -104,17 +120,13 @@ func (h *handler) planets(w http.ResponseWriter, r *http.Request) error {
 
 	list := make([]PlanetData, 0)
 	for b := range bc {
-		list = append(list, b)
+		if b.BIFCount > 0 {
+			list = append(list, b)
+		}
 	}
 
 	sort.Slice(list, func(i, j int) bool {
-		if list[i].CharacterID < list[j].CharacterID {
-			return true
-		}
-		if list[i].CharacterID > list[j].CharacterID {
-			return false
-		}
-		return list[i].PlanetID < list[j].PlanetID
+		return list[i].NextAttention.Before(list[j].NextAttention)
 	})
 
 	return render("planets", w, list)

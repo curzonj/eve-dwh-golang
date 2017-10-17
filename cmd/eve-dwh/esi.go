@@ -198,5 +198,6 @@ func buildESIClient() {
 		},
 	}
 
+	clients.HTTPBreakerClient = breakerClient
 	clients.EVEBreakerClient = goesi.NewAPIClient(breakerClient, cfg.ESI.UserAgent)
 }

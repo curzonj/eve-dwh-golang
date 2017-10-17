@@ -1,6 +1,8 @@
 package types
 
 import (
+	"net/http"
+
 	log "github.com/Sirupsen/logrus"
 	"github.com/antihax/goesi"
 	"github.com/jmoiron/sqlx"
@@ -14,9 +16,10 @@ const (
 )
 
 type Clients struct {
-	EVEBreakerClient *goesi.APIClient
-	EVERetryClient   *goesi.APIClient
-	ESIAuthenticator *goesi.SSOAuthenticator
-	DB               *sqlx.DB
-	Logger           log.FieldLogger
+	HTTPBreakerClient *http.Client
+	EVEBreakerClient  *goesi.APIClient
+	EVERetryClient    *goesi.APIClient
+	ESIAuthenticator  *goesi.SSOAuthenticator
+	DB                *sqlx.DB
+	Logger            log.FieldLogger
 }

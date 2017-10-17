@@ -2,8 +2,8 @@ package model
 
 import (
 	"context"
+	"database/sql"
 	"encoding/json"
-	"errors"
 
 	"github.com/antihax/goesi"
 	"github.com/curzonj/eve-dwh-golang/types"
@@ -11,20 +11,29 @@ import (
 )
 
 type UserCharacter struct {
-	UserID      string `db:"user_id"`
-	ID          int64  `db:"id"`
-	Name        string `db:"name"`
-	OwnerHash   string `db:"owner_hash"`
-	OauthScopes string `db:"oauth_scopes"`
-	OauthToken  string `db:"oauth_token"`
-	Blacklisted bool   `db:"esi_blacklist"`
+	UserID         string         `db:"user_id"`
+	ID             int64          `db:"id"`
+	Name           string         `db:"name"`
+	OwnerHash      string         `db:"owner_hash"`
+	OauthScopes    string         `db:"oauth_scopes"`
+	OauthToken     string         `db:"oauth_token"`
+	EVEAccountName sql.NullString `db:"eve_account"`
+	Flags          sql.NullString `db:"flags"`
+	XMLKeyID       sql.NullInt64  `db:"xml_key_id"`
+	XMLVCode       sql.NullString `db:"xml_vcode"`
+}
+
+func (u *UserCharacter) HasFlag(s string) bool {
+	/*	for _, f := range u.Flags {
+		if f == s {
+			return true
+		}
+	} */
+
+	return false
 }
 
 func (u *UserCharacter) TokenSource(c types.Clients) (oauth2.TokenSource, error) {
-	if u.Blacklisted {
-		return nil, errors.New("character is blacklisted from the api")
-	}
-
 	a := c.ESIAuthenticator
 
 	var storedToken oauth2.Token
