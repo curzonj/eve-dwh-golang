@@ -8,7 +8,6 @@ import (
 	"github.com/curzonj/eve-dwh-golang/model"
 	"github.com/curzonj/eve-dwh-golang/types"
 	"github.com/curzonj/eve-dwh-golang/utils/sqlh"
-	"github.com/pkg/errors"
 )
 
 func WalletsPoller(clients types.Clients) {
@@ -48,51 +47,6 @@ func (p *poller) getCharacterESIWalletTransactions(ctx context.Context, c model.
 
 	return list, nil
 }
-
-func (p *poller) getCharacterBuggyWalletJournal(ctx context.Context, c model.UserCharacter) ([]map[string]interface{}, error) {
-	if c.HasFlag("xml_wallet") {
-		//return p.getCharacterXMLWalletJournal(ctx, c)
-		return nil, errors.New("unsupported")
-	} else {
-		return p.getCharacterESIWalletJournal(ctx, c)
-	}
-}
-
-/*
-func (p *poller) getCharacterXMLWalletJournal(ctx context.Context, c model.UserCharacter) ([]map[string]interface{}, error) {
-	w := &eveapi.WalletJournalXML{}
-
-	url := fmt.Sprintf("https://api.eveonline.com/char/WalletJournal.xml.aspx?characterID=%d&keyID=%d&vCode=%s", c.ID, c.XMLKeyID, c.XMLVCode)
-
-	_, err := p.clients.HTTPBreakerClient.doXML("GET", url, nil, w)
-	if err != nil {
-		return nil, err
-	}
-
-	list := make([]map[string]interface{}, 0, len(w.Entries))
-
-	for _, row := range w.Entries {
-		extra_info, _ := fmt.Printf("{\"argName1\": \"%s\", \"argID1\": \"%d\"}", row.ArgName1, row.ArgID1)
-		list = append(list, map[string]interface{}{
-			"entity_id":      c.ID,
-			"division_id":    0,
-			"journal_ref_id": row.RefID,
-			//"ref_type":       // row.RefTypeID
-			"occured_at":       row.Date,
-			"reason":           row.Reason,
-			"party_1_id":       row.OwnerID1,
-			"party_2_id":       row.OwnerID2,
-			"amount":           int64(row.Amount * 100),
-			"balance":          int64(row.Balance * 100),
-			"tax_collector_id": row.TaxReceiverID,
-			"tax_amount":       int64(row.TaxAmount * 100),
-			"extra_info":       extra_info,
-		})
-	}
-
-	return list, nil
-}
-*/
 
 func (p *poller) getCharacterESIWalletJournal(ctx context.Context, c model.UserCharacter) ([]map[string]interface{}, error) {
 	journals, _, err := p.clients.EVERetryClient.ESI.WalletApi.GetCharactersCharacterIdWalletJournal(ctx, int32(c.ID), nil)
