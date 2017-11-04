@@ -11,14 +11,15 @@ import (
 )
 
 type PlanetData struct {
-	Account       string
-	CharacterID   int64
-	Character     string
-	PlanetID      int32
-	PlanetType    string
-	BIFCount      int
-	Extracted     int
-	NextAttention time.Time
+	Account          string
+	CharacterID      int64
+	Character        string
+	PlanetName       string
+	ConstelationName string
+	PlanetType       string
+	BIFCount         int
+	Extracted        int
+	NextAttention    time.Time
 }
 
 var (
@@ -97,16 +98,26 @@ func (h *handler) planets(w http.ResponseWriter, r *http.Request) error {
 						}
 					}
 
+					var planetName string
+					var constelationName string
+
+					err = h.clients.DB.QueryRow("select m1.\"itemName\" planet_name, (select m2.\"itemName\" constelation_name from \"mapDenormalize\" m2 where m2.\"itemID\" = m1.\"constellationID\") from \"mapDenormalize\" m1 where m1.\"itemID\" = $1", j.PlanetId).Scan(&planetName, &constelationName)
+					if err != nil {
+						logger.Error(err)
+						return
+					}
+
 					bc <- PlanetData{
 						//	Activity  string
-						Account:       c.EVEAccountName.String,
-						CharacterID:   c.ID,
-						Character:     c.Name,
-						PlanetID:      j.PlanetId,
-						PlanetType:    j.PlanetType,
-						BIFCount:      count,
-						Extracted:     extracted,
-						NextAttention: NextAttention,
+						Account:          c.EVEAccountName.String,
+						CharacterID:      c.ID,
+						Character:        c.Name,
+						PlanetName:       planetName,
+						ConstelationName: constelationName,
+						PlanetType:       j.PlanetType,
+						BIFCount:         count,
+						Extracted:        extracted,
+						NextAttention:    NextAttention,
 					}
 				}(j)
 			}
