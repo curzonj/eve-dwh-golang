@@ -83,18 +83,88 @@ func (h *handler) planets(w http.ResponseWriter, r *http.Request) error {
 
 					count := 0
 					extracted := 0
-					var NextAttention time.Time
+					NextAttention := time.Now().Add(time.Hour * time.Duration(10000))
 					pinMap := make(map[int64]esi.GetCharactersCharacterIdPlanetsPlanetIdPin, len(data.Pins))
+					routeMap := make(map[int64]map[int64]esi.GetCharactersCharacterIdPlanetsPlanetIdRoute)
+
+					for _, r := range data.Routes {
+						if routeMap[r.SourcePinId] == nil {
+							routeMap[r.SourcePinId] = make(map[int64]esi.GetCharactersCharacterIdPlanetsPlanetIdRoute)
+						}
+						routeMap[r.SourcePinId][r.DestinationPinId] = r
+					}
 
 					for _, pin := range data.Pins {
 						pinMap[pin.PinId] = pin
+					}
+
+					for _, pin := range data.Pins {
 						if intArrayContains(bifTypes, pin.TypeId) {
 							count = count + 1
 						}
 
 						if intArrayContains(extractorTypes, pin.TypeId) {
 							extracted = extracted + int(pin.ExtractorDetails.QtyPerCycle)
-							NextAttention = pin.ExpiryTime
+							if pin.ExpiryTime.Before(NextAttention) {
+								NextAttention = pin.ExpiryTime
+							}
+						}
+
+						// Deadline calculation for AIFs
+						// Logic shortcuts:
+						// * AIFs
+						// * Only one schematic per launchpad
+						// * All the same amount of stuff per cycle for each input
+						if intArrayContains(launchpadTypes, pin.TypeId) {
+							srcMap := routeMap[pin.PinId]
+							ratePerHour := int64(0)
+							fewestContents := int64(999999999999)
+							fewestContentsId := int32(0)
+							contentMap := make(map[int32]int64)
+							schematicID := int32(0)
+
+							for _, c := range pin.Contents {
+								contentMap[c.TypeId] = c.Amount
+							}
+
+							for srcPinID, route := range srcMap {
+								srcPin := pinMap[srcPinID]
+								if intArrayContains(aifTypes, srcPin.TypeId) && contentMap[route.ContentTypeId] < fewestContents {
+									fewestContents = contentMap[route.ContentTypeId]
+									fewestContentsId = route.ContentTypeId
+									schematicID = srcPin.SchematicId
+								}
+							}
+
+							if schematicID == 0 {
+								continue
+							}
+
+							var schematicQuantity int64
+							var err = h.clients.DB.QueryRow("select quantity from \"planetSchematicsTypeMap\" where \"isInput\" = true and \"typeID\" = $1 and \"schematicID\" = $2", fewestContentsId, schematicID).Scan(&schematicQuantity)
+							if err != nil {
+								logger.Error(err)
+								return
+							}
+
+							var lastCycle time.Time
+							for srcPinID, route := range srcMap {
+								srcPin := pinMap[srcPinID]
+								if route.ContentTypeId == fewestContentsId {
+									ratePerHour = ratePerHour + schematicQuantity
+									if lastCycle.Before(srcPin.LastCycleStart) {
+										lastCycle = srcPin.LastCycleStart
+									}
+								}
+							}
+
+							if ratePerHour > 0 {
+								hoursRemaining := int64(fewestContents / ratePerHour)
+								lastCycle = lastCycle.Add(time.Hour * time.Duration(hoursRemaining+1))
+								if lastCycle.Before(NextAttention) {
+									NextAttention = lastCycle
+								}
+							}
 						}
 					}
 
@@ -131,9 +201,7 @@ func (h *handler) planets(w http.ResponseWriter, r *http.Request) error {
 
 	list := make([]PlanetData, 0)
 	for b := range bc {
-		if b.BIFCount > 0 {
-			list = append(list, b)
-		}
+		list = append(list, b)
 	}
 
 	sort.Slice(list, func(i, j int) bool {
