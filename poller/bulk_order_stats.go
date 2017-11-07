@@ -9,6 +9,11 @@ import (
 	"github.com/pkg/errors"
 )
 
+var blacklistGroups = []int32{2, 150, 1396, 350001, 1659, 1954}
+
+// Domain The Forge Heimatar Metropolis Sinq Laison
+var whitelistRegions = []int32{10000043, 10000002, 10000030, 10000042, 10000032}
+
 func MarketStatisticsPoller(clients types.Clients, cfg Cfg) {
 	p := &poller{
 		clients: clients,
@@ -20,16 +25,27 @@ func MarketStatisticsPoller(clients types.Clients, cfg Cfg) {
 }
 
 func (p *poller) pollMarketStats() error {
+	for _, regionID := range whitelistRegions {
+		err := p.pollRegion(regionID)
+		if err != nil {
+			p.logger.Error(err)
+		}
+	}
+
+	return nil
+}
+
+func (p *poller) pollRegion(regionID int32) error {
 	fetcher := &marketDataFetcher{
 		clients: p.clients,
 	}
 
-	data, err := fetcher.GetOrderDataset(p.cfg.RegionID)
+	data, err := fetcher.GetOrderDataset(regionID)
 	if err != nil {
 		return errors.Wrap(err, "fetching order data")
 	}
 
-	err = p.importBulkOrderStats(data)
+	err = p.importBulkOrderStats(regionID, data)
 	if err != nil {
 		return errors.Wrap(err, "saving stats to pg")
 	}
@@ -37,13 +53,22 @@ func (p *poller) pollMarketStats() error {
 	return nil
 }
 
-func (p *poller) importBulkOrderStats(data orderDataset) error {
+func intArrayContains(list []int32, a int32) bool {
+	for _, b := range list {
+		if b == a {
+			return true
+		}
+	}
+	return false
+}
+
+func (p *poller) importBulkOrderStats(regionID int32, data orderDataset) error {
 	dataTimestamp := time.Now().Unix()
 
 	var storedTypeIDs []int32
-	for _, id := range p.cfg.MarketGroups {
+	for _, id := range blacklistGroups {
 		var thisTypeIDs []int32
-		err := p.clients.DB.Select(&thisTypeIDs, "select \"typeID\" from \"invTypes\" where \"marketGroupID\" in (select market_group_id from market_group_arrays where id_list && '{"+strconv.Itoa(id)+"}')")
+		err := p.clients.DB.Select(&thisTypeIDs, "select \"typeID\" from \"invTypes\" where \"marketGroupID\" in (select market_group_id from market_group_arrays where id_list && '{"+strconv.Itoa(int(id))+"}')")
 		if err != nil {
 			return err
 		}
@@ -68,8 +93,11 @@ func (p *poller) importBulkOrderStats(data orderDataset) error {
 	}
 	defer stmt.Close()
 
-	for _, typeID := range storedTypeIDs {
-		orders := data[typeID]
+	for typeID, orders := range data {
+		if intArrayContains(blacklistGroups, typeID) {
+			continue
+		}
+
 		var buyUnits, sellUnits int64
 
 		for _, o := range orders {
@@ -80,7 +108,7 @@ func (p *poller) importBulkOrderStats(data orderDataset) error {
 			}
 		}
 
-		_, err := stmt.Exec(typeID, p.cfg.RegionID, dataTimestamp, buyUnits, sellUnits)
+		_, err := stmt.Exec(typeID, regionID, dataTimestamp, buyUnits, sellUnits)
 		if err != nil {
 			return err
 		}
