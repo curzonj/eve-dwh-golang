@@ -1,6 +1,7 @@
 package web
 
 import (
+	"database/sql"
 	"net/http"
 	"sort"
 	"sync"
@@ -143,7 +144,7 @@ func (h *handler) planets(w http.ResponseWriter, r *http.Request) error {
 							var schematicQuantity int64
 							var err = h.clients.DB.QueryRow("select contents->'inputs'->$1 from sde_planetary_schematics where schematic_id = $2", fewestContentsId, schematicID).Scan(&schematicQuantity)
 							if err != nil {
-								logger.Error(err)
+								logger.WithField("at", "sde_planetary_schematics").Error(err)
 								return
 							}
 
@@ -171,28 +172,32 @@ func (h *handler) planets(w http.ResponseWriter, r *http.Request) error {
 					var planetName string
 					err = h.clients.DB.QueryRow("select item_name from sde_names where item_id = $1", j.PlanetId).Scan(&planetName)
 					if err != nil {
-						logger.Error(err)
-						return
+						logger.WithField("at", "planetName").WithField("planet_id", j.PlanetId).Error(err)
+						if err != sql.ErrNoRows {
+							return
+						}
 					}
 
 					var constelationName string
 					err = h.clients.DB.QueryRow("select item_name from sde_names where item_id = (select constellation_id from sde_solar_systems where $1 = ANY (planet_ids))", j.PlanetId).Scan(&constelationName)
 					if err != nil {
-						logger.Error(err)
-						return
+						logger.WithField("at", "constelationName").WithField("planet_id", j.PlanetId).Error(err)
+						if err != sql.ErrNoRows {
+							return
+						}
 					}
 
 					bc <- PlanetData{
 						//	Activity  string
-						Account:     c.EVEAccountName.String,
-						CharacterID: c.ID,
-						Character:   c.Name,
-						PlanetName:  planetName,
+						Account:          c.EVEAccountName.String,
+						CharacterID:      c.ID,
+						Character:        c.Name,
+						PlanetName:       planetName,
 						ConstelationName: constelationName,
-						PlanetType:    j.PlanetType,
-						BIFCount:      count,
-						Extracted:     extracted,
-						NextAttention: NextAttention,
+						PlanetType:       j.PlanetType,
+						BIFCount:         count,
+						Extracted:        extracted,
+						NextAttention:    NextAttention,
 					}
 				}(j)
 			}
