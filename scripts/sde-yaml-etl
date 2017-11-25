@@ -1,0 +1,101 @@
+#!/usr/bin/env ruby
+
+require 'sequel'
+require 'open-uri'
+require 'yaml'
+require 'active_support'
+
+unless File.exists?('tmp/sde')
+  unless File.exists?('tmp/sde.zip')
+    IO.copy_stream(open(url), 'tmp/sde.zip')
+    url =  ARGV[0]
+    if url.nil?
+      puts 'Please provide an SDE download url'
+      exit 1
+    end
+  end
+
+  `cd tmp && unzip sde.zip`
+end
+
+
+DB = Sequel.connect(ENV['DATABASE_URL'])
+DB.extension :pg_array
+
+def yaml_etl(name, path, id_column)
+  sde_yaml = YAML.load(File.read("tmp/sde/#{path}"))
+  sde_yaml.each do |data|
+    inner_data = data.is_a?(Array) ? data[1] : data
+    next if inner_data.has_key?('published') && inner_data['published'] == false
+
+    raw_attrs = yield data
+    attrs = {}
+
+    raw_attrs.each do |k,v|
+      attrs[ActiveSupport::Inflector.underscore(k.to_s)] = v
+    end
+
+    DB["sde_#{name}".to_sym].insert_conflict(target: id_column.to_sym, update: attrs).insert(attrs)
+  end
+end
+
+metaLevels = YAML.load(File.read('tmp/sde/bsd/dgmTypeAttributes.yaml')).select {|d| d['attributeID'] == 633 }
+metaTypes = YAML.load(File.read('tmp/sde/bsd/invMetaTypes.yaml')).inject({}) do |acc,item|
+  acc[item['typeID']] = item
+  acc
+end
+yaml_etl('types', 'fsd/typeIDs.yaml', 'type_id') do |id,sde|
+  meta = metaTypes[id] || {}
+  sde.slice('groupID', 'marketGroupID', 'volume').merge(
+    type_id: id,
+    name: sde['name']['en'],
+    meta_group_id: meta['metaGroupID'],
+    parent_type_id: meta['parentTypeID'],
+    meta_level: metaLevels.select {|d| d['typeID'] == id }.map {|d| (d['valueInt'] || d['valueFloat']).to_i }.first
+  )
+end
+
+yaml_etl('blueprints', 'fsd/blueprints.yaml', 'blueprint_id') do |id,sde|
+  {
+    blueprint_id: id,
+    maxProductionLimit: sde['maxProductionLimit'],
+    activities: sde['activities'].to_json
+  }
+end
+
+yaml_etl('names', 'bsd/invUniqueNames.yaml', 'item_id') do |sde|
+  sde.slice('itemID', 'itemName')
+end
+
+yaml_etl('market_groups', 'bsd/invMarketGroups.yaml', 'market_group_id') do |sde|
+  sde.slice('marketGroupID', 'marketGroupName','hasTypes','parentGroupID')
+end
+
+yaml_etl('meta_groups', 'bsd/invMetaGroups.yaml', 'meta_group_id') do |sde|
+  sde.slice('metaGroupID', 'metaGroupName')
+end
+
+begin
+  cycle_times = YAML.load(File.read('tmp/sde/bsd/planetSchematics.yaml'))
+  pins = YAML.load(File.read('tmp/sde/bsd/planetSchematicsPinMap.yaml'))
+  sde_yaml = YAML.load(File.read('tmp/sde/bsd/planetSchematicsTypeMap.yaml'))
+  schematics = sde_yaml.group_by {|d| d['schematicID'] }
+  schematics.each do |schematic_id, data|
+    attrs = {
+      schematic_id: schematic_id,
+      cycle_time: cycle_times.select {|d| d['schematicID'] == schematic_id }.first['cycleTime'],
+      factory_type_ids: Sequel.pg_array(pins.select {|d| d['schematicID'] == schematic_id }.map {|d| d['pinTypeID'] }),
+      inputs: Sequel.pg_array(data.select {|d| d['isInput'] == true }.map {|d| d['typeID'].to_i }),
+      output: data.select {|d| d['isInput'] == false }.first['typeID'].to_i,
+      contents: {
+        inputs: Hash[data.select {|d| d['isInput'] == true }.map {|d| [ d['typeID'].to_i, d['quantity'] ]} ],
+        outputs: Hash[data.select {|d| d['isInput'] == false }.map {|d| [ d['typeID'].to_i, d['quantity'] ]} ]
+      }.to_json
+    }
+
+    DB[:sde_planetary_schematics].insert_conflict(target: :schematic_id, update: attrs).insert(attrs)
+  end
+end
+
+DB.run "REFRESH MATERIALIZED VIEW sde_market_group_arrays"
+DB.run "REFRESH MATERIALIZED VIEW sde_max_metas"

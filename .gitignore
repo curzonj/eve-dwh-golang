@@ -1,5 +1,5 @@
 /eve-dwh-golang
-/dumps
 .env
 /cache
 /bin
+/tmp
