@@ -52,7 +52,7 @@ func (h *handler) industryJobs(w http.ResponseWriter, r *http.Request) error {
 
 			for _, j := range data {
 				var name string
-				err := h.clients.DB.Get(&name, "select \"typeName\" from \"invTypes\" where \"typeID\" = $1 limit 1", j.BlueprintTypeId)
+				err := h.clients.DB.Get(&name, "select name from sde_types where type_id = $1 limit 1", j.BlueprintTypeId)
 				if err != nil {
 					logger.Error(err)
 					return

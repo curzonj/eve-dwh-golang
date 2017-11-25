@@ -141,7 +141,7 @@ func (h *handler) planets(w http.ResponseWriter, r *http.Request) error {
 							}
 
 							var schematicQuantity int64
-							var err = h.clients.DB.QueryRow("select quantity from \"planetSchematicsTypeMap\" where \"isInput\" = true and \"typeID\" = $1 and \"schematicID\" = $2", fewestContentsId, schematicID).Scan(&schematicQuantity)
+							var err = h.clients.DB.QueryRow("select contents->'inputs'->$1 from sde_planetary_schematics where schematic_id = $2", fewestContentsId, schematicID).Scan(&schematicQuantity)
 							if err != nil {
 								logger.Error(err)
 								return
@@ -169,9 +169,9 @@ func (h *handler) planets(w http.ResponseWriter, r *http.Request) error {
 					}
 
 					var planetName string
-					var constelationName string
+					//var constelationName string
 
-					err = h.clients.DB.QueryRow("select m1.\"itemName\" planet_name, (select m2.\"itemName\" constelation_name from \"mapDenormalize\" m2 where m2.\"itemID\" = m1.\"constellationID\") from \"mapDenormalize\" m1 where m1.\"itemID\" = $1", j.PlanetId).Scan(&planetName, &constelationName)
+					err = h.clients.DB.QueryRow("select item_name from sde_names where item_id = $1", j.PlanetId).Scan(&planetName)
 					if err != nil {
 						logger.Error(err)
 						return
@@ -179,15 +179,15 @@ func (h *handler) planets(w http.ResponseWriter, r *http.Request) error {
 
 					bc <- PlanetData{
 						//	Activity  string
-						Account:          c.EVEAccountName.String,
-						CharacterID:      c.ID,
-						Character:        c.Name,
-						PlanetName:       planetName,
-						ConstelationName: constelationName,
-						PlanetType:       j.PlanetType,
-						BIFCount:         count,
-						Extracted:        extracted,
-						NextAttention:    NextAttention,
+						Account:     c.EVEAccountName.String,
+						CharacterID: c.ID,
+						Character:   c.Name,
+						PlanetName:  planetName,
+						//ConstelationName: constelationName,
+						PlanetType:    j.PlanetType,
+						BIFCount:      count,
+						Extracted:     extracted,
+						NextAttention: NextAttention,
 					}
 				}(j)
 			}

@@ -21,7 +21,7 @@ func cliServerAction(c *cli.Context) error {
 func developmentAction(c *cli.Context) error {
 	buildClients()
 
-	//go web.RunHandler(clients, cfg.Web)
+	go web.RunHandler(clients, cfg.Web)
 	go poller.MarketStatisticsPoller(clients, cfg.Poller)
 
 	select {}

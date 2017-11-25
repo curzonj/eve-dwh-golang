@@ -68,7 +68,7 @@ func (p *poller) importBulkOrderStats(regionID int32, data orderDataset) error {
 	var storedTypeIDs []int32
 	for _, id := range blacklistGroups {
 		var thisTypeIDs []int32
-		err := p.clients.DB.Select(&thisTypeIDs, "select \"typeID\" from \"invTypes\" where \"marketGroupID\" in (select market_group_id from market_group_arrays where id_list && '{"+strconv.Itoa(int(id))+"}')")
+		err := p.clients.DB.Select(&thisTypeIDs, "select type_id from sde_types where market_group_id in (select sde_market_group_arrays.market_group_id from sde_market_group_arrays where id_list && '{"+strconv.Itoa(int(id))+"}')")
 		if err != nil {
 			return err
 		}
