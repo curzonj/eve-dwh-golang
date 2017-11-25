@@ -18,7 +18,14 @@ CREATE TABLE sde_blueprints (
 
 CREATE TABLE sde_names (
   item_id integer PRIMARY KEY,
-  item_name text not null
+  item_name text not null,
+  group_id integer not null,
+  type_id integer not null
+);
+
+CREATE TABLE sde_groups (
+  group_id integer PRIMARY KEY,
+  group_name text not null
 );
 
 CREATE TABLE sde_planetary_schematics (
@@ -40,6 +47,17 @@ CREATE TABLE sde_market_groups (
 CREATE TABLE sde_meta_groups (
   meta_group_id integer PRIMARY KEY,
   meta_group_name text not null
+);
+
+CREATE TABLE sde_solar_systems (
+  solar_system_id integer PRIMARY KEY,
+  planet_ids integer[] not null,
+  moons integer[] not null,
+  neighbors integer[] not null,
+  constellation_id integer not null,
+  region_id integer not null,
+  security double precision not null,
+  kspace boolean not null
 );
 
 CREATE MATERIALIZED VIEW sde_market_group_arrays AS

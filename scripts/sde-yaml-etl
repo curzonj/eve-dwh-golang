@@ -63,8 +63,19 @@ yaml_etl('blueprints', 'fsd/blueprints.yaml', 'blueprint_id') do |id,sde|
   }
 end
 
+yaml_etl('groups', 'fsd/groupIDs.yaml', 'group_id') do |id, sde|
+  {
+    group_id: id,
+    group_name: sde['name']['en']
+  }
+end
+
+nameTypes = YAML.load(File.read('tmp/sde/bsd/invItems.yaml')).inject({}) do |acc,item|
+  acc[item['itemID']] = item
+  acc
+end
 yaml_etl('names', 'bsd/invUniqueNames.yaml', 'item_id') do |sde|
-  sde.slice('itemID', 'itemName')
+  sde.slice('itemID', 'itemName', 'groupID').merge(type_id: nameTypes[sde['itemID']]['typeID'])
 end
 
 yaml_etl('market_groups', 'bsd/invMarketGroups.yaml', 'market_group_id') do |sde|
@@ -94,6 +105,32 @@ begin
     }
 
     DB[:sde_planetary_schematics].insert_conflict(target: :schematic_id, update: attrs).insert(attrs)
+  end
+end
+
+begin
+  [ 'eve', 'wormhole' ].each do |space|
+    Dir["tmp/sde/fsd/universe/#{space}/*"].each do |region_path|
+      region_data = YAML.load(File.read("#{region_path}/region.staticdata"))
+      Dir["#{region_path}/*"].each do |constellation_path|
+        next if constellation_path.end_with?("region.staticdata")
+        constellation_data = YAML.load(File.read("#{constellation_path}/constellation.staticdata"))
+        Dir["#{constellation_path}/*"].each do |solar_system_path|
+          next if solar_system_path.end_with?("constellation.staticdata")
+          solarsystem_data = YAML.load(File.read("#{solar_system_path}/solarsystem.staticdata"))
+          DB[:sde_solar_systems].insert_conflict.insert(
+            solar_system_id: solarsystem_data['solarSystemID'],
+            planet_ids: Sequel.pg_array(solarsystem_data['planets'].sort_by {|id, d| d['celestialIndex'] }.map {|id,d| id.to_i }, :integer),
+            moons: Sequel.pg_array(solarsystem_data['planets'].sort_by {|id, d| d['celestialIndex'] }.map {|id,d| d['moons'] || [] }.map {|list| list.map {|id, d| id.to_i }}.flatten, :integer),
+            neighbors: Sequel.pg_array(solarsystem_data['stargates'].map {|id,d| d['destination'].to_i }, :integer),
+            constellation_id: constellation_data['constellationID'],
+            region_id: region_data['regionID'],
+            security: solarsystem_data['security'],
+            kspace: space == 'eve'
+          )
+        end
+      end
+    end
   end
 end
 

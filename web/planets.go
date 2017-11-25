@@ -169,9 +169,14 @@ func (h *handler) planets(w http.ResponseWriter, r *http.Request) error {
 					}
 
 					var planetName string
-					//var constelationName string
-
 					err = h.clients.DB.QueryRow("select item_name from sde_names where item_id = $1", j.PlanetId).Scan(&planetName)
+					if err != nil {
+						logger.Error(err)
+						return
+					}
+
+					var constelationName string
+					err = h.clients.DB.QueryRow("select item_name from sde_names where item_id = (select constellation_id from sde_solar_systems where $1 = ANY (planet_ids))", j.PlanetId).Scan(&constelationName)
 					if err != nil {
 						logger.Error(err)
 						return
@@ -183,7 +188,7 @@ func (h *handler) planets(w http.ResponseWriter, r *http.Request) error {
 						CharacterID: c.ID,
 						Character:   c.Name,
 						PlanetName:  planetName,
-						//ConstelationName: constelationName,
+						ConstelationName: constelationName,
 						PlanetType:    j.PlanetType,
 						BIFCount:      count,
 						Extracted:     extracted,
