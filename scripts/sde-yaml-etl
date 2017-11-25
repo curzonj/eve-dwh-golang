@@ -7,8 +7,8 @@ require 'active_support'
 
 unless File.exists?('tmp/sde')
   unless File.exists?('tmp/sde.zip')
-    IO.copy_stream(open(url), 'tmp/sde.zip')
     url =  ARGV[0]
+    IO.copy_stream(open(url), 'tmp/sde.zip')
     if url.nil?
       puts 'Please provide an SDE download url'
       exit 1
