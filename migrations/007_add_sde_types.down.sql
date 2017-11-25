@@ -7,3 +7,5 @@ drop table if exists sde_names;
 drop table if exists sde_planetary_schematics;
 drop table if exists sde_market_groups;
 drop table if exists sde_meta_groups;
+drop table if exists sde_groups;
+drop table if exists sde_solar_systems;
