@@ -11,13 +11,13 @@ type Cfg struct {
 	Interval time.Duration `env:"POLLER_INTERVAL,default=5m"`
 }
 
-type poller struct {
+type pollerHandler struct {
 	clients types.Clients
 	logger  log.FieldLogger
 	cfg     Cfg
 }
 
-func (p *poller) leadingEdgeTick(d time.Duration, f func() error) {
+func (p *pollerHandler) leadingEdgeTick(d time.Duration, f func() error) {
 	p.logger.WithField("at", "start").Info()
 
 	err := f()

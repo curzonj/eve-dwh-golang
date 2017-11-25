@@ -11,7 +11,7 @@ import (
 )
 
 func WalletsPoller(clients types.Clients) {
-	p := &poller{
+	p := &pollerHandler{
 		clients: clients,
 		logger:  clients.Logger.WithField("fn", "walletsPoller"),
 	}
@@ -19,7 +19,7 @@ func WalletsPoller(clients types.Clients) {
 	p.leadingEdgeTick(time.Hour, p.walletsPollerTick)
 }
 
-func (p *poller) getCharacterESIWalletTransactions(ctx context.Context, c model.UserCharacter) ([]map[string]interface{}, error) {
+func (p *pollerHandler) getCharacterESIWalletTransactions(ctx context.Context, c model.UserCharacter) ([]map[string]interface{}, error) {
 	transactions, _, err := p.clients.EVERetryClient.ESI.WalletApi.GetCharactersCharacterIdWalletTransactions(ctx, int32(c.ID), nil)
 	if err != nil {
 		return nil, err
@@ -48,7 +48,7 @@ func (p *poller) getCharacterESIWalletTransactions(ctx context.Context, c model.
 	return list, nil
 }
 
-func (p *poller) getCharacterESIWalletJournal(ctx context.Context, c model.UserCharacter) ([]map[string]interface{}, error) {
+func (p *pollerHandler) getCharacterESIWalletJournal(ctx context.Context, c model.UserCharacter) ([]map[string]interface{}, error) {
 	journals, _, err := p.clients.EVERetryClient.ESI.WalletApi.GetCharactersCharacterIdWalletJournal(ctx, int32(c.ID), nil)
 	if err != nil {
 		return nil, err
@@ -80,7 +80,7 @@ func (p *poller) getCharacterESIWalletJournal(ctx context.Context, c model.UserC
 	return list, nil
 }
 
-func (p *poller) walletsPollerTick() error {
+func (p *pollerHandler) walletsPollerTick() error {
 	var characters []model.UserCharacter
 	err := p.clients.DB.Select(&characters, "select * from user_characters")
 	if err != nil {

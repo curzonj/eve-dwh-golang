@@ -19,7 +19,7 @@ type BlueprintJob struct {
 func (h *handler) industryJobs(w http.ResponseWriter, r *http.Request) error {
 	session := session(r)
 	userID := session.Values["user_id"].(string)
-	logger := logger(r)
+	logger := logger(r.Context())
 
 	var characters []model.UserCharacter
 	err := h.clients.DB.Select(&characters, "select * from user_characters where user_id = $1", userID)

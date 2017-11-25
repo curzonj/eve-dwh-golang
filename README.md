@@ -27,3 +27,13 @@ h run scripts/sde-yaml-etl <url>
 ```bash
 $ forego run ./scripts/sde-yaml-etl <url>
 ```
+
+
+
+# Observations
+
+This was gather via linear regression:
+
+`-59.48*HeadRadius + 1.51565 = Percentage actual of QtyPerCycle`
+
+HeadRadius increases on average by 0.0000300676 per 15 minutes of Extraction cycle time. The stddev is 0.69% of the average.

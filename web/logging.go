@@ -37,8 +37,8 @@ func (h *handler) logRequest(next http.Handler) http.Handler {
 	})
 }
 
-func logger(r *http.Request) log.FieldLogger {
-	return r.Context().Value(types.ContextLoggerKey).(log.FieldLogger)
+func logger(ctx context.Context) log.FieldLogger {
+	return ctx.Value(types.ContextLoggerKey).(log.FieldLogger)
 }
 
 type loggingResponseWriter struct {

@@ -15,7 +15,7 @@ var blacklistGroups = []int32{2, 150, 1396, 350001, 1659, 1954}
 var whitelistRegions = []int32{10000043, 10000002, 10000030, 10000042, 10000032}
 
 func MarketStatisticsPoller(clients types.Clients, cfg Cfg) {
-	p := &poller{
+	p := &pollerHandler{
 		clients: clients,
 		logger:  clients.Logger.WithField("fn", "marketStatisticsPoller"),
 		cfg:     cfg,
@@ -24,7 +24,7 @@ func MarketStatisticsPoller(clients types.Clients, cfg Cfg) {
 	p.leadingEdgeTick(cfg.Interval, p.pollMarketStats)
 }
 
-func (p *poller) pollMarketStats() error {
+func (p *pollerHandler) pollMarketStats() error {
 	for _, regionID := range whitelistRegions {
 		err := p.pollRegion(regionID)
 		if err != nil {
@@ -35,7 +35,7 @@ func (p *poller) pollMarketStats() error {
 	return nil
 }
 
-func (p *poller) pollRegion(regionID int32) error {
+func (p *pollerHandler) pollRegion(regionID int32) error {
 	fetcher := &marketDataFetcher{
 		clients: p.clients,
 	}
@@ -62,7 +62,7 @@ func intArrayContains(list []int32, a int32) bool {
 	return false
 }
 
-func (p *poller) importBulkOrderStats(regionID int32, data orderDataset) error {
+func (p *pollerHandler) importBulkOrderStats(regionID int32, data orderDataset) error {
 	dataTimestamp := time.Now().Unix()
 
 	var storedTypeIDs []int32
