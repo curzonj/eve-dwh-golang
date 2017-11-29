@@ -11,8 +11,9 @@ import (
 func cliServerAction(c *cli.Context) error {
 	buildClients()
 
-	//go poller.MarketStatisticsPoller(clients, cfg.Poller)
 	go web.RunHandler(clients, cfg.Web)
+
+	go poller.MarketStatisticsPoller(clients, cfg.Poller)
 	go poller.WalletsPoller(clients)
 	go poller.PlanetsPoller(clients)
 
@@ -23,7 +24,7 @@ func developmentAction(c *cli.Context) error {
 	buildClients()
 
 	go web.RunHandler(clients, cfg.Web)
-	go poller.PlanetsPoller(clients)
+	go poller.MarketStatisticsPoller(clients, cfg.Poller)
 
 	select {}
 }

@@ -65,7 +65,7 @@ func intArrayContains(list []int32, a int32) bool {
 func (p *pollerHandler) importBulkOrderStats(regionID int32, data orderDataset) error {
 	dataTimestamp := time.Now().Unix()
 
-	var storedTypeIDs []int32
+	var blacklistTypeIDs []int32
 	for _, id := range blacklistGroups {
 		var thisTypeIDs []int32
 		err := p.clients.DB.Select(&thisTypeIDs, "select type_id from sde_types where market_group_id in (select sde_market_group_arrays.market_group_id from sde_market_group_arrays where id_list && '{"+strconv.Itoa(int(id))+"}')")
@@ -73,7 +73,7 @@ func (p *pollerHandler) importBulkOrderStats(regionID int32, data orderDataset) 
 			return err
 		}
 
-		storedTypeIDs = append(storedTypeIDs, thisTypeIDs...)
+		blacklistTypeIDs = append(blacklistTypeIDs, thisTypeIDs...)
 	}
 
 	insertSQL, err := ioutil.ReadFile("doc/bulk_order_stats_insert.sql")
@@ -94,21 +94,37 @@ func (p *pollerHandler) importBulkOrderStats(regionID int32, data orderDataset) 
 	defer stmt.Close()
 
 	for typeID, orders := range data {
-		if intArrayContains(blacklistGroups, typeID) {
+		if intArrayContains(blacklistTypeIDs, typeID) {
 			continue
 		}
 
 		var buyUnits, sellUnits int64
+		var buyOrderCount, sellOrderCount int64
+		var buyPriceMaxIsk, sellPriceMinIsk int64
 
 		for _, o := range orders {
+			iskPrice := int64(o.Price * 100)
+
 			if o.IsBuyOrder {
 				buyUnits = buyUnits + int64(o.VolumeRemain)
+				buyOrderCount = buyOrderCount + 1
+				if iskPrice > buyPriceMaxIsk {
+					buyPriceMaxIsk = iskPrice
+				}
 			} else {
 				sellUnits = sellUnits + int64(o.VolumeRemain)
+				sellOrderCount = sellOrderCount + 1
+				if sellPriceMinIsk == 0 || iskPrice < sellPriceMinIsk {
+					sellPriceMinIsk = iskPrice
+				}
 			}
 		}
 
-		_, err := stmt.Exec(typeID, regionID, dataTimestamp, buyUnits, sellUnits)
+		_, err := stmt.Exec(
+			typeID, regionID, dataTimestamp,
+			buyUnits, sellUnits,
+			buyPriceMaxIsk, sellPriceMinIsk,
+			buyOrderCount, sellOrderCount)
 		if err != nil {
 			return err
 		}
