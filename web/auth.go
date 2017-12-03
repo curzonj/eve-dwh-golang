@@ -2,7 +2,6 @@ package web
 
 import (
 	"crypto/rand"
-	"database/sql"
 	"encoding/base64"
 	"errors"
 	"net/http"
@@ -61,21 +60,14 @@ func (h *handler) eveOauthCallback(w http.ResponseWriter, r *http.Request) error
 		return err
 	}
 
-	var character model.UserCharacter
-	characterExists := true
-
-	err = h.clients.DB.Get(&character, "select * from user_characters where id = $1 limit 1", characterInfo.CharacterID)
+	character, err := h.clients.DB.GetUserCharacterByID(characterInfo.CharacterID)
 	if err != nil {
-		if err != sql.ErrNoRows {
-			return err
-		}
-
-		characterExists = false
+		return err
 	}
 
 	userID, ok := session.Values["user_id"].(string)
 	if !ok {
-		if characterExists {
+		if character != nil {
 			userID = character.UserID
 		} else {
 			userID = uuid.NewUUID().String()
@@ -87,7 +79,7 @@ func (h *handler) eveOauthCallback(w http.ResponseWriter, r *http.Request) error
 
 		session.Values["user_id"] = userID
 	} else {
-		if characterExists {
+		if character != nil {
 			if character.UserID != userID {
 				http.Error(w, "Another users owns that character", http.StatusUnauthorized)
 				return nil
@@ -97,8 +89,8 @@ func (h *handler) eveOauthCallback(w http.ResponseWriter, r *http.Request) error
 		}
 	}
 
-	if !characterExists {
-		character = model.UserCharacter{
+	if character == nil {
+		character = &model.UserCharacter{
 			UserID:      userID,
 			ID:          characterInfo.CharacterID,
 			Name:        characterInfo.CharacterName,

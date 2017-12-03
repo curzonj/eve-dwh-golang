@@ -19,7 +19,7 @@ func WalletsPoller(clients types.Clients) {
 	p.leadingEdgeTick(time.Hour, p.walletsPollerTick)
 }
 
-func (p *pollerHandler) getCharacterESIWalletTransactions(ctx context.Context, c model.UserCharacter) ([]map[string]interface{}, error) {
+func (p *pollerHandler) getCharacterESIWalletTransactions(ctx context.Context, c *model.UserCharacter) ([]map[string]interface{}, error) {
 	transactions, _, err := p.clients.EVERetryClient.ESI.WalletApi.GetCharactersCharacterIdWalletTransactions(ctx, int32(c.ID), nil)
 	if err != nil {
 		return nil, err
@@ -48,7 +48,7 @@ func (p *pollerHandler) getCharacterESIWalletTransactions(ctx context.Context, c
 	return list, nil
 }
 
-func (p *pollerHandler) getCharacterESIWalletJournal(ctx context.Context, c model.UserCharacter) ([]map[string]interface{}, error) {
+func (p *pollerHandler) getCharacterESIWalletJournal(ctx context.Context, c *model.UserCharacter) ([]map[string]interface{}, error) {
 	journals, _, err := p.clients.EVERetryClient.ESI.WalletApi.GetCharactersCharacterIdWalletJournal(ctx, int32(c.ID), nil)
 	if err != nil {
 		return nil, err
@@ -81,8 +81,7 @@ func (p *pollerHandler) getCharacterESIWalletJournal(ctx context.Context, c mode
 }
 
 func (p *pollerHandler) walletsPollerTick() error {
-	var characters []model.UserCharacter
-	err := p.clients.DB.Select(&characters, "select * from user_characters")
+	characters, err := p.clients.DB.GetAllCharacters()
 	if err != nil {
 		return err
 	}
@@ -91,7 +90,7 @@ func (p *pollerHandler) walletsPollerTick() error {
 		l := p.logger.WithField("characterName", c.Name)
 		ctx := context.WithValue(context.TODO(), types.ContextLoggerKey, l)
 
-		ctx, err := c.TokenSourceContext(ctx, p.clients)
+		ctx, err := c.TokenSourceContext(ctx, p.clients.ESIAuthenticator)
 		if err != nil {
 			l.Error(err)
 			continue

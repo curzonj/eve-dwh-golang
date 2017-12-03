@@ -21,8 +21,7 @@ func (h *handler) industryJobs(w http.ResponseWriter, r *http.Request) error {
 	userID := session.Values["user_id"].(string)
 	logger := logger(r.Context())
 
-	var characters []model.UserCharacter
-	err := h.clients.DB.Select(&characters, "select * from user_characters where user_id = $1", userID)
+	characters, err := h.clients.DB.GetUserCharactersByUserID(userID)
 	if err != nil {
 		return err
 	}
@@ -32,10 +31,10 @@ func (h *handler) industryJobs(w http.ResponseWriter, r *http.Request) error {
 
 	for _, c := range characters {
 		wg.Add(1)
-		go func(c model.UserCharacter) {
+		go func(c *model.UserCharacter) {
 			defer wg.Done()
 
-			ctx, err := c.TokenSourceContext(r.Context(), h.clients)
+			ctx, err := c.TokenSourceContext(r.Context(), h.clients.ESIAuthenticator)
 			if err != nil {
 				logger.Error(err)
 				return
@@ -51,8 +50,7 @@ func (h *handler) industryJobs(w http.ResponseWriter, r *http.Request) error {
 			}
 
 			for _, j := range data {
-				var name string
-				err := h.clients.DB.Get(&name, "select name from sde_types where type_id = $1 limit 1", j.BlueprintTypeId)
+				t, err := h.clients.DB.GetSDEType(j.BlueprintTypeId)
 				if err != nil {
 					logger.Error(err)
 					return
@@ -60,7 +58,7 @@ func (h *handler) industryJobs(w http.ResponseWriter, r *http.Request) error {
 
 				bc <- BlueprintJob{
 					Installer: c.Name,
-					Type:      name,
+					Type:      t.Name,
 					EndDate:   j.EndDate,
 				}
 			}

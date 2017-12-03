@@ -5,19 +5,23 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/gregjones/httpcache"
-	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
 )
+
+type dbType interface {
+	Exec(query string, args ...interface{}) (sql.Result, error)
+	Get(dest interface{}, query string, args ...interface{}) error
+}
 
 // cache is an implementation of httpcache.Cache that caches responses in a
 // redis server.
 type cache struct {
-	db *sqlx.DB
+	db dbType
 	l  log.FieldLogger
 }
 
 // NewWithClient returns a new Cache with the given redis connection.
-func New(db *sqlx.DB, logger log.FieldLogger) httpcache.Cache {
+func New(db dbType, logger log.FieldLogger) httpcache.Cache {
 	return &cache{
 		db: db,
 		l:  logger.WithField("m", "rediscache"),

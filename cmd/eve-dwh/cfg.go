@@ -2,6 +2,7 @@ package main
 
 import (
 	log "github.com/Sirupsen/logrus"
+	"github.com/curzonj/eve-dwh-golang/model"
 	"github.com/curzonj/eve-dwh-golang/poller"
 	"github.com/curzonj/eve-dwh-golang/types"
 	"github.com/curzonj/eve-dwh-golang/web"
@@ -34,7 +35,9 @@ func connectToDatabase() {
 		log.Fatal(err)
 	}
 
-	clients.DB = db
+	clients.DB = &model.DAO{
+		DB: db,
+	}
 }
 
 func buildClients() {

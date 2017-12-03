@@ -6,9 +6,10 @@
         <th>Planet</th>
         <th>Constelation</th>
         <th>Type</th>
-        <th>BIF Count</th>
-        <th>QtyPerCycle</th>
+        <th>Raw QtyPerHour</th>
+        <th>ProductName</th>
         <th>Next Attention</th>
+        <th>StorageFullAt</th>
       </tr>
       {{range .}}
       <tr>
@@ -16,9 +17,10 @@
         <td>{{.PlanetName}}</td>
         <td>{{.ConstelationName}}</td>
         <td>{{.PlanetType}}</td>
-        <td>{{.BIFCount}}</td>
         <td>{{.Extracted}}</td>
+        <td>{{.ProductName}}</td>
         <td>{{.NextAttention}}</td>
+        <td>{{.StorageFullAt}}</td>
       </tr>
       {{end}}
   </body>

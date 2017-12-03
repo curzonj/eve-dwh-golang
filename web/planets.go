@@ -11,7 +11,7 @@ import (
 	"github.com/curzonj/eve-dwh-golang/poller"
 )
 
-func (h *handler) buildPlanetList(ctx context.Context, characters []model.UserCharacter) []*poller.PlanetData {
+func (h *handler) buildPlanetList(ctx context.Context, characters []*model.UserCharacter) []*poller.PlanetData {
 	logger := logger(ctx)
 	list := make([]*poller.PlanetData, 0)
 	planetC, errC := poller.FetchPlanets(ctx, h.clients, characters)
@@ -50,8 +50,7 @@ func (h *handler) planets(w http.ResponseWriter, r *http.Request) error {
 	session := session(r)
 	userID := session.Values["user_id"].(string)
 
-	var characters []model.UserCharacter
-	err := h.clients.DB.Select(&characters, "select * from user_characters where user_id = $1", userID)
+	characters, err := h.clients.DB.GetUserCharactersByUserID(userID)
 	if err != nil {
 		return err
 	}

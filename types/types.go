@@ -5,7 +5,7 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/antihax/goesi"
-	"github.com/jmoiron/sqlx"
+	"github.com/curzonj/eve-dwh-golang/model"
 )
 
 type contextKey int
@@ -20,6 +20,6 @@ type Clients struct {
 	EVEBreakerClient  *goesi.APIClient
 	EVERetryClient    *goesi.APIClient
 	ESIAuthenticator  *goesi.SSOAuthenticator
-	DB                *sqlx.DB
+	DB                *model.DAO
 	Logger            log.FieldLogger
 }
