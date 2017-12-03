@@ -164,6 +164,10 @@ func (c *planetCalculator) nextAttention() (time.Time, error) {
 	var zeroTime time.Time
 	nextAttention := time.Now().Add(time.Hour * time.Duration(10000))
 
+	if len(c.result.Details.Pins) == 1 {
+		return zeroTime, nil
+	}
+
 	for _, pin := range c.result.Details.Pins {
 		if intArrayContains(extractorTypes, pin.TypeId) {
 			if pin.ExpiryTime.Before(nextAttention) {
