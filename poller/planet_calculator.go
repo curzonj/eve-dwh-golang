@@ -82,18 +82,21 @@ func (c *planetCalculator) countBIFs() int {
 
 func (c *planetCalculator) storageFullAt() (time.Time, error) {
 	var zeroTime time.Time
-	earliestFullAt := time.Now().Add(time.Hour * time.Duration(10000))
+	earliestFullAt := time.Now().Add(time.Hour * time.Duration(10000)).Truncate(time.Minute)
+
+	if len(c.result.Details.Pins) == 1 {
+		return zeroTime, nil
+	}
 
 	for _, pin := range c.result.Details.Pins {
 		if !intArrayContains(launchpadTypes, pin.TypeId) {
 			continue
 		}
 
-		var lpFullAt time.Time
-
 		srcMap := c.destRouteMap[pin.PinId]
 		capacity := 10000.0
 		currentContentVolume := float64(0)
+		fillRate := float64(0)
 
 		// If it has an extractor feeding to it, check the half cycle time based on 3/4 of the total output
 		// For all LPs, check the ratePer hour and calculate number of hours from the earliest last cycle
@@ -141,9 +144,14 @@ func (c *planetCalculator) storageFullAt() (time.Time, error) {
 			}
 
 			if intArrayContains(bifTypes, srcPin.TypeId) {
-
+				fillRate = fillRate + 7.6
 			}
 		}
+
+		remainingCapacity := capacity - currentContentVolume
+		periodsRemaining := remainingCapacity / fillRate
+		minutesRemaining := periodsRemaining * 30
+		lpFullAt := time.Now().Add(time.Duration(minutesRemaining) * time.Minute).Truncate(time.Minute)
 
 		if lpFullAt.Before(earliestFullAt) {
 			earliestFullAt = lpFullAt
@@ -162,7 +170,7 @@ func actualQtyPerCycle(d esi.GetCharactersCharacterIdPlanetsPlanetIdExtractorDet
 
 func (c *planetCalculator) nextAttention() (time.Time, error) {
 	var zeroTime time.Time
-	nextAttention := time.Now().Add(time.Hour * time.Duration(10000))
+	nextAttention := time.Now().Add(time.Hour * time.Duration(10000)).Truncate(time.Minute)
 
 	if len(c.result.Details.Pins) == 1 {
 		return zeroTime, nil
