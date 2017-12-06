@@ -1,10 +1,14 @@
 package poller
 
 import (
+	"bytes"
+	"encoding/gob"
+	"fmt"
 	"io/ioutil"
 	"strconv"
 	"time"
 
+	"github.com/antihax/goesi/esi"
 	"github.com/curzonj/eve-dwh-golang/types"
 	"github.com/pkg/errors"
 )
@@ -35,19 +39,63 @@ func (p *pollerHandler) pollMarketStats() error {
 	return nil
 }
 
+func (p *pollerHandler) cacheOrderDataset(regionID int32, data orderDataset) error {
+	var buf bytes.Buffer        // Stand-in for a network connection
+	enc := gob.NewEncoder(&buf) // Will write to network.
+
+	err := enc.Encode(data)
+	if err != nil {
+		return errors.Wrap(err, "gobEncode")
+	}
+
+	key := fmt.Sprintf("poller:market_data:region:%d", regionID)
+
+	return p.clients.DB.SetCacheItem(key, buf.Bytes())
+}
+
+func (p *pollerHandler) getCachedOrderDataset(regionID int32) (orderDataset, error) {
+	key := fmt.Sprintf("poller:market_data:region:%d", regionID)
+	byteA, err := p.clients.DB.GetCacheItem(key)
+	if err != nil {
+		return nil, err
+	}
+
+	buf := bytes.NewBuffer(byteA)
+	dec := gob.NewDecoder(buf) // Will write to network.
+
+	var data orderDataset
+	err = dec.Decode(&data)
+	if err != nil {
+		return nil, errors.Wrap(err, "gobDecode")
+	}
+
+	return data, nil
+}
+
 func (p *pollerHandler) pollRegion(regionID int32) error {
 	fetcher := &marketDataFetcher{
 		clients: p.clients,
 	}
 
-	data, err := fetcher.GetOrderDataset(regionID)
+	previous, err := p.getCachedOrderDataset(regionID)
 	if err != nil {
-		return errors.Wrap(err, "fetching order data")
+		p.logger.Error(errors.Wrap(err, "getCachedOrderDataset"))
+		previous = make(orderDataset)
 	}
 
-	err = p.importBulkOrderStats(regionID, data)
+	data, err := fetcher.GetOrderDataset(regionID)
 	if err != nil {
-		return errors.Wrap(err, "saving stats to pg")
+		return errors.Wrap(err, "GetOrderDataset")
+	}
+
+	err = p.cacheOrderDataset(regionID, data)
+	if err != nil {
+		return errors.Wrap(err, "cacheOrderDataset")
+	}
+
+	err = p.importBulkOrderStats(regionID, data, previous)
+	if err != nil {
+		return errors.Wrap(err, "importBulkOrderStats")
 	}
 
 	return nil
@@ -62,7 +110,7 @@ func intArrayContains(list []int32, a int32) bool {
 	return false
 }
 
-func (p *pollerHandler) importBulkOrderStats(regionID int32, data orderDataset) error {
+func (p *pollerHandler) importBulkOrderStats(regionID int32, data orderDataset, previous orderDataset) error {
 	dataTimestamp := time.Now().Unix()
 
 	var blacklistTypeIDs []int32
@@ -98,33 +146,21 @@ func (p *pollerHandler) importBulkOrderStats(regionID int32, data orderDataset) 
 			continue
 		}
 
-		var buyUnits, sellUnits int64
-		var buyOrderCount, sellOrderCount int64
-		var buyPriceMaxIsk, sellPriceMinIsk int64
+		s := generateIdentityOrderStats(orders)
 
-		for _, o := range orders {
-			iskPrice := int64(o.Price * 100)
+		if po, ok := previous[typeID]; ok {
+			ps := generateIdentityOrderStats(po)
 
-			if o.IsBuyOrder {
-				buyUnits = buyUnits + int64(o.VolumeRemain)
-				buyOrderCount = buyOrderCount + 1
-				if iskPrice > buyPriceMaxIsk {
-					buyPriceMaxIsk = iskPrice
-				}
-			} else {
-				sellUnits = sellUnits + int64(o.VolumeRemain)
-				sellOrderCount = sellOrderCount + 1
-				if sellPriceMinIsk == 0 || iskPrice < sellPriceMinIsk {
-					sellPriceMinIsk = iskPrice
-				}
+			if s == ps {
+				continue
 			}
 		}
 
 		_, err := stmt.Exec(
 			typeID, regionID, dataTimestamp,
-			buyUnits, sellUnits,
-			buyPriceMaxIsk, sellPriceMinIsk,
-			buyOrderCount, sellOrderCount)
+			s.buyUnits, s.sellUnits,
+			s.buyPriceMaxIsk, s.sellPriceMinIsk,
+			s.buyOrderCount, s.sellOrderCount)
 		if err != nil {
 			return err
 		}
@@ -136,4 +172,42 @@ func (p *pollerHandler) importBulkOrderStats(regionID int32, data orderDataset) 
 	}
 
 	return nil
+}
+
+type identityOrderStats struct {
+	buyUnits        int64
+	sellUnits       int64
+	buyOrderCount   int64
+	sellOrderCount  int64
+	buyPriceMaxIsk  int64
+	sellPriceMinIsk int64
+}
+
+/*
+ * This will differ from other stats that will be delta stats. These stats
+ * will be ignored if they match the previous stats. Delta stats will be
+ * ignored if they are zero.
+ */
+func generateIdentityOrderStats(orders []esi.GetMarketsRegionIdOrders200Ok) identityOrderStats {
+	var s identityOrderStats
+
+	for _, o := range orders {
+		iskPrice := int64(o.Price * 100)
+
+		if o.IsBuyOrder {
+			s.buyUnits = s.buyUnits + int64(o.VolumeRemain)
+			s.buyOrderCount = s.buyOrderCount + 1
+			if iskPrice > s.buyPriceMaxIsk {
+				s.buyPriceMaxIsk = iskPrice
+			}
+		} else {
+			s.sellUnits = s.sellUnits + int64(o.VolumeRemain)
+			s.sellOrderCount = s.sellOrderCount + 1
+			if s.sellPriceMinIsk == 0 || iskPrice < s.sellPriceMinIsk {
+				s.sellPriceMinIsk = iskPrice
+			}
+		}
+	}
+
+	return s
 }

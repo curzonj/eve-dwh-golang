@@ -24,6 +24,7 @@ func developmentAction(c *cli.Context) error {
 	buildClients()
 
 	go web.RunHandler(clients, cfg.Web)
+	go poller.MarketStatisticsPoller(clients, cfg.Poller)
 
 	select {}
 }
