@@ -151,7 +151,7 @@ func (c *planetCalculator) storageFullAt() (time.Time, error) {
 		remainingCapacity := capacity - currentContentVolume
 		periodsRemaining := remainingCapacity / fillRate
 		minutesRemaining := periodsRemaining * 30
-		lpFullAt := time.Now().Add(time.Duration(minutesRemaining) * time.Minute).Truncate(time.Minute)
+		lpFullAt := c.result.Planet.LastUpdate.Add(time.Duration(minutesRemaining) * time.Minute).Truncate(time.Minute)
 
 		if lpFullAt.Before(earliestFullAt) {
 			earliestFullAt = lpFullAt
