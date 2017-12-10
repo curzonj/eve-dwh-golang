@@ -250,6 +250,11 @@ func (c *planetCalculator) QtyPerHour() int32 {
 	for _, pin := range c.result.Details.Pins {
 		if intArrayContains(extractorTypes, pin.TypeId) {
 			d := pin.ExtractorDetails
+
+			if d.CycleTime == 0 {
+				continue
+			}
+
 			qtyPerCycle := actualQtyPerCycle(d)
 			qtyPerHour = qtyPerHour + (qtyPerCycle * (3600 / d.CycleTime))
 		}
